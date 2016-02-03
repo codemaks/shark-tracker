@@ -8,5 +8,7 @@ public class Contributors {
 		System.out.println("Nina Hasebe");
 
 		System.out.println("Amandine Jala");
+
+		System.out.println("Maksymilian Gajowniczek");
 	}
 }
