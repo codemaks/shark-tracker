@@ -17,6 +17,8 @@ import java.awt.Dimension;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 
+import api.jaws.Jaws;
+
 
 public class SearchFrame extends JFrame implements ActionListener{
 	 
@@ -31,8 +33,10 @@ public class SearchFrame extends JFrame implements ActionListener{
 		JComboBox jcbgender = new JComboBox();
 		JComboBox jcbtag_location = new JComboBox();
 
+		Jaws jawsApi = new Jaws("EkZ8ZqX11ozMamO9","E7gdkwWePBYT75KE", true);
+
 		JPanel mPanel = new JPanel(new BorderLayout());//main panel
-		JPanel msPanel = new JPanel();//main south Panel (by opposition to the main panel)
+		JPanel msPanel = southPanel(jawsApi);
 		JPanel mwestPanel = new JPanel(new BorderLayout());//west Panel in main panel
 		JPanel mwnorthPanel = new JPanel(new GridLayout(10,1));//north Panel in west panel which is in the main panel
 		JPanel mcenterPanel = new JPanel(new GridLayout(3,1));//center Panel in main panel
@@ -43,7 +47,6 @@ public class SearchFrame extends JFrame implements ActionListener{
 
 		search.addActionListener(new ActionListener(){
             //anonymous inner class...
-           @Override
            public void actionPerformed(ActionEvent e){
                        //1. read selected constraint from combo box
 
@@ -85,9 +88,18 @@ public class SearchFrame extends JFrame implements ActionListener{
 		this.pack();
 	}
 
+	/**
+	 * Method to create the south Panel with the acknowledgement statement
+	 * @param jawsApi
+	 * @return
+     */
+	private JPanel southPanel(Jaws jawsApi) {
+		JPanel msPanel = new JPanel();//main south Panel (by opposition to the main panel)
+		JLabel acknowledgement = new JLabel(jawsApi.getAcknowledgement());
+		msPanel.add(acknowledgement);
+		return msPanel;
+	}
 
-
-	@Override
 	public void actionPerformed(ActionEvent e) {
 		// TODO Auto-generated method stub
 
