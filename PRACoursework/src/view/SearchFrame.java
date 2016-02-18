@@ -1,4 +1,5 @@
-package main_package;
+//changed package name as "main package" seemed a bit general, feel free to change if not appropriate.
+package view;
 
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -21,7 +22,7 @@ import java.awt.event.ActionEvent;
 public class SearchFrame extends JFrame implements ActionListener{
 	
 		 int k = 3;
-		 JComboBox jcbstage_of_life = new JComboBox();
+		 private JComboBox jcbstage_of_life = new JComboBox();
 		 JComboBox jcbtracking_range = new JComboBox();
 		 JComboBox jcbgender = new JComboBox();
 		 JComboBox jcbtag_location = new JComboBox();
@@ -36,6 +37,9 @@ public class SearchFrame extends JFrame implements ActionListener{
 	 public SearchFrame() {
 		 
 		 super("Search");
+		 this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		 this.setLayout(new BorderLayout());
+
 		 search = new JButton("Search");
 		 
 		 search.addActionListener(new ActionListener(){
@@ -51,9 +55,7 @@ public class SearchFrame extends JFrame implements ActionListener{
 				 }
 			 
 		 });
-		 this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		 
-		 this.setLayout(new BorderLayout());
 		 this.add(msPanel,BorderLayout.SOUTH);
 		 msPanel.setPreferredSize(new Dimension(WIDTH,50));
 		 msPanel.setBorder(BorderFactory.createLineBorder(Color.black));
@@ -68,23 +70,18 @@ public class SearchFrame extends JFrame implements ActionListener{
 		 mPanel.add(mwestPanel,BorderLayout.WEST);
 		 // The commented code below was used to test a very simplistic version of the west side of the frame.
 		 // You are welcome to uncomment it if necessary.
-//		 mwestPanel.add(mwnorthPanel);
-//		 mwnorthPanel.add(new JLabel("stage of life"));
-//		 mwnorthPanel.add(jcbstage_of_life);
-//		 mwnorthPanel.add(new JLabel("tracking range:"));
-//		 mwnorthPanel.add(jcbtracking_range);
-//		 mwnorthPanel.add(new JLabel("gender:"));
-//		 mwnorthPanel.add(jcbgender);
-//		 mwnorthPanel.add(new JLabel("tag location:"));
-//		 mwnorthPanel.add(jcbtag_location);
-//		 mwnorthPanel.add(search);
+		 mwestPanel.add(mwnorthPanel);
+		 mwnorthPanel.add(new JLabel("stage of life"));
+		 mwnorthPanel.add(jcbstage_of_life);
+		 mwnorthPanel.add(new JLabel("tracking range:"));
+		 mwnorthPanel.add(jcbtracking_range);
+		 mwnorthPanel.add(new JLabel("gender:"));
+		 mwnorthPanel.add(jcbgender);
+		 mwnorthPanel.add(new JLabel("tag location:"));
+		 mwnorthPanel.add(jcbtag_location);
+		 mwnorthPanel.add(search);
 		
 		 this.pack();
-	 }
-	 	
-		 public static void main(String[] args) {
-		JFrame frame = new SearchFrame();
-		frame.setVisible(true);
 	 }
 
 		@Override
