@@ -1,4 +1,4 @@
-import main_package.SearchFrame;
+import view.SearchFrame;
 
 import javax.swing.*;
 

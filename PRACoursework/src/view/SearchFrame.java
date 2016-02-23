@@ -1,28 +1,60 @@
 package view;
 
+import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import java.awt.event.ComponentAdapter;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
+import java.util.ArrayList;
 
 import api.jaws.Jaws;
 import api.jaws.Ping;
 import api.jaws.Shark;
+import com.sun.java.accessibility.util.java.awt.TextComponentTranslator;
 
 
-public class SearchFrame extends JFrame implements ActionListener {
+public class SearchFrame extends JFrame {
 
-	private Jaws jawsApi;
-	 
-	 public SearchFrame() {
+	public Jaws jawsApi;
+	private ImageIcon image = new ImageIcon("..\\PRACoursework\\PRACoursework\\Shark tracker.png");
+
+	 public SearchFrame(){
 		 super("Search");
-		 jawsApi = new Jaws("EkZ8ZqX11ozMamO9","E7gdkwWePBYT75KE", true);
+		 jawsApi = new Jaws("EkZ8ZqX11ozMamO9","E7gdkwWePBYT75KE");
 		 createWidgets();
+
 	 }
 
 	/**
 	 * Create and display the widgets on the main Frame
 	 */
+	private ArrayList<Shark> getAllSharks(){
+
+		ArrayList<Shark> listedallsharks = new ArrayList<Shark>();
+
+		for(String a_shark: jawsApi.getSharkNames()){
+			listedallsharks.add(jawsApi.getShark(a_shark));
+		}
+		return listedallsharks;
+	}
+
+	public ArrayList classifySharks(String tracking_range, String gender,String Stage_of_life, String Tag_Location ){
+		ArrayList<Shark> selectedsharks = new ArrayList<Shark>();
+			for(Shark a_shark : getAllSharks()){
+
+
+			}
+		return selectedsharks;
+	}
+
+	public void updater(){
+		jawsApi.getLastUpdated();
+	}
+
 	private void createWidgets() {
 
 		this.setLayout(new BorderLayout());
@@ -47,6 +79,7 @@ public class SearchFrame extends JFrame implements ActionListener {
                 }
 
         });
+
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
 
@@ -58,9 +91,18 @@ public class SearchFrame extends JFrame implements ActionListener {
 		mwestPanel.setPreferredSize(westdim);
 
 		this.add(mwestPanel,BorderLayout.WEST);
-		// The commented code below was used to test a very simplistic version of the west side of the frame.
+        ImageIcon shark = new ImageIcon("..\\PRACoursework\\PRACoursework\\Shark tracker.png");
+        Image img = shark.getImage();
+        Image newimg = img.getScaledInstance(300, 300, java.awt.Image.SCALE_SMOOTH);
+        ImageIcon newIcon = new ImageIcon(newimg);
+
+        JLabel label = new JLabel();
+        label.setIcon(shark);
+        mwestPanel.add(label);
+
+		//The commented code below was used to test a very simplistic version of the west side of the frame.
 		// You are welcome to uncomment it if necessary.
-/*		JComboBox jcbstage_of_life = new JComboBox();
+	    JComboBox jcbstage_of_life = new JComboBox();
 		JComboBox jcbtracking_range = new JComboBox();
 		JComboBox jcbgender = new JComboBox();
 		JComboBox jcbtag_location = new JComboBox();
@@ -73,7 +115,7 @@ public class SearchFrame extends JFrame implements ActionListener {
 		mwnorthPanel.add(jcbgender);
 		mwnorthPanel.add(new JLabel("tag location:"));
 		mwnorthPanel.add(jcbtag_location);
-		mwnorthPanel.add(search);*/
+		mwnorthPanel.add(search);
 
 		this.pack();
 	}
@@ -87,7 +129,7 @@ public class SearchFrame extends JFrame implements ActionListener {
 		centralPanel.setBorder(BorderFactory.createLineBorder(Color.black));
 
 		centralPanel.add(new JScrollPane());
-		centralPanel.add(detailsOfFoundShark());
+		//centralPanel.add(detailsOfFoundShark(new Shark(name, species, stage_of_life, gender,length,weight, tagLocation,description), new Ping(String name, String time)));
 		centralPanel.add(new JSeparator(SwingConstants.HORIZONTAL));
 
 		return centralPanel;
@@ -194,8 +236,4 @@ public class SearchFrame extends JFrame implements ActionListener {
 		return msPanel;
 	}
 
-	public void actionPerformed(ActionEvent e) {
-		// TODO Auto-generated method stub
-
-	}
 }
