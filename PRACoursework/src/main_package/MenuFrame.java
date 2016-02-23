@@ -14,12 +14,12 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 
 public class MenuFrame extends JFrame implements ActionListener {
-	private JTextField searchField;
+	//private JTextField searchField;
+	private JButton searchButton;
 	private JButton favouritesButton;
 
 	public MenuFrame() {
-		super();
-		setTitle("Amnity Police");
+		super("Amnity Police");
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
 		addWidgets();
 
@@ -28,9 +28,12 @@ public class MenuFrame extends JFrame implements ActionListener {
 	public void addWidgets() {
 		JPanel sPanel = new JPanel();
 		sPanel.setLayout(new BorderLayout());
-		searchField = new JTextField("Search");
-		searchField.setHorizontalAlignment(JTextField.CENTER);
-		searchField.addActionListener(new ActionListener() {
+		//searchField = new JTextField("Search");
+		//searchField.setHorizontalAlignment(JTextField.CENTER);
+		//searchField.addActionListener(new ActionListener() {
+		searchButton = new JButton("Search");
+		searchButton.setHorizontalAlignment(JButton.CENTER);
+		searchButton.addActionListener(new ActionListener(){
 			public void actionPerformed(ActionEvent e) {
 				JTextField tf = (JTextField) e.getSource();
 				System.out.println("You Pressed Enter");
@@ -39,12 +42,13 @@ public class MenuFrame extends JFrame implements ActionListener {
 		});
 		favouritesButton = new JButton("Favourites");
 		favouritesButton.setEnabled(false);
-		sPanel.add(searchField, BorderLayout.NORTH);
+		//sPanel.add(searchField, BorderLayout.NORTH);
+		sPanel.add(searchButton, BorderLayout.NORTH);
 		sPanel.add(favouritesButton, BorderLayout.SOUTH);
 
-		ImageIcon shark = new ImageIcon("shark9.png");
+		ImageIcon shark = new ImageIcon("..\\PRACoursework\\PRACoursework\\Shark Tracker.png");
 		Image img = shark.getImage();
-		Image newimg = img.getScaledInstance(230, 150, java.awt.Image.SCALE_SMOOTH);
+		Image newimg = img.getScaledInstance(300, 300, java.awt.Image.SCALE_SMOOTH);
 		ImageIcon newIcon = new ImageIcon(newimg);
 
 		JLabel sharkTrackerLabel = new JLabel("Shark Tracker", newIcon, 0);

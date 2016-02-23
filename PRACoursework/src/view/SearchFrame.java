@@ -87,7 +87,7 @@ public class SearchFrame extends JFrame implements ActionListener {
 		centralPanel.setBorder(BorderFactory.createLineBorder(Color.black));
 
 		centralPanel.add(new JScrollPane());
-		centralPanel.add(detailsOfFoundShark());
+		//centralPanel.add(detailsOfFoundShark());
 		centralPanel.add(new JSeparator(SwingConstants.HORIZONTAL));
 
 		return centralPanel;
