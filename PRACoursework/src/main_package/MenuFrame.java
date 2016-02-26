@@ -5,6 +5,8 @@ import java.awt.Font;
 import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.WindowEvent;
+import java.awt.event.WindowListener;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -13,7 +15,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
-public class MenuFrame extends JFrame implements ActionListener {
+public class MenuFrame extends JFrame implements ActionListener, WindowListener {
 	//private JTextField searchField;
 	private JButton searchButton;
 	private JButton favouritesButton;
@@ -22,26 +24,29 @@ public class MenuFrame extends JFrame implements ActionListener {
 		super("Amnity Police");
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
 		addWidgets();
-
 	}
 
 	public void addWidgets() {
 		JPanel sPanel = new JPanel();
 		sPanel.setLayout(new BorderLayout());
+
 		//searchField = new JTextField("Search");
 		//searchField.setHorizontalAlignment(JTextField.CENTER);
 		//searchField.addActionListener(new ActionListener() {
 		searchButton = new JButton("Search");
 		searchButton.setHorizontalAlignment(JButton.CENTER);
-		searchButton.addActionListener(new ActionListener(){
+		searchButton.addActionListener(this);
+/*		searchButton.addActionListener(new ActionListener(){
 			public void actionPerformed(ActionEvent e) {
 				JTextField tf = (JTextField) e.getSource();
 				System.out.println("You Pressed Enter");
 				tf.setText("");
 			}
-		});
+		});*/
+
 		favouritesButton = new JButton("Favourites");
 		favouritesButton.setEnabled(false);
+
 		//sPanel.add(searchField, BorderLayout.NORTH);
 		sPanel.add(searchButton, BorderLayout.NORTH);
 		sPanel.add(favouritesButton, BorderLayout.SOUTH);
@@ -65,7 +70,42 @@ public class MenuFrame extends JFrame implements ActionListener {
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		// TODO Auto-generated method stub
+		if(e.getSource() == searchButton)
+			setVisible(false);
+	}
+
+	@Override
+	public void windowOpened(WindowEvent e) {
+
+	}
+
+	@Override
+	public void windowClosing(WindowEvent e) {
+
+	}
+
+	@Override
+	public void windowClosed(WindowEvent e) {
+		setVisible(true);
+	}
+
+	@Override
+	public void windowIconified(WindowEvent e) {
+
+	}
+
+	@Override
+	public void windowDeiconified(WindowEvent e) {
+
+	}
+
+	@Override
+	public void windowActivated(WindowEvent e) {
+
+	}
+
+	@Override
+	public void windowDeactivated(WindowEvent e) {
 
 	}
 
@@ -73,5 +113,4 @@ public class MenuFrame extends JFrame implements ActionListener {
 		JFrame frame = new MenuFrame();
 		frame.setVisible(true);
 	}
-
 }

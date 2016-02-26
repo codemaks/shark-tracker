@@ -22,11 +22,12 @@ public class SearchFrame extends JFrame {
 
 	private JPanel centralpanel;
 	private int counter;
-	 
+
 	 public SearchFrame() {
 		 super("Search");
 		 jawsApi = new Jaws("EkZ8ZqX11ozMamO9","E7gdkwWePBYT75KE", true);
 		 createWidgets();
+		 this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 	 }
 
 	/**
@@ -70,11 +71,9 @@ public class SearchFrame extends JFrame {
 				}
 				//3. apply constraint on West panel filled with Shark Component objects
 
-			}
+                }
 
-		});
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-
+        });
 
 		add(createSouthPanel(),BorderLayout.SOUTH);
 		centralpanel = createCentralPanel();
