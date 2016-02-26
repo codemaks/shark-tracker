@@ -55,19 +55,14 @@ public class SearchFrame extends JFrame {
 				String tagloc = (String)tag_location.getSelectedItem();
 				//2. get all shark components by tracking range
 
-				switch(soflife){
-					case "Last 24 hours":
-							updateCentralPanel(jawsApi.past24Hours());
-
-					case "Last Week":
-							updateCentralPanel(jawsApi.pastWeek());
-
-					case "Last Month":
-							updateCentralPanel(jawsApi.pastMonth());
-
-
-					default:
-						System.out.println("Search ButtonListener Error 1 : Invalid ComboBox input");
+				if (soflife.equals("Last 24 hours")) {
+					updateCentralPanel(jawsApi.past24Hours());
+				}
+				else if (soflife.equals("Last Week")) {
+					updateCentralPanel(jawsApi.pastWeek());
+				}
+				else if (soflife.equals("Last Month")) {
+					updateCentralPanel(jawsApi.pastMonth());
 				}
 				//3. apply constraint on West panel filled with Shark Component objects
 
