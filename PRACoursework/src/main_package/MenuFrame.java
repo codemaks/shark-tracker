@@ -3,7 +3,6 @@ package main_package;
 import view.SearchFrame;
 
 import java.awt.BorderLayout;
-import java.awt.Font;
 import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -15,13 +14,12 @@ import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.JTextField;
 
 public class MenuFrame extends JFrame implements ActionListener, WindowListener {
 	//private JTextField searchField;
 	private JButton searchButton;
 	private JButton favouritesButton;
-	private SearchFrame searchframe;
+	private SearchFrame searchFrame;
 
 	public MenuFrame() {
 		super("Amnity Police");
@@ -75,8 +73,9 @@ public class MenuFrame extends JFrame implements ActionListener, WindowListener 
 	public void actionPerformed(ActionEvent e) {
 		if(e.getSource() == searchButton)
 			setVisible(false);
-			searchframe = new SearchFrame();
-			searchframe.setVisible(true);
+			searchFrame = new SearchFrame();
+			searchFrame.addWindowListener(this);
+			searchFrame.setVisible(true);
 	}
 
 	@Override
