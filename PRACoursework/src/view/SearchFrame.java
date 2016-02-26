@@ -5,13 +5,15 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
+import java.util.Observable;
+import java.util.Observer;
 
 import api.jaws.Jaws;
 import api.jaws.Ping;
 import controller.SearchButtonListener;
 
 
-public class SearchFrame extends JFrame {
+public class SearchFrame extends JFrame implements Observer{
 
 	private Jaws jawsApi;
 
@@ -27,7 +29,7 @@ public class SearchFrame extends JFrame {
 		 super("Search");
 		 jawsApi = new Jaws("EkZ8ZqX11ozMamO9","E7gdkwWePBYT75KE", true);
 		 createWidgets();
-		 this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+		 setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 	 }
 
 	/**
@@ -55,19 +57,20 @@ public class SearchFrame extends JFrame {
 				String tagloc = (String)tag_location.getSelectedItem();
 				//2. get all shark components by tracking range
 
-				switch(soflife){
-					case "Last 24 hours":
-							updateCentralPanel(jawsApi.past24Hours());
-
-					case "Last Week":
-							updateCentralPanel(jawsApi.pastWeek());
-
-					case "Last Month":
-							updateCentralPanel(jawsApi.pastMonth());
+				if (soflife=="Last 24 hours") {
+					System.out.println(soflife);
+					updateCentralPanel(jawsApi.past24Hours());
 
 
-					default:
-						System.out.println("Search ButtonListener Error 1 : Invalid ComboBox input");
+				} else if (soflife.equals("Last Week")) {
+					updateCentralPanel(jawsApi.pastWeek());
+
+
+				} else if (soflife.equals("Last Month")) {
+					updateCentralPanel(jawsApi.pastMonth());
+
+				} else {
+					System.out.println("Search ButtonListener Error 1 : Invalid ComboBox input");
 				}
 				//3. apply constraint on West panel filled with Shark Component objects
 
@@ -161,4 +164,8 @@ public class SearchFrame extends JFrame {
 		return msPanel;
 	}
 
+	@Override
+	public void update(Observable o, Object arg) {
+
+	}
 }
