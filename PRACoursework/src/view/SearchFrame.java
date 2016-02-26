@@ -18,6 +18,7 @@ public class SearchFrame extends JFrame implements ActionListener {
 		 super("Search");
 		 jawsApi = new Jaws("EkZ8ZqX11ozMamO9","E7gdkwWePBYT75KE", true);
 		 createWidgets();
+		 this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 	 }
 
 	/**
@@ -47,8 +48,6 @@ public class SearchFrame extends JFrame implements ActionListener {
                 }
 
         });
-		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-
 
 		this.add(createSouthPanel(),BorderLayout.SOUTH);
 		this.add(createCentralPanel(), BorderLayout.CENTER);
