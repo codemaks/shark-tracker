@@ -51,16 +51,16 @@ public class MenuFrame extends JFrame implements ActionListener, WindowListener 
 		sPanel.add(searchButton, BorderLayout.NORTH);
 		sPanel.add(favouritesButton, BorderLayout.SOUTH);
 
-		ImageIcon shark = new ImageIcon("..\\PRACoursework\\PRACoursework\\Shark Tracker.png");
+		ImageIcon shark = new ImageIcon("..\\PRACoursework\\PRACoursework\\SharkTracker.png");
 		Image img = shark.getImage();
 		Image newimg = img.getScaledInstance(300, 300, java.awt.Image.SCALE_SMOOTH);
 		ImageIcon newIcon = new ImageIcon(newimg);
 
-		JLabel sharkTrackerLabel = new JLabel("Shark Tracker", newIcon, 0);
+		JLabel sharkTrackerLabel = new JLabel("", newIcon, 0);
 		sharkTrackerLabel.setVerticalTextPosition(JLabel.BOTTOM);
 		sharkTrackerLabel.setHorizontalTextPosition(JLabel.CENTER);
-		Font font = new Font("Monospace", Font.ITALIC, 30);
-		sharkTrackerLabel.setFont(font);
+		//Font font = new Font("Monospace", Font.ITALIC, 30);
+		//sharkTrackerLabel.setFont(font);
 
 		add(sPanel, BorderLayout.SOUTH);
 		add(sharkTrackerLabel, BorderLayout.CENTER);
