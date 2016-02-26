@@ -2,24 +2,30 @@ package view;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.util.ArrayList;
 
-import model.API_explorer;
+import api.jaws.Jaws;
+import api.jaws.Ping;
+import controller.SearchButtonListener;
 
 
 public class SearchFrame extends JFrame {
 
-	private API_explorer apiexplorer;
+	private Jaws jawsApi;
 
 	private JComboBox<String> stage_of_life;
 	private JComboBox<String> tracking_range;
 	private JComboBox<String> gender;
 	private JComboBox<String> tag_location;
+
+	private JPanel centralpanel;
+	private int counter;
 	 
 	 public SearchFrame() {
 		 super("Search");
-		 apiexplorer = new API_explorer();
+		 jawsApi = new Jaws("EkZ8ZqX11ozMamO9","E7gdkwWePBYT75KE", true);
 		 createWidgets();
 	 }
 
@@ -28,8 +34,8 @@ public class SearchFrame extends JFrame {
 	 */
 	private void createWidgets() {
 
-		this.setLayout(new BorderLayout());
-		this.setPreferredSize(new Dimension(1200,700));
+		setLayout(new BorderLayout());
+		setPreferredSize(new Dimension(1200,700));
 
 		JPanel mwestPanel = new JPanel(new BorderLayout());//west Panel in main panel
 		JPanel mwnorthPanel = new JPanel(new GridLayout(10,1));//north Panel in west panel which is in the main panel
@@ -38,77 +44,119 @@ public class SearchFrame extends JFrame {
 
 		JButton search = new JButton("Search");
 
-		search.addActionListener(new ActionListener(){
-            //anonymous inner class...
-           public void actionPerformed(ActionEvent e){
-                       //1. read selected constraint from combo box
-						stage_of_life.getSelectedItem();
-			   			tracking_range.getSelectedItem();
-			   			gender.getSelectedItem();
-			   			tag_location.getSelectedItem();
-                       //2. get all shark components
-						apiexplorer.getAllSharks();
-                       //3. apply constraint on West panel filled with Shark Component objects
+		search.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e){
+				//1. read selected constraint from combo box
+				String soflife = (String)stage_of_life.getSelectedItem();
+				String trange = (String)tracking_range.getSelectedItem();
+				String gen = (String)gender.getSelectedItem();
+				String tagloc = (String)tag_location.getSelectedItem();
+				//2. get all shark components by tracking range
 
-                }
+				switch(soflife){
+					case "Last 24 hours":
+							updateCentralPanel(jawsApi.past24Hours());
 
-        });
-		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+					case "Last Week":
+							updateCentralPanel(jawsApi.pastWeek());
+
+					case "Last Month":
+							updateCentralPanel(jawsApi.pastMonth());
 
 
-		this.add(createSouthPanel(),BorderLayout.SOUTH);
-		this.add(createCentralPanel(), BorderLayout.CENTER);
+					default:
+						System.out.println("Search ButtonListener Error 1 : Invalid ComboBox input");
+				}
+				//3. apply constraint on West panel filled with Shark Component objects
+
+			}
+
+		});
+		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+
+
+		add(createSouthPanel(),BorderLayout.SOUTH);
+		centralpanel = createCentralPanel();
+		add((centralpanel), BorderLayout.CENTER);
 
 
 		mwestPanel.setBorder(BorderFactory.createLineBorder(Color.black));
 		mwestPanel.setPreferredSize(westdim);
 
-		this.add(mwestPanel,BorderLayout.WEST);
-		//The commented code below was used to test a very simplistic version of the west side of the frame.
-		// You are welcome to uncomment it if necessary.
-		JComboBox jcbstage_of_life = new JComboBox();
-		JComboBox jcbtracking_range = new JComboBox();
-		JComboBox jcbgender = new JComboBox();
-		JComboBox jcbtag_location = new JComboBox();
+		add(mwestPanel,BorderLayout.WEST);
+
+		stage_of_life = new JComboBox();
+		stage_of_life.addItem(" Any");
+		stage_of_life.addItem(" Mature");
+		stage_of_life.addItem(" Immature");
+		stage_of_life.addItem(" Undetermined");
+
+		tracking_range = new JComboBox();
+		tracking_range.addItem("Last 24 Hours");
+		tracking_range.addItem("Last Week");
+		tracking_range.addItem("Last Month");
+
+		gender = new JComboBox();
+		gender.addItem("Any");
+		gender.addItem("Male");
+		gender.addItem("Female");
+
+		tag_location = new JComboBox();
+		for(String tagloc: jawsApi.getTagLocations()){
+			tag_location.addItem(tagloc);
+		}
+
 		mwestPanel.add(mwnorthPanel);
 		mwnorthPanel.add(new JLabel("stage of life"));
-		mwnorthPanel.add(jcbstage_of_life);
+		mwnorthPanel.add(stage_of_life);
 		mwnorthPanel.add(new JLabel("tracking range:"));
-		mwnorthPanel.add(jcbtracking_range);
+		mwnorthPanel.add(tracking_range);
 		mwnorthPanel.add(new JLabel("gender:"));
-		mwnorthPanel.add(jcbgender);
+		mwnorthPanel.add(gender);
 		mwnorthPanel.add(new JLabel("tag location:"));
-		mwnorthPanel.add(jcbtag_location);
+		mwnorthPanel.add(tag_location);
 		mwnorthPanel.add(search);
 
-		this.pack();
+		pack();
 	}
 
 	/**
 	 * Create and display the central element of the SearchFrame i.e. the search results.
-	 * @return	a JPanel representing the search results.
+	 * @return JPanel representing the search results.
      */
 	private JPanel createCentralPanel() {
-		JPanel centralPanel = new JPanel();
-		centralPanel.setBorder(BorderFactory.createLineBorder(Color.black));
+		centralpanel = new JPanel();
+		centralpanel.setBorder(BorderFactory.createLineBorder(Color.black));
 
-		centralPanel.add(new JScrollPane());
+		centralpanel.add(new JScrollPane());
 		//centralPanel.add(detailsOfFoundShark());
-		centralPanel.add(new JSeparator(SwingConstants.HORIZONTAL));
+		centralpanel.add(new JSeparator(SwingConstants.HORIZONTAL));
 
-		return centralPanel;
+		return centralpanel;
+	}
+
+	private JPanel updateCentralPanel(ArrayList<Ping> listofpings){
+		for(Ping ping :listofpings) {
+			centralpanel = new JPanel();
+			setLayout(new GridLayout(counter, 1));
+			centralpanel.add(new SharkContainer(jawsApi.getShark(ping.getName()), ping), counter);
+			counter++;
+			return centralpanel;
+		}
+	return null;
 	}
 
 
 	/**
 	 * Create the south Panel with the acknowledgement statement.
-	 * @return	A JPanel the acknowledgement statement.
+	 * @return	JPanel the acknowledgement statement.
      */
 	private JPanel createSouthPanel() {
 		JPanel msPanel = new JPanel();
 		msPanel.setPreferredSize(new Dimension(WIDTH,50));
 
-		JLabel acknowledgement = new JLabel(apiexplorer.getAcknowledgement());
+		JLabel acknowledgement = new JLabel(jawsApi.getAcknowledgement());
 		msPanel.add(acknowledgement);
 
 		return msPanel;

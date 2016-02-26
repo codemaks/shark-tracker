@@ -46,7 +46,7 @@ public class MenuFrame extends JFrame implements ActionListener {
 		sPanel.add(searchButton, BorderLayout.NORTH);
 		sPanel.add(favouritesButton, BorderLayout.SOUTH);
 
-		ImageIcon shark = new ImageIcon("..\\PRACoursework\\PRACoursework\\Shark Tracker.png");
+		ImageIcon shark = new ImageIcon("..\\PRACoursework\\PRACoursework\\SharkTracker.png");
 		Image img = shark.getImage();
 		Image newimg = img.getScaledInstance(300, 300, java.awt.Image.SCALE_SMOOTH);
 		ImageIcon newIcon = new ImageIcon(newimg);
