@@ -1,3 +1,5 @@
+package sharkitter;
+
 public class Contributors {
 
 	public static void main(String[] args){

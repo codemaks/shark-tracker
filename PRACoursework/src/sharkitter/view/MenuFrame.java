@@ -1,9 +1,6 @@
-package main_package;
-
-import view.SearchFrame;
+package sharkitter.view;
 
 import java.awt.BorderLayout;
-import java.awt.Font;
 import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -15,7 +12,6 @@ import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.JTextField;
 
 public class MenuFrame extends JFrame implements ActionListener, WindowListener {
 	//private JTextField searchField;
@@ -54,7 +50,7 @@ public class MenuFrame extends JFrame implements ActionListener, WindowListener 
 		sPanel.add(searchButton, BorderLayout.NORTH);
 		sPanel.add(favouritesButton, BorderLayout.SOUTH);
 
-		ImageIcon shark = new ImageIcon("..\\PRACoursework\\PRACoursework\\SharkTracker.png");
+		ImageIcon shark = new ImageIcon("SharkTracker.png");
 		Image img = shark.getImage();
 		Image newimg = img.getScaledInstance(300, 300, java.awt.Image.SCALE_SMOOTH);
 		ImageIcon newIcon = new ImageIcon(newimg);
@@ -76,6 +72,7 @@ public class MenuFrame extends JFrame implements ActionListener, WindowListener 
 		if(e.getSource() == searchButton)
 			setVisible(false);
 			searchframe = new SearchFrame();
+			searchframe.addWindowListener(this);
 			searchframe.setVisible(true);
 	}
 

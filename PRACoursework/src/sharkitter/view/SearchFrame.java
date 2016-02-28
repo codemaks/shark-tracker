@@ -1,4 +1,4 @@
-package view;
+package sharkitter.view;
 
 import javax.swing.*;
 import java.awt.*;
@@ -10,7 +10,6 @@ import java.util.Observer;
 
 import api.jaws.Jaws;
 import api.jaws.Ping;
-import controller.SearchButtonListener;
 
 
 public class SearchFrame extends JFrame implements Observer{

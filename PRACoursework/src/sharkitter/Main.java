@@ -1,5 +1,6 @@
-import main_package.MenuFrame;
-import view.SearchFrame;
+package sharkitter;
+
+import sharkitter.view.MenuFrame;
 
 import javax.swing.*;
 

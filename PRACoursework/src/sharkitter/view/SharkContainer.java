@@ -1,5 +1,5 @@
 //placed in 'view' for now; feel free to move if necessary.
-package view;
+package sharkitter.view;
 
 import api.jaws.Ping;
 import api.jaws.Shark;
