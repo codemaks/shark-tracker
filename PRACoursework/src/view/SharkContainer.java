@@ -5,9 +5,12 @@ import api.jaws.Ping;
 import api.jaws.Shark;
 
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import javax.swing.*;
 
-public class SharkContainer extends JPanel{
+public class SharkContainer extends JPanel {
+
     /**
      * Class constructor: provides a JPanel containing all the details of a Shark when the following parameters
      * are given:
@@ -15,7 +18,6 @@ public class SharkContainer extends JPanel{
      * @param foundShark	A Shark matching the chosen criteria.
      * @param lastPing	The last Ping for the matching Shark.
      */
-
     public SharkContainer(Shark foundShark, Ping lastPing){
         JPanel topPanel = new JPanel(new BorderLayout());
 
@@ -42,13 +44,22 @@ public class SharkContainer extends JPanel{
     /**
      * Create and display the last ping of a given Shark and the option to follow it.
      * @param lastPing	Object containing information about the last point of contact with a given shark.
-     * @return	A JPanel containing all revelant information and a follow button.
+     * @return	A JPanel containing all relevant information and a follow button.
      */
     private JPanel createSharkTrackOptions(Ping lastPing) {
         JPanel pingPanel = new JPanel(new BorderLayout());
 
         JLabel pingLabel = new JLabel("Last ping: " + lastPing.getTime());
         JButton followButton = new JButton("Follow");
+        followButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if(followButton.getText().equals("Follow"))
+                    followButton.setText("Unfollow");
+                if(followButton.getText().equals("Unfollow"))
+                    followButton.setText("Follow");
+            }
+        });
 
         pingPanel.add(pingLabel, BorderLayout.CENTER);
         pingPanel.add(followButton, BorderLayout.EAST);

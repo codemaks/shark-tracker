@@ -11,10 +11,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 
-/**
- * Created by Evou on 25/02/2016.
- */
-public class SearchButtonListener implements ActionListener{
+public class SearchButtonListener implements ActionListener {
     private SearchFrame searchframe;
     private String tracking_range;
     private String gender;
