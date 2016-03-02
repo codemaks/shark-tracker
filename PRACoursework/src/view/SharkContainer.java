@@ -3,6 +3,7 @@ package view;
 
 import api.jaws.Ping;
 import api.jaws.Shark;
+import controller.FavouriteButtonListener;
 
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -10,6 +11,9 @@ import java.awt.event.ActionListener;
 import javax.swing.*;
 
 public class SharkContainer extends JPanel {
+
+    private ActionListener favouriteButtonListener;
+    private JButton followButton;
 
     /**
      * Class constructor: provides a JPanel containing all the details of a Shark when the following parameters
@@ -20,12 +24,18 @@ public class SharkContainer extends JPanel {
      */
     public SharkContainer(Shark foundShark, Ping lastPing){
         JPanel topPanel = new JPanel(new BorderLayout());
+        setName(foundShark.getName());
 
         topPanel.add(createSharkFeaturesTable(foundShark), BorderLayout.NORTH);
 
         topPanel.add(createSharkDescriptionText(foundShark), BorderLayout.CENTER);
 
         topPanel.add(createSharkTrackOptions(lastPing), BorderLayout.SOUTH);
+    }
+
+    public void addActionListener(ActionListener favouriteButtonListener) {
+        this.favouriteButtonListener = favouriteButtonListener;
+        followButton.addActionListener(favouriteButtonListener);
     }
 
     /**
@@ -50,16 +60,7 @@ public class SharkContainer extends JPanel {
         JPanel pingPanel = new JPanel(new BorderLayout());
 
         JLabel pingLabel = new JLabel("Last ping: " + lastPing.getTime());
-        JButton followButton = new JButton("Follow");
-        followButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                if(followButton.getText().equals("Follow"))
-                    followButton.setText("Unfollow");
-                if(followButton.getText().equals("Unfollow"))
-                    followButton.setText("Follow");
-            }
-        });
+        followButton = new JButton("Follow");
 
         pingPanel.add(pingLabel, BorderLayout.CENTER);
         pingPanel.add(followButton, BorderLayout.EAST);
