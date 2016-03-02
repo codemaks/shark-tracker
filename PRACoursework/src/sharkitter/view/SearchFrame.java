@@ -12,7 +12,7 @@ import api.jaws.Jaws;
 import api.jaws.Ping;
 
 
-public class SearchFrame extends JFrame implements Observer{
+public class SearchFrame extends JFrame implements Observer {
 
 	private Jaws jawsApi;
 
@@ -21,77 +21,77 @@ public class SearchFrame extends JFrame implements Observer{
 	private JComboBox<String> gender;
 	private JComboBox<String> tag_location;
 
-	private JPanel centralpanel;
+	private JPanel centralPanel;
+    private JPanel mWestPanel;
+    private JPanel mwNorthPanel;
+    private JPanel mwSouthPanel;
+
 	private int counter;
 
-	 public SearchFrame() {
-		 super("Search");
-		 jawsApi = new Jaws("EkZ8ZqX11ozMamO9","E7gdkwWePBYT75KE", true);
-		 createWidgets();
-		 setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-	 }
+    public SearchFrame() {
+        super("Search");
+        jawsApi = new Jaws("EkZ8ZqX11ozMamO9", "E7gdkwWePBYT75KE", true);
+        setLayout(new BorderLayout());
+        setPreferredSize(new Dimension(1200, 700));
+        createWidgets();
+        setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+    }
 
 	/**
 	 * Create and display the widgets on the main Frame
 	 */
 	private void createWidgets() {
+		mWestPanel = new JPanel(new BorderLayout());//west Panel in main panel
+		mwNorthPanel = new JPanel(new GridLayout(10, 1));//north Panel in west panel which is in the main panel
+        mwSouthPanel = new JPanel(new GridLayout(1, 1));//south panel in main west panel
 
-		setLayout(new BorderLayout());
-		setPreferredSize(new Dimension(1200,700));
-
-		JPanel mwestPanel = new JPanel(new BorderLayout());//west Panel in main panel
-		JPanel mwnorthPanel = new JPanel(new GridLayout(10,1));//north Panel in west panel which is in the main panel
-
-		Dimension westdim = new Dimension (300,this.getHeight());
+		//Dimension westDim = new Dimension(300, this.getHeight());
 
 		JButton search = new JButton("Search");
 
 		search.addActionListener(new ActionListener() {
+            //assuming we don't need this bit as SearchButtonListener is now a separate class?? <Nina>
 			@Override
 			public void actionPerformed(ActionEvent e){
 				//1. read selected constraint from combo box
-				String soflife = (String)stage_of_life.getSelectedItem();
-				String trange = (String)tracking_range.getSelectedItem();
+				String sOfLife = (String)stage_of_life.getSelectedItem();
+				String tRange = (String)tracking_range.getSelectedItem();
 				String gen = (String)gender.getSelectedItem();
-				String tagloc = (String)tag_location.getSelectedItem();
+				String tagLoc = (String)tag_location.getSelectedItem();
+
 				//2. get all shark components by tracking range
-
-				if (soflife=="Last 24 hours") {
-					System.out.println(soflife);
+				if (sOfLife.equals("Last 24 hours")) {
+					System.out.println(sOfLife);
 					updateCentralPanel(jawsApi.past24Hours());
-
-
-				} else if (soflife.equals("Last Week")) {
+				}
+                else if (sOfLife.equals("Last Week")) {
 					updateCentralPanel(jawsApi.pastWeek());
-
-
-				} else if (soflife.equals("Last Month")) {
+				}
+                else if (sOfLife.equals("Last Month")) {
 					updateCentralPanel(jawsApi.pastMonth());
-
-				} else {
+				}
+                else {
 					System.out.println("Search ButtonListener Error 1 : Invalid ComboBox input");
 				}
 				//3. apply constraint on West panel filled with Shark Component objects
 
-                }
-
+            }
         });
 
-		add(createSouthPanel(),BorderLayout.SOUTH);
-		centralpanel = createCentralPanel();
-		add((centralpanel), BorderLayout.CENTER);
+        createSouthPanel();
+		createCentralPanel();
 
+		mWestPanel.setBorder(BorderFactory.createLineBorder(Color.black));
+		//mWestPanel.setPreferredSize(westDim);
+        mWestPanel.setPreferredSize(new Dimension(300, this.getHeight()));
 
-		mwestPanel.setBorder(BorderFactory.createLineBorder(Color.black));
-		mwestPanel.setPreferredSize(westdim);
-
-		add(mwestPanel,BorderLayout.WEST);
+		add(mWestPanel,BorderLayout.WEST);
 
 		stage_of_life = new JComboBox();
-		stage_of_life.addItem(" Any");
-		stage_of_life.addItem(" Mature");
-		stage_of_life.addItem(" Immature");
-		stage_of_life.addItem(" Undetermined");
+		stage_of_life.addItem("Any");
+		stage_of_life.addItem("Mature");
+		stage_of_life.addItem("Immature");
+		stage_of_life.addItem("Undetermined");
 
 		tracking_range = new JComboBox();
 		tracking_range.addItem("Last 24 Hours");
@@ -108,44 +108,43 @@ public class SearchFrame extends JFrame implements Observer{
 			tag_location.addItem(tagloc);
 		}
 
-		mwestPanel.add(mwnorthPanel);
-		mwnorthPanel.add(new JLabel("stage of life"));
-		mwnorthPanel.add(stage_of_life);
-		mwnorthPanel.add(new JLabel("tracking range:"));
-		mwnorthPanel.add(tracking_range);
-		mwnorthPanel.add(new JLabel("gender:"));
-		mwnorthPanel.add(gender);
-		mwnorthPanel.add(new JLabel("tag location:"));
-		mwnorthPanel.add(tag_location);
-		mwnorthPanel.add(search);
+		mWestPanel.add(mwNorthPanel);
+		mwNorthPanel.add(new JLabel("Stage of life"));
+		mwNorthPanel.add(stage_of_life);
+		mwNorthPanel.add(new JLabel("Tracking range:"));
+		mwNorthPanel.add(tracking_range);
+		mwNorthPanel.add(new JLabel("Gender:"));
+		mwNorthPanel.add(gender);
+		mwNorthPanel.add(new JLabel("Tag location:"));
+		mwNorthPanel.add(tag_location);
+		mwNorthPanel.add(search);
 
 		pack();
 	}
 
 	/**
 	 * Create and display the central element of the SearchFrame i.e. the search results.
-	 * @return JPanel representing the search results.
      */
-	private JPanel createCentralPanel() {
-		centralpanel = new JPanel();
-		centralpanel.setBorder(BorderFactory.createLineBorder(Color.black));
+	private void createCentralPanel() {
+		centralPanel = new JPanel();
+		centralPanel.setBorder(BorderFactory.createLineBorder(Color.black));
 
-		centralpanel.add(new JScrollPane());
+		centralPanel.add(new JScrollPane());
 		//centralPanel.add(detailsOfFoundShark());
-		centralpanel.add(new JSeparator(SwingConstants.HORIZONTAL));
+		centralPanel.add(new JSeparator(SwingConstants.HORIZONTAL));
 
-		return centralpanel;
-	}
+        add(centralPanel, BorderLayout.CENTER);
+    }
 
-	private JPanel updateCentralPanel(ArrayList<Ping> listofpings){
-		for(Ping ping :listofpings) {
-			centralpanel = new JPanel();
+	private JPanel updateCentralPanel(ArrayList<Ping> listOfPings){
+		for(Ping ping :listOfPings) {
+			centralPanel = new JPanel();
 			setLayout(new GridLayout(counter, 1));
-			centralpanel.add(new SharkContainer(jawsApi.getShark(ping.getName()), ping), counter);
+			centralPanel.add(new SharkContainer(jawsApi.getShark(ping.getName()), ping), counter);
 			counter++;
-			return centralpanel;
+			return centralPanel;
 		}
-	return null;
+	    return null;
 	}
 
 
@@ -153,15 +152,36 @@ public class SearchFrame extends JFrame implements Observer{
 	 * Create the south Panel with the acknowledgement statement.
 	 * @return	JPanel the acknowledgement statement.
      */
-	private JPanel createSouthPanel() {
+	private void createSouthPanel() {
 		JPanel msPanel = new JPanel();
 		msPanel.setPreferredSize(new Dimension(WIDTH,50));
 
 		JLabel acknowledgement = new JLabel(jawsApi.getAcknowledgement());
 		msPanel.add(acknowledgement);
 
-		return msPanel;
-	}
+        add(msPanel, BorderLayout.SOUTH);
+    }
+
+    /**
+     * Creates the west panel within the main panel.
+     */
+    private void createWestPanel() {
+
+    }
+
+    /**
+     * Creates the south panel within the west panel and adds it to the west panel.
+     */
+    private void createWestSouthPanel() {
+        ImageIcon shark = new ImageIcon(getClass().getClassLoader().getResource("resources/shark9.png"));
+        Image img = shark.getImage();
+        Image newImg = img.getScaledInstance(300, 300, Image.SCALE_SMOOTH);
+        shark = new ImageIcon(newImg);
+
+        JLabel sharkIcon = new JLabel("", shark, 0);
+        mwSouthPanel.add(sharkIcon);
+        mWestPanel.add(mwSouthPanel, BorderLayout.SOUTH);
+    }
 
 	@Override
 	public void update(Observable o, Object arg) {
