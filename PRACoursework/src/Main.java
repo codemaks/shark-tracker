@@ -1,3 +1,4 @@
+import main_package.MenuFrame;
 import view.SearchFrame;
 
 import javax.swing.*;
@@ -5,7 +6,7 @@ import javax.swing.*;
 public class Main {
 
     public static void main(String[] args) {
-        JFrame frame = new SearchFrame();
+        JFrame frame = new MenuFrame();
         frame.setVisible(true);
     }
 }
