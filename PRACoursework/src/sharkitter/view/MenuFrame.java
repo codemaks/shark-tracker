@@ -1,64 +1,34 @@
-package main_package;
-
-import view.SearchFrame;
+package sharkitter.view;
 
 import java.awt.BorderLayout;
-import java.awt.Font;
 import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
-import java.io.File;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.JTextField;
 
 public class MenuFrame extends JFrame implements ActionListener, WindowListener {
 	//private JTextField searchField;
 	private JButton searchButton;
 	private JButton favouritesButton;
 	private SearchFrame searchframe;
-	private String filepath;
-	private static String OS = System.getProperty("os.name").toLowerCase();
 
 	public MenuFrame() {
 		super("Amnity Police");
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
 		addWidgets();
-		System.out.println("Welcome to the shark Tracker app!");
-	}
-
-	public static boolean isWindows() {
-
-		return (OS.indexOf("win") >= 0);
-
-	}
-
-	public static boolean isMac() {
-
-		return (OS.indexOf("mac") >= 0);
-
-	}
-
-	public static boolean isUnix() {
-
-		return (OS.indexOf("nix") >= 0 || OS.indexOf("nux") >= 0 || OS.indexOf("aix") > 0 );
-
-	}
-
-	public static boolean isSolaris() {
-
-		return (OS.indexOf("sunos") >= 0);
 	}
 
 	public void addWidgets() {
 		JPanel sPanel = new JPanel();
 		sPanel.setLayout(new BorderLayout());
+
 		//searchField = new JTextField("Search");
 		//searchField.setHorizontalAlignment(JTextField.CENTER);
 		//searchField.addActionListener(new ActionListener() {
@@ -80,36 +50,12 @@ public class MenuFrame extends JFrame implements ActionListener, WindowListener 
 		sPanel.add(searchButton, BorderLayout.NORTH);
 		sPanel.add(favouritesButton, BorderLayout.SOUTH);
 
-
-		if (isWindows()) {
-			System.out.println("This is Windows");
-			filepath ="..\\PRACoursework\\PRACoursework\\SharkTracker.png";
-			System.out.println(filepath);
-		} else if (isMac()) {
-			System.out.println("This is Mac");
-			filepath = "../PRACoursework/PRACoursework/SharkTracker.png";
-			System.out.println(filepath);
-		} else if (isUnix()) {
-			System.out.println("This is Unix or Linux");
-			filepath = "../PRACoursework/PRACoursework/SharkTracker.png";
-			System.out.println(filepath);
-		} else if (isSolaris()) {
-			System.out.println("This is Solaris");
-			filepath = "../PRACoursework/PRACoursework/SharkTracker.png";
-			System.out.println(filepath);
-		} else {
-			System.out.println("Menu Frame error 1: Operating System not supported for this app");
-			System.out.println(filepath);
-		}
-
-		System.out.println("before printing :" +filepath);
-
-		ImageIcon shark = new ImageIcon(filepath);
+		ImageIcon shark = new ImageIcon(getClass().getClassLoader().getResource("resources/SharkTracker.png"));
 		Image img = shark.getImage();
-		Image newimg = img.getScaledInstance(300, 300, java.awt.Image.SCALE_SMOOTH);
-		ImageIcon newIcon = new ImageIcon(newimg);
+		Image newImg = img.getScaledInstance(300, 300, Image.SCALE_SMOOTH);
+		shark = new ImageIcon(newImg);
 
-		JLabel sharkTrackerLabel = new JLabel("", newIcon, 0);
+		JLabel sharkTrackerLabel = new JLabel("", shark, 0);
 		sharkTrackerLabel.setVerticalTextPosition(JLabel.BOTTOM);
 		sharkTrackerLabel.setHorizontalTextPosition(JLabel.CENTER);
 		//Font font = new Font("Monospace", Font.ITALIC, 30);
@@ -126,8 +72,8 @@ public class MenuFrame extends JFrame implements ActionListener, WindowListener 
 		if(e.getSource() == searchButton)
 			setVisible(false);
 			searchframe = new SearchFrame();
-			searchframe.setVisible(true);
 			searchframe.addWindowListener(this);
+			searchframe.setVisible(true);
 	}
 
 	@Override
@@ -163,5 +109,10 @@ public class MenuFrame extends JFrame implements ActionListener, WindowListener 
 	@Override
 	public void windowDeactivated(WindowEvent e) {
 
+	}
+
+	public static void main(String args[]) {
+		JFrame frame = new MenuFrame();
+		frame.setVisible(true);
 	}
 }

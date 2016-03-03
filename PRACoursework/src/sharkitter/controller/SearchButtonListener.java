@@ -1,19 +1,15 @@
-package controller;
+package sharkitter.controller;
 
 import api.jaws.Jaws;
 import api.jaws.Ping;
 import api.jaws.Shark;
-import view.SearchFrame;
-import view.SharkContainer;
+import sharkitter.view.SearchFrame;
+import sharkitter.view.SharkContainer;
 
-import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 
-/**
- * Created by Evou on 25/02/2016.
- */
 public class SearchButtonListener implements ActionListener{
     private SearchFrame searchframe;
     private String tracking_range;
@@ -52,18 +48,29 @@ public class SearchButtonListener implements ActionListener{
                 counter++;
             }
 
+
+            System.out.println("SearchButtonListener Error 1 : Invalid ComboBox input");
         } else if (tracking_range.equals("Last Week")) {
             for (Ping ping : jawsApi.pastWeek()) {
                 new SharkContainer(jawsApi.getShark(ping.getName()), ping);
                 counter++;
             }
 
+            for (Ping ping : jawsApi.pastMonth()) {
+                new SharkContainer(jawsApi.getShark(ping.getName()), ping);
+                counter++;
+            }
+
+
+            System.out.println("SearchButtonListener Error 1 : Invalid ComboBox input");
         } else if (tracking_range.equals("Last Month")) {
             for (Ping ping : jawsApi.pastMonth()) {
                 new SharkContainer(jawsApi.getShark(ping.getName()), ping);
                 counter++;
             }
 
+
+            System.out.println("SearchButtonListener Error 1 : Invalid ComboBox input");
         } else {
             System.out.println("SearchButtonListener Error 1 : Invalid ComboBox input");
         }
