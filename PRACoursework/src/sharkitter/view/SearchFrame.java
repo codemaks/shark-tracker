@@ -10,6 +10,7 @@ import java.util.Observer;
 
 import api.jaws.Jaws;
 import api.jaws.Ping;
+import sharkitter.controller.SearchButtonListener;
 
 
 public class SearchFrame extends JFrame implements Observer {
@@ -29,6 +30,8 @@ public class SearchFrame extends JFrame implements Observer {
     private JButton search;
 
 	private int counter;
+
+    private SearchButtonListener sbl;
 
     public SearchFrame() {
         super("Search");
@@ -88,8 +91,9 @@ public class SearchFrame extends JFrame implements Observer {
     private void createSearchButton() {
         search = new JButton("Search");
 
-        search.addActionListener(new ActionListener() {
-            //assuming we don't need this bit as SearchButtonListener is now a separate class?? <Nina>
+        sbl = new SearchButtonListener(this);
+        search.addActionListener(sbl);
+                /*new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e){
                 //1. read selected constraint from combo box
@@ -115,7 +119,7 @@ public class SearchFrame extends JFrame implements Observer {
                 //3. apply constraint on West panel filled with Shark Component objects
 
             }
-        });
+        });*/
     }
 
 	/**

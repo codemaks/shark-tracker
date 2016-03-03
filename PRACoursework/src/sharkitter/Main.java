@@ -11,8 +11,5 @@ public class Main {
     public static void main(String[] args) {
         JFrame frame = new MenuFrame();
         frame.setVisible(true);
-
-        SearchFrame sf = new SearchFrame();
-        sf.setVisible(true);
     }
 }
