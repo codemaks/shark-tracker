@@ -36,25 +36,36 @@ public class SearchButtonListener implements ActionListener{
         //searchframe.tag_location.getSelectedItem();
         //2. get all shark components by tracking range
         int counter = 0;
-        switch(tracking_range){
-            case "Last 24 hours":
-                for(Ping ping :jawsApi.past24Hours()){
-                    new SharkContainer( jawsApi.getShark(ping.getName()),ping);
-                    counter ++;
-                }
-            case "Last Week":
-                for(Ping ping :jawsApi.pastWeek()){
-                    new SharkContainer( jawsApi.getShark(ping.getName()),ping);
-                    counter ++;
-                }
-            case "Last Month":
-                for(Ping ping :jawsApi.pastMonth()){
-                    new SharkContainer( jawsApi.getShark(ping.getName()),ping);
-                    counter ++;
-                }
+        if (tracking_range.equals("Last 24 hours")) {
+            for (Ping ping : jawsApi.past24Hours()) {
+                new SharkContainer(jawsApi.getShark(ping.getName()), ping);
+                counter++;
+            }
 
-            default:
-                System.out.println("SearchButtonListener Error 1 : Invalid ComboBox input");
+            for (Ping ping : jawsApi.pastWeek()) {
+                new SharkContainer(jawsApi.getShark(ping.getName()), ping);
+                counter++;
+            }
+
+            for (Ping ping : jawsApi.pastMonth()) {
+                new SharkContainer(jawsApi.getShark(ping.getName()), ping);
+                counter++;
+            }
+
+        } else if (tracking_range.equals("Last Week")) {
+            for (Ping ping : jawsApi.pastWeek()) {
+                new SharkContainer(jawsApi.getShark(ping.getName()), ping);
+                counter++;
+            }
+
+        } else if (tracking_range.equals("Last Month")) {
+            for (Ping ping : jawsApi.pastMonth()) {
+                new SharkContainer(jawsApi.getShark(ping.getName()), ping);
+                counter++;
+            }
+
+        } else {
+            System.out.println("SearchButtonListener Error 1 : Invalid ComboBox input");
         }
         //3. apply constraint on West panel filled with Shark Component objects
 

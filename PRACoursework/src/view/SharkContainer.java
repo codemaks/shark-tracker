@@ -6,6 +6,7 @@ import api.jaws.Shark;
 
 import java.awt.*;
 import javax.swing.*;
+import java.util.Scanner;
 
 public class SharkContainer extends JPanel{
     /**
@@ -17,13 +18,16 @@ public class SharkContainer extends JPanel{
      */
 
     public SharkContainer(Shark foundShark, Ping lastPing){
-        JPanel topPanel = new JPanel(new BorderLayout());
+      setLayout(new BorderLayout());
 
-        topPanel.add(createSharkFeaturesTable(foundShark), BorderLayout.NORTH);
+      add(createSharkFeaturesTable(foundShark), BorderLayout.NORTH);
 
-        topPanel.add(createSharkDescriptionText(foundShark), BorderLayout.CENTER);
+      add(createSharkDescriptionText(foundShark), BorderLayout.CENTER);
 
-        topPanel.add(createSharkTrackOptions(lastPing), BorderLayout.SOUTH);
+      add(createSharkTrackOptions(lastPing), BorderLayout.SOUTH);
+
+        setPreferredSize(new Dimension(800,200));
+        setVisible(true);
     }
 
     /**
@@ -36,6 +40,7 @@ public class SharkContainer extends JPanel{
 
         descriptionPanel.add(new JLabel("Description: \n\n"));
         descriptionPanel.add(new JLabel(foundShark.getDescription()));
+        setVisible(true);
 
         return descriptionPanel;
     }
@@ -52,6 +57,7 @@ public class SharkContainer extends JPanel{
 
         pingPanel.add(pingLabel, BorderLayout.CENTER);
         pingPanel.add(followButton, BorderLayout.EAST);
+        setVisible(true);
 
         return pingPanel;
     }
@@ -90,7 +96,9 @@ public class SharkContainer extends JPanel{
         sharkFeatures.add(sharkLength);
         sharkFeatures.add(weightLabel);
         sharkFeatures.add(sharkWeight);
+        setVisible(true);
 
         return sharkFeatures;
     }
+
 }

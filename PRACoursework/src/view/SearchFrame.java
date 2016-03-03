@@ -5,15 +5,13 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
-import java.util.Observable;
-import java.util.Observer;
 
 import api.jaws.Jaws;
 import api.jaws.Ping;
 import controller.SearchButtonListener;
 
 
-public class SearchFrame extends JFrame implements Observer{
+public class SearchFrame extends JFrame {
 
 	private Jaws jawsApi;
 
@@ -23,13 +21,14 @@ public class SearchFrame extends JFrame implements Observer{
 	private JComboBox<String> tag_location;
 
 	private JPanel centralpanel;
+	private JScrollPane centralPane;
+	private JPanel supercentralpanel;
 	private int counter;
-
+	 
 	 public SearchFrame() {
 		 super("Search");
 		 jawsApi = new Jaws("EkZ8ZqX11ozMamO9","E7gdkwWePBYT75KE", true);
 		 createWidgets();
-		 setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 	 }
 
 	/**
@@ -47,36 +46,8 @@ public class SearchFrame extends JFrame implements Observer{
 
 		JButton search = new JButton("Search");
 
-		search.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e){
-				//1. read selected constraint from combo box
-				String soflife = (String)stage_of_life.getSelectedItem();
-				String trange = (String)tracking_range.getSelectedItem();
-				String gen = (String)gender.getSelectedItem();
-				String tagloc = (String)tag_location.getSelectedItem();
-				//2. get all shark components by tracking range
+		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
-				if (soflife=="Last 24 hours") {
-					System.out.println(soflife);
-					updateCentralPanel(jawsApi.past24Hours());
-
-
-				} else if (soflife.equals("Last Week")) {
-					updateCentralPanel(jawsApi.pastWeek());
-
-
-				} else if (soflife.equals("Last Month")) {
-					updateCentralPanel(jawsApi.pastMonth());
-
-				} else {
-					System.out.println("Search ButtonListener Error 1 : Invalid ComboBox input");
-				}
-				//3. apply constraint on West panel filled with Shark Component objects
-
-                }
-
-        });
 
 		add(createSouthPanel(),BorderLayout.SOUTH);
 		centralpanel = createCentralPanel();
@@ -105,6 +76,7 @@ public class SearchFrame extends JFrame implements Observer{
 		gender.addItem("Female");
 
 		tag_location = new JComboBox();
+		tag_location.addItem("Any");
 		for(String tagloc: jawsApi.getTagLocations()){
 			tag_location.addItem(tagloc);
 		}
@@ -119,7 +91,45 @@ public class SearchFrame extends JFrame implements Observer{
 		mwnorthPanel.add(new JLabel("tag location:"));
 		mwnorthPanel.add(tag_location);
 		mwnorthPanel.add(search);
+		counter=1;
 
+
+		search.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e){
+				//1. read selected constraint from combo box
+				String soflife = (String)stage_of_life.getSelectedItem();
+				String trange = (String)tracking_range.getSelectedItem();
+				String gen = (String)gender.getSelectedItem();
+				String tagloc = (String)tag_location.getSelectedItem();
+				//2. get all shark components by tracking range
+
+				if (trange.equals("Last 24 Hours")) {
+					updateCentralPanel(jawsApi.past24Hours());
+					System.out.println(trange);
+
+				} else if (trange.equals("Last Week")) {
+					updateCentralPanel(jawsApi.pastWeek());
+					System.out.println(trange);
+
+
+				} else if (trange.equals("Last Month")) {
+					updateCentralPanel(jawsApi.pastMonth());
+					System.out.println(trange);
+
+
+				} else {
+					System.out.println("Search ButtonListener Error 1 : Invalid ComboBox input");
+					System.out.println(trange);
+
+				}
+				//3. apply constraint on West panel filled with Shark Component objects
+
+			}
+		});
+
+		revalidate();
+		repaint();
 		pack();
 	}
 
@@ -130,23 +140,40 @@ public class SearchFrame extends JFrame implements Observer{
 	private JPanel createCentralPanel() {
 		centralpanel = new JPanel();
 		centralpanel.setBorder(BorderFactory.createLineBorder(Color.black));
-
-		centralpanel.add(new JScrollPane());
-		//centralPanel.add(detailsOfFoundShark());
-		centralpanel.add(new JSeparator(SwingConstants.HORIZONTAL));
+		supercentralpanel=new JPanel();
+		centralPane = new JScrollPane(supercentralpanel);
+		centralpanel.add(centralPane);
 
 		return centralpanel;
 	}
 
 	private JPanel updateCentralPanel(ArrayList<Ping> listofpings){
+		counter=(listofpings.size())-1;
+
+		if(!listofpings.isEmpty()){
+
 		for(Ping ping :listofpings) {
-			centralpanel = new JPanel();
-			setLayout(new GridLayout(counter, 1));
-			centralpanel.add(new SharkContainer(jawsApi.getShark(ping.getName()), ping), counter);
-			counter++;
-			return centralpanel;
+			System.out.println("Added SharkContainer for shark "+ping.getName());
+			centralpanel.setLayout(new BorderLayout());
+			supercentralpanel.setLayout(new GridLayout(0,1));
+			supercentralpanel.add(new SharkContainer(jawsApi.getShark(ping.getName()),ping));
+			supercentralpanel.add(new JSeparator(SwingConstants.HORIZONTAL));
+			supercentralpanel.paintComponents(supercentralpanel.getGraphics());
+
+			centralpanel.remove(centralPane);
+			centralPane.setViewportView(supercentralpanel);
+			centralpanel.add(centralPane);
+
+			revalidate();
+			repaint();
+			pack();
+			}
+			System.out.println("Central panel updated.");
+		}else{
+			centralpanel.add(new JLabel("Nothing to show here :)"));
 		}
-	return null;
+		System.out.println("Central panel returned.");
+		return centralpanel;
 	}
 
 
@@ -164,8 +191,4 @@ public class SearchFrame extends JFrame implements Observer{
 		return msPanel;
 	}
 
-	@Override
-	public void update(Observable o, Object arg) {
-
-	}
 }
