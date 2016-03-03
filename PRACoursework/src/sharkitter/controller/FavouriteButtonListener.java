@@ -13,6 +13,11 @@ public class FavouriteButtonListener implements ActionListener {
     private FavouriteSharks favouriteSharks;
     private Jaws jawsApi;
 
+    /**
+     * Constructor for FavouriteButtonListener
+     * @param sharkContainer    The tracked SharkContainer view
+     * @param favouriteSharks   The tracked favouriteSharks model to update
+     */
     public FavouriteButtonListener(SharkContainer sharkContainer, FavouriteSharks favouriteSharks) {
         this.sharkContainer = sharkContainer;
         this.favouriteSharks = favouriteSharks;
@@ -20,6 +25,10 @@ public class FavouriteButtonListener implements ActionListener {
     }
 
 
+    /**
+     * Actions to perform to handle the event when "Follow" button is pressed
+     * @param e The action triggered by pressing the button
+     */
     @Override
     public void actionPerformed(ActionEvent e) {
         JButton followButton = (JButton) e.getSource();
