@@ -193,7 +193,7 @@ public class SearchFrame extends JFrame implements Observer {
     private void createWSouthPanel() {
         JPanel mwSouthPanel = new JPanel(new GridLayout(1, 1));
 
-        ImageIcon shark = new ImageIcon(getClass().getClassLoader().getResource("resources/shark9.png"));
+        ImageIcon shark = new ImageIcon(getClass().getClassLoader().getResource("resources/SharkTracker.png"));
         Image img = shark.getImage();
         Image newImg = img.getScaledInstance(300, 300, Image.SCALE_SMOOTH);
         shark = new ImageIcon(newImg);
