@@ -1,8 +1,8 @@
 package sharkitter.controller;
 
 import api.jaws.Jaws;
-import model.FavouriteSharks;
-import view.SharkContainer;
+import sharkitter.model.FavouriteSharks;
+import sharkitter.view.SharkContainer;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
