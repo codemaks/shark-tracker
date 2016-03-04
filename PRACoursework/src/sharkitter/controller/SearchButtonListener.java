@@ -26,51 +26,28 @@ public class SearchButtonListener implements ActionListener{
 
     public void actionPerformed(ActionEvent e){
         //1. read selected constraint from combo box
-        //stage_of_life.getSelectedItem();
-        //searchframe.tracking_range.getSelectedItem();
-        //searchframe.gender.getSelectedItem();
-        //searchframe.tag_location.getSelectedItem();
+        stage_of_life = (String)searchframe.getStage_of_life().getSelectedItem();
+        tracking_range = (String)searchframe.getTracking_range().getSelectedItem();
+        gender = (String)searchframe.getGender().getSelectedItem();
+        tag_location = (String)searchframe.getTag_location().getSelectedItem();
         //2. get all shark components by tracking range
-        int counter = 0;
-        if (tracking_range.equals("Last 24 hours")) {
-            for (Ping ping : jawsApi.past24Hours()) {
-                new SharkContainer(jawsApi.getShark(ping.getName()), ping);
-                counter++;
-            }
 
-            for (Ping ping : jawsApi.pastWeek()) {
-                new SharkContainer(jawsApi.getShark(ping.getName()), ping);
-                counter++;
-            }
-
-            for (Ping ping : jawsApi.pastMonth()) {
-                new SharkContainer(jawsApi.getShark(ping.getName()), ping);
-                counter++;
-            }
+        if (tracking_range.equals("Last 24 Hours")) {
+                System.out.println(tracking_range);
+                searchframe.updateCentralPanel(jawsApi.past24Hours());
 
 
             System.out.println("SearchButtonListener Error 1 : Invalid ComboBox input");
         } else if (tracking_range.equals("Last Week")) {
-            for (Ping ping : jawsApi.pastWeek()) {
-                new SharkContainer(jawsApi.getShark(ping.getName()), ping);
-                counter++;
-            }
 
-            for (Ping ping : jawsApi.pastMonth()) {
-                new SharkContainer(jawsApi.getShark(ping.getName()), ping);
-                counter++;
-            }
+                System.out.println(tracking_range);
+                searchframe.updateCentralPanel(jawsApi.pastWeek());
 
-
-            System.out.println("SearchButtonListener Error 1 : Invalid ComboBox input");
         } else if (tracking_range.equals("Last Month")) {
-            for (Ping ping : jawsApi.pastMonth()) {
-                new SharkContainer(jawsApi.getShark(ping.getName()), ping);
-                counter++;
-            }
 
+                System.out.println(tracking_range);
+                searchframe.updateCentralPanel(jawsApi.pastMonth());
 
-            System.out.println("SearchButtonListener Error 1 : Invalid ComboBox input");
         } else {
             System.out.println("SearchButtonListener Error 1 : Invalid ComboBox input");
         }

@@ -1,7 +1,6 @@
 package sharkitter.view;
 
-import java.awt.BorderLayout;
-import java.awt.Image;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowEvent;
@@ -21,9 +20,17 @@ public class MenuFrame extends JFrame implements ActionListener, WindowListener 
 
 	public MenuFrame() {
 		super("Amnity Police");
+	//	centreWindow(this);
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
 		addWidgets();
 	}
+
+	/*public static void centreWindow(Window frame) {
+		Dimension dimension = Toolkit.getDefaultToolkit().getScreenSize();
+		int x = (int) ((dimension.getWidth() - frame.getWidth()) /3);
+		int y = (int) ((dimension.getHeight() - frame.getHeight())/4 );
+		frame.setLocation(x, y);
+	}*/
 
 	public void addWidgets() {
 		JPanel sPanel = new JPanel();

@@ -46,7 +46,7 @@ public class SearchFrame extends JFrame implements Observer {
 	 * Create and display the widgets on the main Frame
 	 */
 	private void createPanels() {
-        createCentralPanel();
+        add(centralpanel = createCentralPanel());
         createWestPanel();
         createWSouthPanel();
 
@@ -85,6 +85,21 @@ public class SearchFrame extends JFrame implements Observer {
         }
     }
 
+    public JComboBox<String> getStage_of_life(){
+        return stage_of_life;
+    }
+
+    public JComboBox<String> getTracking_range(){
+        return tracking_range;
+    }
+
+    public JComboBox<String> getGender(){
+        return gender;
+    }
+
+    public JComboBox<String> getTag_location(){
+        return tag_location;
+    }
     /**
      * Creates search button.
      */
@@ -136,7 +151,8 @@ public class SearchFrame extends JFrame implements Observer {
         return centralpanel;
     }
 
-    private JPanel updateCentralPanel(ArrayList<Ping> listofpings){
+    public JPanel updateCentralPanel(ArrayList<Ping> listofpings){
+        System.out.println("updating central panel");
         counter=(listofpings.size())-1;
 
         if(!listofpings.isEmpty()){
