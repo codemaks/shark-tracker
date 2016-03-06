@@ -1,26 +1,24 @@
 package sharkitter.controller;
 
 import api.jaws.Jaws;
-import sharkitter.model.FavouriteSharks;
+
 import sharkitter.view.SharkContainer;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 
-public class FavouriteButtonListener implements ActionListener {
+public class FavouriteButtonListener extends Controller {
+
     private SharkContainer sharkContainer;
-    private FavouriteSharks favouriteSharks;
     private Jaws jawsApi;
 
     /**
      * Constructor for FavouriteButtonListener
      * @param sharkContainer    The tracked SharkContainer view
-     * @param favouriteSharks   The tracked favouriteSharks model to update
      */
-    public FavouriteButtonListener(SharkContainer sharkContainer, FavouriteSharks favouriteSharks) {
+    public FavouriteButtonListener(SharkContainer sharkContainer) {
+        super();
         this.sharkContainer = sharkContainer;
-        this.favouriteSharks = favouriteSharks;
         jawsApi = new Jaws("EkZ8ZqX11ozMamO9","E7gdkwWePBYT75KE", true);
     }
 

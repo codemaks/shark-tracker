@@ -49,6 +49,7 @@ public class SearchFrame extends JFrame implements Observer {
         add(centralpanel = createCentralPanel());
         createWestPanel();
         createWSouthPanel();
+        createSouthPanel();
 
         createSearchButton();
         createComboBoxes();
@@ -140,7 +141,6 @@ public class SearchFrame extends JFrame implements Observer {
 	/**
 	 * Create and display the central element of the SearchFrame i.e. the search results.
      */
-
     private JPanel createCentralPanel() {
         centralpanel = new JPanel();
         centralpanel.setBorder(BorderFactory.createLineBorder(Color.black));
@@ -152,13 +152,15 @@ public class SearchFrame extends JFrame implements Observer {
     }
 
     public JPanel updateCentralPanel(ArrayList<Ping> listofpings){
-        System.out.println("updating central panel");
+//        For debugging purposes:
+//        System.out.println("updating central panel");
         counter=(listofpings.size())-1;
 
         if(!listofpings.isEmpty()){
 
             for(Ping ping :listofpings) {
-                System.out.println("Added SharkContainer for shark "+ping.getName());
+//                For debugging purposes:
+//                System.out.println("Added SharkContainer for shark "+ping.getName());
                 centralpanel.setLayout(new BorderLayout());
                 supercentralpanel.setLayout(new GridLayout(0,1));
                 supercentralpanel.add(new SharkContainer(jawsApi.getShark(ping.getName()),ping));
@@ -173,11 +175,13 @@ public class SearchFrame extends JFrame implements Observer {
                 repaint();
                 pack();
             }
-            System.out.println("Central panel updated.");
+//            For debugging purposes:
+//            System.out.println("Central panel updated.");
         }else{
             centralpanel.add(new JLabel("Nothing to show here :)"));
         }
-        System.out.println("Central panel returned.");
+//        For debugging purposes:
+//        System.out.println("Central panel returned.");
         return centralpanel;
     }
 
@@ -227,6 +231,14 @@ public class SearchFrame extends JFrame implements Observer {
         JLabel sharkIcon = new JLabel("", shark, 0);
         mwSouthPanel.add(sharkIcon);
         mWestPanel.add(mwSouthPanel, BorderLayout.SOUTH);
+    }
+
+    private void createSouthPanel() {
+        JPanel msPanel = new JPanel();
+        msPanel.setPreferredSize(new Dimension(WIDTH,50));
+        JLabel acknowledgement = new JLabel(jawsApi.getAcknowledgement());
+        msPanel.add(acknowledgement);
+        add(msPanel, BorderLayout.SOUTH);
     }
 
 	@Override

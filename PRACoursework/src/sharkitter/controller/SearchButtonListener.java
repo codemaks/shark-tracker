@@ -33,9 +33,8 @@ public class SearchButtonListener implements ActionListener{
         //2. get all shark components by tracking range
 
         if (tracking_range.equals("Last 24 Hours")) {
-                System.out.println(tracking_range);
-                searchframe.updateCentralPanel(jawsApi.past24Hours());
-
+            System.out.println(tracking_range);
+            searchframe.updateCentralPanel(jawsApi.past24Hours());
 
             System.out.println("SearchButtonListener Error 1 : Invalid ComboBox input");
         } else if (tracking_range.equals("Last Week")) {
