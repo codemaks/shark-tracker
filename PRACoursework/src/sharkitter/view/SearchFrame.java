@@ -11,6 +11,7 @@ import java.util.Observer;
 import api.jaws.Jaws;
 import api.jaws.Ping;
 import sharkitter.controller.SearchButtonListener;
+import sharkitter.model.FavouriteSharks;
 
 
 public class SearchFrame extends JFrame implements Observer {
@@ -33,9 +34,12 @@ public class SearchFrame extends JFrame implements Observer {
 
     private SearchButtonListener sbl;
 
-    public SearchFrame() {
+    private FavouriteSharks favouriteSharks;
+
+    public SearchFrame(FavouriteSharks favouriteSharks) {
         super("Search");
         jawsApi = new Jaws("EkZ8ZqX11ozMamO9", "E7gdkwWePBYT75KE", true);
+        this.favouriteSharks = favouriteSharks;
         setLayout(new BorderLayout());
         setPreferredSize(new Dimension(1200, 700));
         createPanels();
@@ -46,7 +50,7 @@ public class SearchFrame extends JFrame implements Observer {
 	 * Create and display the widgets on the main Frame
 	 */
 	private void createPanels() {
-        add(centralpanel = createCentralPanel());
+        createCentralPanel();
         createWestPanel();
         createWSouthPanel();
         createSouthPanel();
@@ -101,6 +105,7 @@ public class SearchFrame extends JFrame implements Observer {
     public JComboBox<String> getTag_location(){
         return tag_location;
     }
+
     /**
      * Creates search button.
      */
@@ -141,14 +146,14 @@ public class SearchFrame extends JFrame implements Observer {
 	/**
 	 * Create and display the central element of the SearchFrame i.e. the search results.
      */
-    private JPanel createCentralPanel() {
+    private void createCentralPanel() {
         centralpanel = new JPanel();
         centralpanel.setBorder(BorderFactory.createLineBorder(Color.black));
         supercentralpanel=new JPanel();
         centralPane = new JScrollPane(supercentralpanel);
         centralpanel.add(centralPane);
 
-        return centralpanel;
+        add(centralpanel, BorderLayout.CENTER);
     }
 
     public JPanel updateCentralPanel(ArrayList<Ping> listofpings){
@@ -163,7 +168,7 @@ public class SearchFrame extends JFrame implements Observer {
 //                System.out.println("Added SharkContainer for shark "+ping.getName());
                 centralpanel.setLayout(new BorderLayout());
                 supercentralpanel.setLayout(new GridLayout(0,1));
-                supercentralpanel.add(new SharkContainer(jawsApi.getShark(ping.getName()),ping));
+                supercentralpanel.add(new SharkContainer(jawsApi.getShark(ping.getName()), ping, favouriteSharks));
                 supercentralpanel.add(new JSeparator(SwingConstants.HORIZONTAL));
                 supercentralpanel.paintComponents(supercentralpanel.getGraphics());
 
@@ -233,6 +238,9 @@ public class SearchFrame extends JFrame implements Observer {
         mWestPanel.add(mwSouthPanel, BorderLayout.SOUTH);
     }
 
+    /**
+     * Creates south panel with acknowledgement statement
+     */
     private void createSouthPanel() {
         JPanel msPanel = new JPanel();
         msPanel.setPreferredSize(new Dimension(WIDTH,50));

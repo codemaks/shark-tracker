@@ -1,25 +1,24 @@
 package sharkitter.controller;
 
-import api.jaws.Jaws;
-
+import sharkitter.model.FavouriteSharks;
 import sharkitter.view.SharkContainer;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
-public class FavouriteButtonListener extends Controller {
+public class FavouriteButtonListener implements ActionListener {
 
     private SharkContainer sharkContainer;
-    private Jaws jawsApi;
+    private FavouriteSharks favouriteSharks;
 
     /**
      * Constructor for FavouriteButtonListener
      * @param sharkContainer    The tracked SharkContainer view
      */
-    public FavouriteButtonListener(SharkContainer sharkContainer) {
-        super();
+    public FavouriteButtonListener(SharkContainer sharkContainer, FavouriteSharks favouriteSharks) {
         this.sharkContainer = sharkContainer;
-        jawsApi = new Jaws("EkZ8ZqX11ozMamO9","E7gdkwWePBYT75KE", true);
+        this.favouriteSharks = favouriteSharks;
     }
 
 
@@ -31,12 +30,28 @@ public class FavouriteButtonListener extends Controller {
     public void actionPerformed(ActionEvent e) {
         JButton followButton = (JButton) e.getSource();
         if(followButton.getText().equals("Follow")) {
-            favouriteSharks.addShark(jawsApi.getShark(sharkContainer.getName()));
-            followButton.setText("Unfollow");
+            favouriteSharks.addShark(sharkContainer.getShark());
+            updateContainerButton(followButton, "Unfollow");
         }
         if(followButton.getText().equals("Unfollow")) {
-            favouriteSharks.removeShark(jawsApi.getShark(sharkContainer.getName()));
-            followButton.setText("Follow");
+            favouriteSharks.removeShark(sharkContainer.getShark());
+            updateContainerButton(followButton, "Follow");
         }
+
+//        For debugging purposes:
+//        System.out.println("Pressed");
+    }
+
+    /**
+     * Updates a button with the corresponding text
+     * @param button    JButton to update
+     * @param text  New text for the JButton
+     */
+    private void updateContainerButton(JButton button, String text) {
+        SwingUtilities.invokeLater(new Runnable() {
+            public void run() {
+                button.setText(text);
+            }
+        });
     }
 }

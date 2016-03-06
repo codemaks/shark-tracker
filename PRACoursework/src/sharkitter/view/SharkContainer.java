@@ -2,17 +2,18 @@ package sharkitter.view;
 
 import api.jaws.Ping;
 import api.jaws.Shark;
-import sharkitter.controller.Controller;
 import sharkitter.controller.FavouriteButtonListener;
 import sharkitter.model.FavouriteSharks;
 
 import java.awt.*;
 import javax.swing.*;
-import java.util.Scanner;
 
 public class SharkContainer extends JPanel {
 
-    private Controller favouriteButtonListener;
+    private FavouriteButtonListener favouriteButtonListener;
+    private JButton followButton;
+    private Shark shark;
+    private FavouriteSharks favouriteSharks;
 
     /**
      * Class constructor: provides a JPanel containing all the details of a Shark when the following parameters
@@ -21,16 +22,16 @@ public class SharkContainer extends JPanel {
      * @param foundShark	A Shark matching the chosen criteria.
      * @param lastPing	The last Ping for the matching Shark.
      */
-    public SharkContainer(Shark foundShark, Ping lastPing){
+    public SharkContainer(Shark foundShark, Ping lastPing, FavouriteSharks favouriteSharks){
         setLayout(new BorderLayout());
+        favouriteButtonListener = new FavouriteButtonListener(this, favouriteSharks);
+        shark = foundShark;
 
-        add(createSharkFeaturesTable(foundShark), BorderLayout.NORTH);
+        add(createSharkFeaturesTable(shark), BorderLayout.NORTH);
 
-        add(createSharkDescriptionText(foundShark), BorderLayout.CENTER);
+        add(createSharkDescriptionText(shark), BorderLayout.CENTER);
 
         add(createSharkTrackOptions(lastPing), BorderLayout.SOUTH);
-
-        favouriteButtonListener = new FavouriteButtonListener(this);
 
         setPreferredSize(new Dimension(800,200));
         setVisible(true);
@@ -53,13 +54,13 @@ public class SharkContainer extends JPanel {
     /**
      * Create and display the last ping of a given Shark and the option to follow it.
      * @param lastPing	Object containing information about the last point of contact with a given shark.
-     * @return	A JPanel containing all revelant information and a follow button.
+     * @return	A JPanel containing all relevant information and a follow button.
      */
     private JPanel createSharkTrackOptions(Ping lastPing) {
         JPanel pingPanel = new JPanel(new BorderLayout());
 
         JLabel pingLabel = new JLabel("Last ping: " + lastPing.getTime());
-        JButton followButton = new JButton("Follow");
+        followButton = new JButton("Follow");
         followButton.addActionListener(favouriteButtonListener);
 
         pingPanel.add(pingLabel, BorderLayout.CENTER);
@@ -108,4 +109,11 @@ public class SharkContainer extends JPanel {
         return sharkFeatures;
     }
 
+    /**
+     * Getter of the corresponding shark
+     * @return  The Shark object displayed by this container
+     */
+    public Shark getShark() {
+        return shark;
+    }
 }
