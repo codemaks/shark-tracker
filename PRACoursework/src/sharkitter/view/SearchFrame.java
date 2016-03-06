@@ -22,8 +22,10 @@ public class SearchFrame extends JFrame implements Observer {
 	private JComboBox<String> gender;
 	private JComboBox<String> tag_location;
 
-	private JPanel centralPanel;
+	private JPanel centralpanel;
     private JPanel mWestPanel;
+    private JScrollPane centralPane;
+    private JPanel supercentralpanel;
 
     private JButton search;
 
@@ -44,9 +46,9 @@ public class SearchFrame extends JFrame implements Observer {
 	 * Create and display the widgets on the main Frame
 	 */
 	private void createPanels() {
-        createCentralPanel();
+        add(centralpanel = createCentralPanel());
         createWestPanel();
-        createSouthPanel();
+        createWSouthPanel();
 
         createSearchButton();
         createComboBoxes();
@@ -83,6 +85,21 @@ public class SearchFrame extends JFrame implements Observer {
         }
     }
 
+    public JComboBox<String> getStage_of_life(){
+        return stage_of_life;
+    }
+
+    public JComboBox<String> getTracking_range(){
+        return tracking_range;
+    }
+
+    public JComboBox<String> getGender(){
+        return gender;
+    }
+
+    public JComboBox<String> getTag_location(){
+        return tag_location;
+    }
     /**
      * Creates search button.
      */
@@ -123,42 +140,47 @@ public class SearchFrame extends JFrame implements Observer {
 	/**
 	 * Create and display the central element of the SearchFrame i.e. the search results.
      */
-	private void createCentralPanel() {
-		centralPanel = new JPanel();
-		centralPanel.setBorder(BorderFactory.createLineBorder(Color.black));
 
-		centralPanel.add(new JScrollPane());
-		//centralPanel.add(detailsOfFoundShark());
-		centralPanel.add(new JSeparator(SwingConstants.HORIZONTAL));
+    private JPanel createCentralPanel() {
+        centralpanel = new JPanel();
+        centralpanel.setBorder(BorderFactory.createLineBorder(Color.black));
+        supercentralpanel=new JPanel();
+        centralPane = new JScrollPane(supercentralpanel);
+        centralpanel.add(centralPane);
 
-        add(centralPanel, BorderLayout.CENTER);
+        return centralpanel;
     }
 
-	private JPanel updateCentralPanel(ArrayList<Ping> listOfPings){
-		for(Ping ping :listOfPings) {
-			centralPanel = new JPanel();
-			setLayout(new GridLayout(counter, 1));
-			centralPanel.add(new SharkContainer(jawsApi.getShark(ping.getName()), ping), counter);
-			counter++;
-			return centralPanel;
-		}
-	    return null;
-	}
+    public JPanel updateCentralPanel(ArrayList<Ping> listofpings){
+        System.out.println("updating central panel");
+        counter=(listofpings.size())-1;
 
+        if(!listofpings.isEmpty()){
 
-	/**
-	 * Create the south Panel with the acknowledgement statement.
-	 * @return	JPanel the acknowledgement statement.
-     */
-	private void createSouthPanel() {
-		JPanel msPanel = new JPanel();
-		msPanel.setPreferredSize(new Dimension(WIDTH,50));
+            for(Ping ping :listofpings) {
+                System.out.println("Added SharkContainer for shark "+ping.getName());
+                centralpanel.setLayout(new BorderLayout());
+                supercentralpanel.setLayout(new GridLayout(0,1));
+                supercentralpanel.add(new SharkContainer(jawsApi.getShark(ping.getName()),ping));
+                supercentralpanel.add(new JSeparator(SwingConstants.HORIZONTAL));
+                supercentralpanel.paintComponents(supercentralpanel.getGraphics());
 
-		JLabel acknowledgement = new JLabel(jawsApi.getAcknowledgement());
-		msPanel.add(acknowledgement);
+                centralpanel.remove(centralPane);
+                centralPane.setViewportView(supercentralpanel);
+                centralpanel.add(centralPane);
 
-        add(msPanel, BorderLayout.SOUTH);
+                revalidate();
+                repaint();
+                pack();
+            }
+            System.out.println("Central panel updated.");
+        }else{
+            centralpanel.add(new JLabel("Nothing to show here :)"));
+        }
+        System.out.println("Central panel returned.");
+        return centralpanel;
     }
+
 
     /**
      * Creates the west panel within the main panel.
