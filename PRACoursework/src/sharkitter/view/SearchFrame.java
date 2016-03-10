@@ -1,6 +1,7 @@
 package sharkitter.view;
 
 import javax.swing.*;
+import javax.swing.border.Border;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -33,9 +34,16 @@ public class SearchFrame extends JFrame implements Observer {
 
     private SearchButtonListener sbl;
 
+    //black line border
+    private Border blackLineBorder;
+
     public SearchFrame() {
         super("Search");
         jawsApi = new Jaws("EkZ8ZqX11ozMamO9", "E7gdkwWePBYT75KE", true);
+
+        //create borders for later use
+        blackLineBorder = BorderFactory.createLineBorder(Color.BLACK);
+
         setLayout(new BorderLayout());
         setPreferredSize(new Dimension(1200, 700));
         createPanels();
@@ -143,7 +151,9 @@ public class SearchFrame extends JFrame implements Observer {
 
     private JPanel createCentralPanel() {
         centralpanel = new JPanel();
-        centralpanel.setBorder(BorderFactory.createLineBorder(Color.black));
+
+        Border emptyBorder = BorderFactory.createEmptyBorder(5, 0, 5, 5);
+        centralpanel.setBorder(BorderFactory.createCompoundBorder(emptyBorder, blackLineBorder));
         supercentralpanel=new JPanel();
         centralPane = new JScrollPane(supercentralpanel);
         centralpanel.add(centralPane);
@@ -186,9 +196,10 @@ public class SearchFrame extends JFrame implements Observer {
      * Creates the west panel within the main panel.
      */
     private void createWestPanel() {
-        mWestPanel = new JPanel(new BorderLayout());//west Panel in main panel
+        mWestPanel = new JPanel(new BorderLayout(10, 10));//west Panel in main panel
 
-        mWestPanel.setBorder(BorderFactory.createLineBorder(Color.black));
+        Border emptyBorder = BorderFactory.createEmptyBorder(5, 5, 5, 0);
+        mWestPanel.setBorder(BorderFactory.createCompoundBorder(emptyBorder, blackLineBorder));
         mWestPanel.setPreferredSize(new Dimension(300, this.getHeight()));
 
         add(mWestPanel,BorderLayout.WEST);
@@ -198,8 +209,13 @@ public class SearchFrame extends JFrame implements Observer {
      * Creates the north panel within the west panel and adds it to the west panel.
      */
     private void createWNorthPanel() {
-        JPanel mwNorthPanel = new JPanel(new GridLayout(10, 1));
+        JPanel mwNorthPanel = new JPanel(new GridLayout(11, 1));
 
+        Border emptyBorder = BorderFactory.createEmptyBorder(5, 5, 5, 5);
+        mwNorthPanel.setBorder(emptyBorder);
+
+        mwNorthPanel.add(new JLabel("Shark Tracker"));
+        mwNorthPanel.add(new JSeparator(JSeparator.HORIZONTAL));
         mwNorthPanel.add(new JLabel("Stage of life"));
         mwNorthPanel.add(stage_of_life);
         mwNorthPanel.add(new JLabel("Tracking range:"));
