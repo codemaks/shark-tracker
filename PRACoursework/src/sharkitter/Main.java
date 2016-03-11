@@ -1,14 +1,16 @@
 package sharkitter;
 
+import sharkitter.model.FavouriteSharks;
 import sharkitter.view.MenuFrame;
-import sharkitter.view.SearchFrame;
 
 import javax.swing.*;
-import java.io.File;
 
 public class Main {
 
     public static void main(String[] args) {
+
+        FavouriteSharks favouriteSharks = new FavouriteSharks();
+
         JFrame frame = new MenuFrame();
         frame.setVisible(true);
     }

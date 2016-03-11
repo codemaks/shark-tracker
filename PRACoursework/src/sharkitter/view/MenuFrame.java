@@ -1,5 +1,7 @@
 package sharkitter.view;
 
+import sharkitter.model.FavouriteSharks;
+
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -17,9 +19,11 @@ public class MenuFrame extends JFrame implements ActionListener, WindowListener 
 	private JButton searchButton;
 	private JButton favouritesButton;
 	private SearchFrame searchframe;
+	private FavouriteSharks favouriteSharks;
 
-	public MenuFrame() {
+	public MenuFrame(FavouriteSharks favouriteSharks) {
 		super("Amnity Police");
+
 	//	centreWindow(this);
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
 		addWidgets();
@@ -76,11 +80,12 @@ public class MenuFrame extends JFrame implements ActionListener, WindowListener 
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		if(e.getSource() == searchButton)
+		if(e.getSource() == searchButton) {
 			setVisible(false);
-			searchframe = new SearchFrame();
+			searchframe = new SearchFrame(favouriteSharks);
 			searchframe.addWindowListener(this);
 			searchframe.setVisible(true);
+		}
 	}
 
 	@Override
@@ -116,10 +121,5 @@ public class MenuFrame extends JFrame implements ActionListener, WindowListener 
 	@Override
 	public void windowDeactivated(WindowEvent e) {
 
-	}
-
-	public static void main(String args[]) {
-		JFrame frame = new MenuFrame();
-		frame.setVisible(true);
 	}
 }
