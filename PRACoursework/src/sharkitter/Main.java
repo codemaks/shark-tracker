@@ -11,7 +11,7 @@ public class Main {
 
         FavouriteSharks favouriteSharks = new FavouriteSharks();
 
-        JFrame frame = new MenuFrame();
+        JFrame frame = new MenuFrame(favouriteSharks);
         frame.setVisible(true);
     }
 }
