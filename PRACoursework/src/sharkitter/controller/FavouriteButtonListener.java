@@ -31,9 +31,9 @@ public class FavouriteButtonListener implements ActionListener {
         JButton followButton = (JButton) e.getSource();
         if(followButton.getText().equals("Follow")) {
             favouriteSharks.addShark(sharkContainer.getShark());
-            updateContainerButton(followButton, "Unfollow");
+            updateContainerButton(followButton, "Following");
         }
-        if(followButton.getText().equals("Unfollow")) {
+        if(followButton.getText().equals("Following")) {
             favouriteSharks.removeShark(sharkContainer.getShark());
             updateContainerButton(followButton, "Follow");
         }
