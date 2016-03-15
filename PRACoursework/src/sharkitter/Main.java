@@ -1,6 +1,7 @@
 package sharkitter;
 
 import sharkitter.model.FavouriteSharks;
+import sharkitter.view.ConnectionFrame;
 import sharkitter.view.MenuFrame;
 
 import javax.swing.*;
@@ -11,7 +12,9 @@ public class Main {
 
         FavouriteSharks favouriteSharks = new FavouriteSharks();
 
-        JFrame frame = new MenuFrame();
+        JFrame frame = new MenuFrame(favouriteSharks);
         frame.setVisible(true);
+
+        ConnectionFrame connectionFrame = new ConnectionFrame(favouriteSharks);
     }
 }
