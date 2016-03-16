@@ -5,7 +5,7 @@ import sharkitter.controller.UserController;
 import javax.swing.*;
 import java.awt.*;
 
-public class AccountCreationFrame extends JFrame{
+public class AccountCreationFrame extends JFrame {
 
     private UserController userController;
     private JTextField usernameField;
@@ -17,9 +17,11 @@ public class AccountCreationFrame extends JFrame{
     public AccountCreationFrame(UserController userController) {
         super("Sign in");
 
-        addWidgets();
-
         this.userController = userController;
+        addWindowListener(userController);
+
+        addWidgets();
+        setDefaultCloseOperation(DISPOSE_ON_CLOSE);
     }
 
     /**
@@ -37,8 +39,7 @@ public class AccountCreationFrame extends JFrame{
 
         sPanel.add(usernameLabel);
         sPanel.add(usernameField);
-
-        sPanel.add(pwdField);
+        
         sPanel.add(enter);
 
         ImageIcon shark = new ImageIcon(getClass().getClassLoader().getResource("resources/SharkTracker.png"));

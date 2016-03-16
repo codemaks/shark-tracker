@@ -20,10 +20,11 @@ public class ConnectionFrame extends JFrame {
         super("Login");
 
         setDefaultCloseOperation(EXIT_ON_CLOSE);
-        addWidgets();
 
-        this.favouriteSharks = favouriteSharks;
         userController = new UserController(this, favouriteSharks);
+        this.favouriteSharks = favouriteSharks;
+
+        addWidgets();
     }
 
     /**
@@ -35,17 +36,18 @@ public class ConnectionFrame extends JFrame {
         JLabel usernameLabel = new JLabel("Username: ");
 
         usernameField = new JTextField();
-        JPasswordField pwdField = new JPasswordField();
         JButton enter = new JButton("Enter");
         enter.addActionListener(userController);
 
         sPanel.add(usernameLabel);
         sPanel.add(usernameField);
 
-        sPanel.add(pwdField);
         sPanel.add(enter);
 
-        JButton newUser = new JButton("Create account");
+        JLabel optionLabel = new JLabel("Or: ");
+        sPanel.add(optionLabel);
+
+        JButton newUser = new JButton("Create new account");
         newUser.addActionListener(userController);
 
         sPanel.add(newUser);

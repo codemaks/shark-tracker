@@ -6,6 +6,7 @@ import sharkitter.view.SharkContainer;
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.FileNotFoundException;
 
 public class FavouriteButtonListener implements ActionListener {
 
@@ -34,7 +35,11 @@ public class FavouriteButtonListener implements ActionListener {
             updateContainerButton(followButton, "Following");
         }
         if(followButton.getText().equals("Following")) {
-            favouriteSharks.removeShark(sharkContainer.getShark());
+            try {
+                favouriteSharks.removeShark(sharkContainer.getShark());
+            } catch (FileNotFoundException e1) {
+                e1.printStackTrace();
+            }
             updateContainerButton(followButton, "Follow");
         }
 

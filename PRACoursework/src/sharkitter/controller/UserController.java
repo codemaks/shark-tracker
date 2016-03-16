@@ -7,12 +7,14 @@ import sharkitter.view.*;
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.WindowEvent;
+import java.awt.event.WindowListener;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.UnsupportedEncodingException;
 import java.util.Scanner;
 
-public class UserController implements ActionListener {
+public class UserController implements ActionListener, WindowListener {
 
     private ConnectionFrame connectionFrame;
     private AccountCreationFrame accountCreation;
@@ -43,34 +45,39 @@ public class UserController implements ActionListener {
     @Override
     public void actionPerformed(ActionEvent e) {
         String buttonName = ((JButton) e.getSource()).getText();
+
         if(buttonName.equals("Enter")) {
             String username = connectionFrame.getUsername();
-            try {
-                favouriteSharks.setUser(username);
-            } catch (FileNotFoundException e1) {
-                e1.printStackTrace();
-            } catch (UnsupportedEncodingException e1) {
-                e1.printStackTrace();
-            }
-            try {
-                 Scanner reader = new Scanner(new File("data/" + username + ".txt"));
-                while(reader.hasNext()) {
-                    favouriteSharks.loadSharks(api.getShark(reader.next()));
+            if(!username.equals("")) {
+                try {
+                    favouriteSharks.setUser(username);
+                } catch (FileNotFoundException e1) {
+                    e1.printStackTrace();
+                } catch (UnsupportedEncodingException e1) {
+                    e1.printStackTrace();
                 }
-            } catch (FileNotFoundException e1) {
-                AlertFrame userNotFound = new UserNotFoundAlert();
-                userNotFound.setVisible(true);
+                try {
+                    Scanner reader = new Scanner(new File("data/" + username + ".txt"));
+                    while (reader.hasNext()) {
+                        favouriteSharks.loadSharks(api.getShark(reader.next()));
+                    }
+                } catch (FileNotFoundException e1) {
+                    AlertFrame userNotFound = new UserNotFoundAlert();
+                    userNotFound.setVisible(true);
+                }
+
+                connectionFrame.dispose();
+
+                startApp.setVisible(true);
             }
-
-            connectionFrame.dispose();
-
-            startApp.setVisible(true);
         }
-        if(buttonName.equals("Create account")) {
-            connectionFrame.dispose();
+
+        if(buttonName.equals("Create new account")) {
             accountCreation = new AccountCreationFrame(this);
+            connectionFrame.setVisible(false);
             accountCreation.setVisible(true);
         }
+
         if(buttonName.equals("Register")) {
             String username = accountCreation.getUsername();
 
@@ -90,8 +97,44 @@ public class UserController implements ActionListener {
                 e1.printStackTrace();
             }
 
+            connectionFrame.dispose();
             accountCreation.dispose();
             startApp.setVisible(true);
         }
+    }
+
+    @Override
+    public void windowOpened(WindowEvent e) {
+
+    }
+
+    @Override
+    public void windowClosing(WindowEvent e) {
+
+    }
+
+    @Override
+    public void windowClosed(WindowEvent e) {
+        connectionFrame.setVisible(true);
+    }
+
+    @Override
+    public void windowIconified(WindowEvent e) {
+
+    }
+
+    @Override
+    public void windowDeiconified(WindowEvent e) {
+
+    }
+
+    @Override
+    public void windowActivated(WindowEvent e) {
+
+    }
+
+    @Override
+    public void windowDeactivated(WindowEvent e) {
+
     }
 }
