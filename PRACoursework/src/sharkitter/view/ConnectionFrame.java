@@ -33,7 +33,6 @@ public class ConnectionFrame extends JFrame {
         JPanel sPanel = new JPanel(new GridLayout(6,1));
 
         JLabel usernameLabel = new JLabel("Username: ");
-        JLabel pwdLabel = new JLabel("Password: ");
 
         usernameField = new JTextField();
         JPasswordField pwdField = new JPasswordField();
@@ -42,7 +41,7 @@ public class ConnectionFrame extends JFrame {
 
         sPanel.add(usernameLabel);
         sPanel.add(usernameField);
-        sPanel.add(pwdLabel);
+
         sPanel.add(pwdField);
         sPanel.add(enter);
 

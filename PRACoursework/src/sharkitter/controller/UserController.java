@@ -2,10 +2,7 @@ package sharkitter.controller;
 
 import api.jaws.Jaws;
 import sharkitter.model.FavouriteSharks;
-import sharkitter.view.AccountCreationFrame;
-import sharkitter.view.AlertWindow;
-import sharkitter.view.ConnectionFrame;
-import sharkitter.view.MenuFrame;
+import sharkitter.view.*;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
@@ -61,7 +58,7 @@ public class UserController implements ActionListener {
                     favouriteSharks.loadSharks(api.getShark(reader.next()));
                 }
             } catch (FileNotFoundException e1) {
-                AlertWindow userNotFound = new AlertWindow("User not found");
+                AlertFrame userNotFound = new UserNotFoundAlert();
                 userNotFound.setVisible(true);
             }
 
@@ -77,8 +74,12 @@ public class UserController implements ActionListener {
         if(buttonName.equals("Register")) {
             String username = accountCreation.getUsername();
 
-            // Create new file
+            //TODO check if file exists
             File newUserFile = new File("data/" + username + ".txt");
+            if(newUserFile.exists()) {
+                AlertFrame existingUser = new ExistingUserAlert();
+                existingUser.setVisible(true);
+            }
 
             //Give user to model
             try {
