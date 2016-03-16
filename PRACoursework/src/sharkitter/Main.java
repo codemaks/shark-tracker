@@ -12,9 +12,7 @@ public class Main {
 
         FavouriteSharks favouriteSharks = new FavouriteSharks();
 
-        JFrame frame = new MenuFrame(favouriteSharks);
+        JFrame frame = new ConnectionFrame(favouriteSharks);
         frame.setVisible(true);
-
-        ConnectionFrame connectionFrame = new ConnectionFrame(favouriteSharks);
     }
 }

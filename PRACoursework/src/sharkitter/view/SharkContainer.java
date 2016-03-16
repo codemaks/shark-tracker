@@ -24,6 +24,8 @@ public class SharkContainer extends JPanel {
      */
     public SharkContainer(Shark foundShark, Ping lastPing, FavouriteSharks favouriteSharks){
         setLayout(new BorderLayout());
+        setName(foundShark.getName());
+
         favouriteButtonListener = new FavouriteButtonListener(this, favouriteSharks);
         shark = foundShark;
 
@@ -60,7 +62,11 @@ public class SharkContainer extends JPanel {
         JPanel pingPanel = new JPanel(new BorderLayout());
 
         JLabel pingLabel = new JLabel("Last ping: " + lastPing.getTime());
+
+        //TODO if shark is in favouriteSharks than button = unfollow
         followButton = new JButton("Follow");
+        if(!favouriteSharks.getFavouriteSharks().contains(shark))
+            followButton.setText("Unfollow");
         followButton.addActionListener(favouriteButtonListener);
 
         pingPanel.add(pingLabel, BorderLayout.CENTER);

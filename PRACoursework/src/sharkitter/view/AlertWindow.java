@@ -6,6 +6,10 @@ import java.awt.event.ActionListener;
 
 public class AlertWindow extends JFrame implements ActionListener {
 
+    /**
+     * Constructor of AlertWindow
+     * @param title Title given to the frame
+     */
     public AlertWindow(String title) {
         super(title);
 
@@ -22,6 +26,10 @@ public class AlertWindow extends JFrame implements ActionListener {
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
     }
 
+    /**
+     * Action performed when "Ok" is pressed
+     * @param e ActionEvent: pressed button
+     */
     @Override
     public void actionPerformed(ActionEvent e) {
         dispose();

@@ -10,6 +10,10 @@ public class AccountCreationFrame extends JFrame{
     private UserController userController;
     private JTextField usernameField;
 
+    /**
+     * Constructor for AccountCreationFrame
+     * @param userController    Controller of the user interface log/sign in
+     */
     public AccountCreationFrame(UserController userController) {
         super("Sign in");
 
@@ -18,6 +22,9 @@ public class AccountCreationFrame extends JFrame{
         this.userController = userController;
     }
 
+    /**
+     * Create widgets to add to the frame
+     */
     private void addWidgets() {
         JPanel sPanel = new JPanel(new GridLayout(5,1));
 
@@ -49,6 +56,10 @@ public class AccountCreationFrame extends JFrame{
         pack();
     }
 
+    /**
+     * Getter of the username
+     * @return  Username entered
+     */
     public String getUsername() {
         return usernameField.getText();
     }

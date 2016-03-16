@@ -12,6 +12,10 @@ public class ConnectionFrame extends JFrame {
     private JTextField usernameField;
     private FavouriteSharks favouriteSharks;
 
+    /**
+     * Constructor of ConnectionFrame
+     * @param favouriteSharks   Model of favourite sharks
+     */
     public ConnectionFrame(FavouriteSharks favouriteSharks) {
         super("Login");
 
@@ -22,6 +26,9 @@ public class ConnectionFrame extends JFrame {
         userController = new UserController(this, favouriteSharks);
     }
 
+    /**
+     * Create widgets to add to the frame
+     */
     private void addWidgets() {
         JPanel sPanel = new JPanel(new GridLayout(6,1));
 
@@ -59,6 +66,10 @@ public class ConnectionFrame extends JFrame {
         pack();
     }
 
+    /**
+     * Getter of username
+     * @return Username entered
+     */
     public String getUsername() {
         return usernameField.getText();
     }
