@@ -254,6 +254,13 @@ public class SearchFrame extends JFrame implements Observer {
         mWestPanel.add(mwSouthPanel, BorderLayout.SOUTH);
     }
 
+    private void createWCentralPanel() {
+        JPanel mwCentralPanel = new JPanel();
+
+        JLabel sharkOfTheDay = new JLabel("Shark of the day: ");
+
+    }
+
     /**
      * Creates south panel with acknowledgement statement
      */
