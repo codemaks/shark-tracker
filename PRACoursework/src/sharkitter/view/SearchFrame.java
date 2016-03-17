@@ -37,6 +37,7 @@ public class SearchFrame extends JFrame implements Observer {
 
     //black line border
     private Border blackLineBorder;
+
     private FavouriteSharks favouriteSharks;
 
     public SearchFrame(FavouriteSharks favouriteSharks) {
