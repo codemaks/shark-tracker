@@ -24,17 +24,17 @@ public class MenuFrame extends JFrame implements ActionListener, WindowListener 
 	public MenuFrame(FavouriteSharks favouriteSharks) {
 		super("Amnity Police");
 
-	//	centreWindow(this);
+		centreWindow(this);
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
 		addWidgets();
 	}
 
-	/*public static void centreWindow(Window frame) {
+	private static void centreWindow(Window frame) {
 		Dimension dimension = Toolkit.getDefaultToolkit().getScreenSize();
 		int x = (int) ((dimension.getWidth() - frame.getWidth()) /3);
 		int y = (int) ((dimension.getHeight() - frame.getHeight())/4 );
 		frame.setLocation(x, y);
-	}*/
+	}
 
 	public void addWidgets() {
 		JPanel sPanel = new JPanel();
