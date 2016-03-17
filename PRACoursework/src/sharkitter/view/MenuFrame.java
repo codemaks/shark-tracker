@@ -18,7 +18,9 @@ public class MenuFrame extends JFrame implements ActionListener, WindowListener 
 	//private JTextField searchField;
 	private JButton searchButton;
 	private JButton favouritesButton;
+	private JButton statisticsButton;
 	private SearchFrame searchframe;
+	private StatisticsFrame statisticsFrame;
 	private FavouriteSharks favouriteSharks;
 
 	public MenuFrame(FavouriteSharks favouriteSharks) {
@@ -46,6 +48,9 @@ public class MenuFrame extends JFrame implements ActionListener, WindowListener 
 		searchButton = new JButton("Search");
 		searchButton.setHorizontalAlignment(JButton.CENTER);
 		searchButton.addActionListener(this);
+		statisticsButton = new JButton("Statistics");
+		statisticsButton.setHorizontalAlignment(JButton.CENTER);
+		statisticsButton.addActionListener(this);
 /*		searchButton.addActionListener(new ActionListener(){
 			public void actionPerformed(ActionEvent e) {
 				JTextField tf = (JTextField) e.getSource();
@@ -57,9 +62,11 @@ public class MenuFrame extends JFrame implements ActionListener, WindowListener 
 		favouritesButton = new JButton("Favourites");
 		favouritesButton.setEnabled(false);
 
+		statisticsButton = new JButton("Statistics");
+
 		//sPanel.add(searchField, BorderLayout.NORTH);
 		sPanel.add(searchButton, BorderLayout.NORTH);
-		sPanel.add(favouritesButton, BorderLayout.SOUTH);
+		sPanel.add(favouritesButton);
 
 		ImageIcon shark = new ImageIcon(getClass().getClassLoader().getResource("resources/SharkTracker.png"));
 		Image img = shark.getImage();
@@ -85,6 +92,11 @@ public class MenuFrame extends JFrame implements ActionListener, WindowListener 
 			searchframe = new SearchFrame(favouriteSharks);
 			searchframe.addWindowListener(this);
 			searchframe.setVisible(true);
+		}else if(e.getSource() == statisticsButton){
+			setVisible(false);
+			statisticsFrame = new StatisticsFrame();
+			statisticsFrame.addWindowListener(this);
+			statisticsFrame.setVisible(true);
 		}
 	}
 
