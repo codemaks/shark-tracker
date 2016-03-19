@@ -13,5 +13,18 @@ public class StatisticsFrame extends JFrame {
         setMinimumSize(new Dimension(400, 600));
     }
 
+    public void createComboBox(){
+    }
 
+    public void createGenderPieChart(){
+
+    }
+
+    public void createStageOfLifePieChart(){
+
+    }
+
+    public void createMaturityPieChart(){
+
+    }
 }

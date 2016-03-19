@@ -25,7 +25,7 @@ public class SearchButtonListener implements ActionListener{
 
     public void actionPerformed(ActionEvent e){
 
-        updatefromTagLocation( updatefromStageOfLife( updatefromGender(updatefromTrackingRange())));
+        searchframe.updateCentralPanel(updatefromTagLocation( updatefromStageOfLife( updatefromGender(updatefromTrackingRange()))));
 
     }
 
@@ -120,12 +120,13 @@ public class SearchButtonListener implements ActionListener{
     }
 
 
-    private void updatefromTagLocation(ArrayList<Ping> listOfPings){
+    private ArrayList<Ping> updatefromTagLocation(ArrayList<Ping> listOfPings){
         tag_location = (String)searchframe.getTag_location().getSelectedItem();
 
         if (tag_location!="All"){
             searchframe.updateCentralPanel(selectSharksByTagLocation(listOfPings,tag_location));
         }
+        return listOfPings;
 
     }
 
