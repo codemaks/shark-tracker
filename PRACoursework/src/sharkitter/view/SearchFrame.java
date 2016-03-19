@@ -89,7 +89,7 @@ public class SearchFrame extends JFrame {
         tracking_range.addItem("Last Month");
 
         gender = new JComboBox();
-        gender.addItem("Any");
+        gender.addItem("All");
         gender.addItem("Male");
         gender.addItem("Female");
 
@@ -143,10 +143,11 @@ public class SearchFrame extends JFrame {
 
     public JPanel updateCentralPanel(ArrayList<Ping> listofpings){
 
-        counter=(listofpings.size())-1;
+       counter = 0;
+       supercentralpanel.removeAll();
 
         if(!listofpings.isEmpty()){
-
+            counter=(listofpings.size())-1;
             for(Ping ping :listofpings) {
 
                 centralpanel.setLayout(new BorderLayout());

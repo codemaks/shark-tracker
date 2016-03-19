@@ -9,6 +9,9 @@ import sharkitter.view.SharkContainer;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.Map;
 
 public class SearchButtonListener implements ActionListener{
     private SearchFrame searchframe;
@@ -27,6 +30,24 @@ public class SearchButtonListener implements ActionListener{
 
         searchframe.updateCentralPanel(updatefromTagLocation( updatefromStageOfLife( updatefromGender(updatefromTrackingRange()))));
 
+
+    }
+
+    private ArrayList<Ping> sortSharksByDate(ArrayList<Ping> listOfPings){
+
+       Map<String,ArrayList<Ping>> allSharksNTimes = new HashMap<>();
+
+        for(Ping ping: listOfPings){
+
+            allSharksNTimes.put(ping.getName(),new ArrayList<>());
+
+           for(Ping ping2: listOfPings){
+               if(ping.getName().equals(ping2.getName()))
+                  allSharksNTimes.getOrDefault(ping.getName(),new ArrayList<>()).add(ping2);
+           }
+        }
+
+        return listOfPings;
     }
 
     private ArrayList<Ping> updatefromTrackingRange(){
@@ -58,35 +79,23 @@ public class SearchButtonListener implements ActionListener{
     private ArrayList<Ping> updatefromStageOfLife(ArrayList<Ping> listOfPings){
         stage_of_life = (String)searchframe.getStage_of_life().getSelectedItem();
 
-        if (stage_of_life.equals("Mature")) {
-            searchframe.updateCentralPanel(selectSharksByStageofLife(listOfPings,"Mature"));
-            return selectSharksByStageofLife(listOfPings,"Mature");
-
-        } else if (stage_of_life.equals("Immature")) {
-
-            searchframe.updateCentralPanel(selectSharksByStageofLife(listOfPings,"Immature"));
-            return selectSharksByStageofLife(listOfPings,"Immature");
-
-        } else if (stage_of_life.equals("Undetermined")) {
-
-            searchframe.updateCentralPanel(selectSharksByStageofLife(listOfPings,"Undetermined"));
-            return selectSharksByStageofLife(listOfPings,"Undetermined");
-
-        } else {
-            System.out.println("SearchButtonListener Error 1 : Invalid ComboBox input");
-            return null;
+        if (stage_of_life!="All"){
+            listOfPings=selectSharksByStageofLife(listOfPings,stage_of_life);
+            searchframe.updateCentralPanel(listOfPings);
         }
+        return(listOfPings);
     }
 
     private ArrayList<Ping> selectSharksByStageofLife(ArrayList<Ping> listOfPings, String selectionElement){
-        System.out.println(selectionElement);
+        System.out.println("selectionElement: "+selectionElement);
         ArrayList<Ping> newlistofPings = new ArrayList<Ping>();
         for (Ping ping: listOfPings){
-           if( jawsApi.getShark(ping.getName()).getStageOfLife()== selectionElement){
+           if( jawsApi.getShark(ping.getName()).getStageOfLife().equals(selectionElement)){
+               System.out.println("got there! selectionelement: " + selectionElement + " :");
                newlistofPings.add(ping);
            }
         }
-        System.out.println(newlistofPings);
+        System.out.println("stageoflife_newlistofPings: "+newlistofPings);
         return newlistofPings;
     }
 
@@ -94,28 +103,23 @@ public class SearchButtonListener implements ActionListener{
     private ArrayList<Ping> updatefromGender(ArrayList<Ping> listOfPings){
         gender = (String)searchframe.getGender().getSelectedItem();
 
-        if (stage_of_life.equals("Male")) {
-            searchframe.updateCentralPanel(selectSharksByGender(listOfPings,"Male"));
-            return selectSharksByGender(listOfPings,"Male");
-
-        } else if (stage_of_life.equals("Female")) {
-
-            searchframe.updateCentralPanel(selectSharksByGender(listOfPings,"Female"));
-            return selectSharksByGender(listOfPings,"Female");
+        if (gender!="All"){
+            listOfPings = selectSharksByGender(listOfPings,gender);
+            searchframe.updateCentralPanel(listOfPings);
         }
-
         return listOfPings;
     }
 
     private ArrayList<Ping> selectSharksByGender(ArrayList<Ping> listOfPings, String selectionElement){
-        System.out.println(selectionElement);
+        System.out.println("gender: " +selectionElement);
         ArrayList<Ping> newlistofPings = new ArrayList<Ping>();
         for (Ping ping: listOfPings){
-            if( jawsApi.getShark(ping.getName()).getGender()== selectionElement){
+            if( jawsApi.getShark(ping.getName()).getGender().equals(selectionElement)){
+                System.out.println("got there! selectionelement: " + selectionElement + " :");
                 newlistofPings.add(ping);
             }
         }
-        System.out.println(newlistofPings);
+        System.out.println("gender_newlistofPings: "+newlistofPings);
         return newlistofPings;
     }
 
@@ -124,21 +128,24 @@ public class SearchButtonListener implements ActionListener{
         tag_location = (String)searchframe.getTag_location().getSelectedItem();
 
         if (tag_location!="All"){
-            searchframe.updateCentralPanel(selectSharksByTagLocation(listOfPings,tag_location));
+            listOfPings=selectSharksByTagLocation(listOfPings,tag_location);
+            searchframe.updateCentralPanel(listOfPings);
         }
+        System.out.println(listOfPings);
         return listOfPings;
 
     }
 
     private ArrayList<Ping> selectSharksByTagLocation(ArrayList<Ping> listOfPings, String selectionElement){
-        System.out.println(selectionElement);
+        System.out.println("tag location: "+ selectionElement);
         ArrayList<Ping> newlistofPings = new ArrayList<Ping>();
         for (Ping ping: listOfPings){
-            if( jawsApi.getShark(ping.getName()).getTagLocation() == selectionElement){
+            if( jawsApi.getShark(ping.getName()).getTagLocation().equals(selectionElement)){
+                System.out.println("got there! selectionelement: " + selectionElement + " :");
                 newlistofPings.add(ping);
             }
         }
-        System.out.println(newlistofPings);
+        System.out.println("tagloc_newlistofPings: "+newlistofPings);
         return newlistofPings;
     }
 }

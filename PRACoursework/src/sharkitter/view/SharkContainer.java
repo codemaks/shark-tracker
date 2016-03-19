@@ -35,7 +35,7 @@ public class SharkContainer extends JPanel {
 
         add(createSharkTrackOptions(lastPing), BorderLayout.SOUTH);
 
-        setPreferredSize(new Dimension(800,200));
+        setSize(new Dimension(800,200));
         setVisible(true);
     }
 
@@ -69,7 +69,7 @@ public class SharkContainer extends JPanel {
             if(!favouriteSharks.getFavouriteSharks().contains(shark))
                 followButton.setText("Unfollow");
         }catch (Exception e){
-            e.printStackTrace();
+            //e.printStackTrace();
         }
 
         followButton.addActionListener(favouriteButtonListener);
