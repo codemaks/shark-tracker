@@ -1,6 +1,7 @@
 package sharkitter.view;
 
 import javax.swing.*;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -15,6 +16,8 @@ public class AlertFrame extends JFrame implements ActionListener {
         addWidgets();
 
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+        setMinimumSize(new Dimension(200,100));
+        setLayout(new GridLayout(0,1));
     }
 
     private void addWidgets() {

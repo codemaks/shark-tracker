@@ -63,10 +63,15 @@ public class SharkContainer extends JPanel {
 
         JLabel pingLabel = new JLabel("Last ping: " + lastPing.getTime());
 
-        //TODO if shark is in favouriteSharks than button = unfollow
+        //TODO if shark is in favouriteSharks then button is set to unfollow
         followButton = new JButton("Follow");
-        if(!favouriteSharks.getFavouriteSharks().contains(shark))
-            followButton.setText("Unfollow");
+        try{
+            if(!favouriteSharks.getFavouriteSharks().contains(shark))
+                followButton.setText("Unfollow");
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+
         followButton.addActionListener(favouriteButtonListener);
 
         pingPanel.add(pingLabel, BorderLayout.CENTER);

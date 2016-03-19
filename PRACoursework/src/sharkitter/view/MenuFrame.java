@@ -40,17 +40,20 @@ public class MenuFrame extends JFrame implements ActionListener, WindowListener 
 
 	public void addWidgets() {
 		JPanel sPanel = new JPanel();
-		sPanel.setLayout(new BorderLayout());
+		sPanel.setLayout(new GridLayout(0,1));
 
 		//searchField = new JTextField("Search");
 		//searchField.setHorizontalAlignment(JTextField.CENTER);
 		//searchField.addActionListener(new ActionListener() {
+
 		searchButton = new JButton("Search");
 		searchButton.setHorizontalAlignment(JButton.CENTER);
 		searchButton.addActionListener(this);
+
 		statisticsButton = new JButton("Statistics");
 		statisticsButton.setHorizontalAlignment(JButton.CENTER);
 		statisticsButton.addActionListener(this);
+
 /*		searchButton.addActionListener(new ActionListener(){
 			public void actionPerformed(ActionEvent e) {
 				JTextField tf = (JTextField) e.getSource();
@@ -62,11 +65,10 @@ public class MenuFrame extends JFrame implements ActionListener, WindowListener 
 		favouritesButton = new JButton("Favourites");
 		favouritesButton.setEnabled(false);
 
-		statisticsButton = new JButton("Statistics");
-
 		//sPanel.add(searchField, BorderLayout.NORTH);
-		sPanel.add(searchButton, BorderLayout.NORTH);
+		sPanel.add(searchButton);
 		sPanel.add(favouritesButton);
+		sPanel.add(statisticsButton);
 
 		ImageIcon shark = new ImageIcon(getClass().getClassLoader().getResource("resources/SharkTracker.png"));
 		Image img = shark.getImage();
