@@ -3,6 +3,7 @@ package sharkitter.controller;
 import sharkitter.model.FavouriteSharks;
 import sharkitter.view.MenuFrame;
 import sharkitter.view.SearchFrame;
+import sharkitter.view.StatisticsFrame;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
@@ -12,6 +13,7 @@ public class FunctionalityController implements ActionListener {
 
     private MenuFrame menuFrame;
     private SearchFrame searchFrame;
+    private StatisticsFrame statisticsFrame;
 
     private FavouriteSharks favouriteSharks;
 
@@ -30,7 +32,14 @@ public class FunctionalityController implements ActionListener {
                 searchFrame = new SearchFrame(favouriteSharks);
                 searchFrame.setVisible(true);
                 break;
+
             case "Favourites":
+                break;
+
+            case "Statistics":
+                menuFrame.setVisible(false);
+                statisticsFrame = new StatisticsFrame();
+                statisticsFrame.setVisible(true);
                 break;
         }
     }

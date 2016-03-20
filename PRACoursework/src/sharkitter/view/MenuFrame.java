@@ -20,9 +20,6 @@ public class MenuFrame extends JFrame {
 	private JButton searchButton;
 	private JButton favouritesButton;
 	private JButton statisticsButton;
-	private SearchFrame searchframe;
-	private StatisticsFrame statisticsFrame;
-	private FavouriteSharks favouriteSharks;
 	private JButton disconnectButton;
 	private ActionListener userController, functionalityController;
 
@@ -30,31 +27,22 @@ public class MenuFrame extends JFrame {
 		super("Amnity Police");
 		this.userController = userController;
 
-	//	centreWindow(this);
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
 		addWidgets();
 	}
 
-	/*public static void centreWindow(Window frame) {
-		Dimension dimension = Toolkit.getDefaultToolkit().getScreenSize();
-		int x = (int) ((dimension.getWidth() - frame.getWidth()) /3);
-		int y = (int) ((dimension.getHeight() - frame.getHeight())/4 );
-		frame.setLocation(x, y);
-	}*/
-
 	public void addWidgets() {
 		JPanel southPanel = new JPanel();
-		southPanel.setLayout(new GridLayout(4, 1));
+		southPanel.setLayout(new GridLayout(5, 1));
 
 		searchButton = new JButton("Search");
 		searchButton.setHorizontalAlignment(JButton.CENTER);
-		searchButton.addActionListener(this);
-		statisticsButton = new JButton("Statistics");
-		statisticsButton.setHorizontalAlignment(JButton.CENTER);
-		statisticsButton.addActionListener(this);
 
 		favouritesButton = new JButton("Favourites");
 		favouritesButton.setEnabled(false);
+
+		statisticsButton = new JButton("Statistics");
+		statisticsButton.setHorizontalAlignment(JButton.CENTER);
 
 		JLabel blank = new JLabel("");
 		disconnectButton = new JButton("Disconnect");
@@ -62,6 +50,7 @@ public class MenuFrame extends JFrame {
 
 		southPanel.add(searchButton);
 		southPanel.add(favouritesButton);
+		southPanel.add(statisticsButton);
 		southPanel.add(blank);
 		southPanel.add(disconnectButton);
 
@@ -86,5 +75,6 @@ public class MenuFrame extends JFrame {
 		this.functionalityController = functionalityController;
 		searchButton.addActionListener(functionalityController);
 		favouritesButton.addActionListener(functionalityController);
+		statisticsButton.addActionListener(functionalityController);
 	}
 }
