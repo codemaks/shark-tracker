@@ -49,76 +49,80 @@ public class UserController implements ActionListener {
     @Override
     public void actionPerformed(ActionEvent e) {
         String buttonName = ((JButton) e.getSource()).getText();
+        String username;
 
-        if(buttonName.equals("Enter")) {
-            String username = connectionFrame.getUsername();
-            UserNotFoundAlert userNotFound = new UserNotFoundAlert();
+        switch (buttonName) {
 
-            if(!username.equals("")) {
-                try {
-                    favouriteSharks.setUser(username);
+            case "Enter":
+                username = connectionFrame.getUsername();
+                UserNotFoundAlert userNotFound = new UserNotFoundAlert();
 
-                    Path pathToFile = Paths.get("data/" + username + ".txt");
-                    Scanner reader = new Scanner(pathToFile);
+                if(!username.equals("")) {
+                    try {
+                        favouriteSharks.setUser(username);
 
-                    //TODO Check if load sharks
-                    while (reader.hasNext()) {
-                        favouriteSharks.loadSharks(api.getShark(reader.next()));
+                        Path pathToFile = Paths.get("data/" + username + ".txt");
+                        Scanner reader = new Scanner(pathToFile);
+
+                        //TODO Check if load sharks
+                        while (reader.hasNext()) {
+                            favouriteSharks.loadSharks(api.getShark(reader.next()));
+                        }
+                    } catch (FileNotFoundException e1) {
+                        userNotFound.setVisible(true);
+                    } catch (UnsupportedEncodingException e1) {
+                        e1.printStackTrace();
+                    } catch (IOException e1) {
+                        e1.printStackTrace();
                     }
-                } catch (FileNotFoundException e1) {
-                    userNotFound.setVisible(true);
-                } catch (UnsupportedEncodingException e1) {
-                    e1.printStackTrace();
-                } catch (IOException e1) {
-                    e1.printStackTrace();
+
+                    connectionFrame.dispose();
+
+                    menuFrame.setVisible(true);
                 }
+                break;
 
-                connectionFrame.dispose();
+            case "Create new account":
+                accountCreation = new AccountCreationFrame(this);
+                connectionFrame.setVisible(false);
+                accountCreation.setVisible(true);
+                break;
 
-                menuFrame.setVisible(true);
-            }
-        }
+            case "Register":
+                username = accountCreation.getUsername();
 
-        if(buttonName.equals("Create new account")) {
-            accountCreation = new AccountCreationFrame(this);
-            connectionFrame.setVisible(false);
-            accountCreation.setVisible(true);
-        }
+                File newUser = new File("data/" + username + ".txt");
 
-        if(buttonName.equals("Register")) {
-            String username = accountCreation.getUsername();
-
-            File newUser = new File("data/" + username + ".txt");
-
-            if(newUser.exists()) {
-                ExistingUserAlert existingUser = new ExistingUserAlert();
-                existingUser.setVisible(true);
-            } else {
+                if(newUser.exists()) {
+                    ExistingUserAlert existingUser = new ExistingUserAlert();
+                    existingUser.setVisible(true);
+                } else {
 //                File newUser = new File("data/" + username + ".txt");
 
-                //Give user to model
-                try {
-                    favouriteSharks.setUser(username);
-                } catch (FileNotFoundException e1) {
-                    e1.printStackTrace();
-                } catch (UnsupportedEncodingException e1) {
-                    e1.printStackTrace();
+                    //Give user to model
+                    try {
+                        favouriteSharks.setUser(username);
+                    } catch (FileNotFoundException e1) {
+                        e1.printStackTrace();
+                    } catch (UnsupportedEncodingException e1) {
+                        e1.printStackTrace();
+                    }
+
+                    accountCreation.dispose();
+                    connectionFrame.setVisible(false);
+                    menuFrame.setVisible(true);
                 }
+                break;
 
+            case "<-":
                 accountCreation.dispose();
-                connectionFrame.setVisible(false);
-                menuFrame.setVisible(true);
-            }
-        }
+                connectionFrame.setVisible(true);
+                break;
 
-        if(buttonName.equals("<-")) {
-            accountCreation.dispose();
-            connectionFrame.setVisible(true);
-        }
-
-        if(buttonName.equals("Disconnect")) {
-            menuFrame.dispose();
-            connectionFrame.setVisible(true);
+            case "Disconnect":
+                menuFrame.dispose();
+                connectionFrame.setVisible(true);
+                break;
         }
     }
 }
