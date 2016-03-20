@@ -41,7 +41,7 @@ public class FavouriteSharks {
     public void removeShark(Shark shark) throws FileNotFoundException {
         favouriteSharks.remove(shark);
 
-        Scanner reader = new Scanner(new File(user + ".txt"));
+        Scanner reader = new Scanner("data/" + user + ".txt");
 
         while(reader.hasNext()) {
             String registeredShark = reader.next();
@@ -69,7 +69,7 @@ public class FavouriteSharks {
      */
     public void setUser(String user) throws FileNotFoundException, UnsupportedEncodingException {
         this.user = user;
-        writer = new PrintWriter(user + ".txt", "UTF-8");
+        writer = new PrintWriter("data/" + user + ".txt", "UTF-8");
     }
 
     /**
@@ -78,5 +78,9 @@ public class FavouriteSharks {
      */
     public List<Shark> getFavouriteSharks() {
         return favouriteSharks;
+    }
+
+    public String getUser() {
+        return user;
     }
 }

@@ -18,7 +18,6 @@ public class AccountCreationFrame extends JFrame {
         super("Sign in");
 
         this.userController = userController;
-        addWindowListener(userController);
 
         addWidgets();
         setDefaultCloseOperation(DISPOSE_ON_CLOSE);
@@ -28,7 +27,19 @@ public class AccountCreationFrame extends JFrame {
      * Create widgets to add to the frame
      */
     private void addWidgets() {
+        JPanel northPanel = new JPanel(new BorderLayout());
         JPanel sPanel = new JPanel(new GridLayout(5,1));
+
+        JPanel backPanel = new JPanel(new BorderLayout());
+
+        JButton backButton = new JButton("<-");
+        backButton.addActionListener(userController);
+        JLabel backLabel = new JLabel(" Back");
+
+        backPanel.add(backButton, BorderLayout.WEST);
+        backPanel.add(backLabel, BorderLayout.CENTER);
+
+        northPanel.add(backPanel, BorderLayout.WEST);
 
         JLabel usernameLabel = new JLabel("Username: ");
 
@@ -53,6 +64,7 @@ public class AccountCreationFrame extends JFrame {
 
         add(sPanel, BorderLayout.SOUTH);
         add(sharkTrackerLabel, BorderLayout.CENTER);
+        add(northPanel, BorderLayout.NORTH);
 
         pack();
     }

@@ -1,5 +1,6 @@
 package sharkitter.view;
 
+import sharkitter.controller.FunctionalityController;
 import sharkitter.model.FavouriteSharks;
 
 import java.awt.*;
@@ -14,15 +15,16 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
-public class MenuFrame extends JFrame implements ActionListener, WindowListener {
+public class MenuFrame extends JFrame {
 	//private JTextField searchField;
 	private JButton searchButton;
 	private JButton favouritesButton;
-	private SearchFrame searchframe;
-	private FavouriteSharks favouriteSharks;
+	private JButton disconnectButton;
+	private ActionListener userController, functionalityController;
 
-	public MenuFrame(FavouriteSharks favouriteSharks) {
+	public MenuFrame(ActionListener userController) {
 		super("Amnity Police");
+		this.userController = userController;
 
 	//	centreWindow(this);
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
@@ -37,29 +39,23 @@ public class MenuFrame extends JFrame implements ActionListener, WindowListener 
 	}*/
 
 	public void addWidgets() {
-		JPanel sPanel = new JPanel();
-		sPanel.setLayout(new BorderLayout());
+		JPanel southPanel = new JPanel();
+		southPanel.setLayout(new GridLayout(4, 1));
 
-		//searchField = new JTextField("Search");
-		//searchField.setHorizontalAlignment(JTextField.CENTER);
-		//searchField.addActionListener(new ActionListener() {
 		searchButton = new JButton("Search");
 		searchButton.setHorizontalAlignment(JButton.CENTER);
-		searchButton.addActionListener(this);
-/*		searchButton.addActionListener(new ActionListener(){
-			public void actionPerformed(ActionEvent e) {
-				JTextField tf = (JTextField) e.getSource();
-				System.out.println("You Pressed Enter");
-				tf.setText("");
-			}
-		});*/
 
 		favouritesButton = new JButton("Favourites");
 		favouritesButton.setEnabled(false);
 
-		//sPanel.add(searchField, BorderLayout.NORTH);
-		sPanel.add(searchButton, BorderLayout.NORTH);
-		sPanel.add(favouritesButton, BorderLayout.SOUTH);
+		JLabel blank = new JLabel("");
+		disconnectButton = new JButton("Disconnect");
+		disconnectButton.addActionListener(userController);
+
+		southPanel.add(searchButton);
+		southPanel.add(favouritesButton);
+		southPanel.add(blank);
+		southPanel.add(disconnectButton);
 
 		ImageIcon shark = new ImageIcon(getClass().getClassLoader().getResource("resources/SharkTracker.png"));
 		Image img = shark.getImage();
@@ -72,54 +68,15 @@ public class MenuFrame extends JFrame implements ActionListener, WindowListener 
 		//Font font = new Font("Monospace", Font.ITALIC, 30);
 		//sharkTrackerLabel.setFont(font);
 
-		add(sPanel, BorderLayout.SOUTH);
+		add(southPanel, BorderLayout.SOUTH);
 		add(sharkTrackerLabel, BorderLayout.CENTER);
 
 		pack();
 	}
 
-	@Override
-	public void actionPerformed(ActionEvent e) {
-		if(e.getSource() == searchButton) {
-			setVisible(false);
-			searchframe = new SearchFrame(favouriteSharks);
-			searchframe.addWindowListener(this);
-			searchframe.setVisible(true);
-		}
-	}
-
-	@Override
-	public void windowOpened(WindowEvent e) {
-
-	}
-
-	@Override
-	public void windowClosing(WindowEvent e) {
-
-	}
-
-	@Override
-	public void windowClosed(WindowEvent e) {
-		setVisible(true);
-	}
-
-	@Override
-	public void windowIconified(WindowEvent e) {
-
-	}
-
-	@Override
-	public void windowDeiconified(WindowEvent e) {
-
-	}
-
-	@Override
-	public void windowActivated(WindowEvent e) {
-
-	}
-
-	@Override
-	public void windowDeactivated(WindowEvent e) {
-
+	public void addFunctionalityController(FunctionalityController functionalityController) {
+		this.functionalityController = functionalityController;
+		searchButton.addActionListener(functionalityController);
+		favouritesButton.addActionListener(functionalityController);
 	}
 }

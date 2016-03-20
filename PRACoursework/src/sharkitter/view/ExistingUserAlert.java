@@ -1,18 +1,42 @@
 package sharkitter.view;
 
 import javax.swing.*;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-public class ExistingUserAlert extends AlertFrame {
+public class ExistingUserAlert extends JFrame implements ActionListener {
 
     /**
      * Constructor of ExistingUserAlert
      */
     public ExistingUserAlert() {
-        super();
+        super("Existing username");
 
-        message1.setText("Sorry but your username already exists.");
-        message2.setText("Please choose another username.");
+        setLayout(new GridLayout(3,1));
+
+        addWidgets();
+
+        setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+
+    }
+
+    private void addWidgets() {
+        JLabel message1 = new JLabel("Sorry but your username already exists.");
+        JLabel message2 = new JLabel("Please choose another username.");
+
+        JButton ok = new JButton("Ok");
+        ok.addActionListener(this);
+
+        add(message1);
+        add(message2);
+        add(ok);
+
+        pack();
+    }
+
+    @Override
+    public void actionPerformed(ActionEvent e) {
+        dispose();
     }
 }

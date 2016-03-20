@@ -3,6 +3,7 @@ package sharkitter;
 import sharkitter.model.FavouriteSharks;
 import sharkitter.view.ConnectionFrame;
 import sharkitter.view.MenuFrame;
+import sharkitter.view.UserNotFoundAlert;
 
 import javax.swing.*;
 
@@ -14,5 +15,6 @@ public class Main {
 
         JFrame frame = new ConnectionFrame(favouriteSharks);
         frame.setVisible(true);
+
     }
 }
