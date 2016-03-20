@@ -3,6 +3,8 @@ package sharkitter.controller;
 import api.jaws.Jaws;
 import sharkitter.model.FavouriteSharks;
 import sharkitter.view.*;
+import sharkitter.view.alert.ExistingUserAlert;
+import sharkitter.view.alert.UserNotFoundAlert;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
@@ -65,7 +67,6 @@ public class UserController implements ActionListener {
                         Scanner reader = new Scanner(pathToFile);
                         reader.useDelimiter("\n");
 
-                        //TODO Check if load sharks
                         while (reader.hasNext()) {
                             String sharkName = reader.next();
                             favouriteSharks.loadSharks(api.getShark(sharkName));

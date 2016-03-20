@@ -1,20 +1,18 @@
-package sharkitter.view;
+package sharkitter.view.alert;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-public class ExistingUserAlert extends JFrame implements ActionListener {
+public class UserNotFoundAlert extends JFrame implements ActionListener {
 
     /**
-     * Constructor of ExistingUserAlert
+     * Constructor of UserNotFoundAlert
      */
-    public ExistingUserAlert() {
-        super("Existing username");
-
-        setLayout(new GridLayout(3,1));
-
+    public UserNotFoundAlert() {
+        super("User not found");
+        setLayout(new GridLayout(3, 1));
         addWidgets();
 
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);

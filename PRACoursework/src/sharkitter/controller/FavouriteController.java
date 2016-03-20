@@ -9,22 +9,25 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.FileNotFoundException;
 
-public class FavouriteButtonListener implements ActionListener {
+public class FavouriteController implements ActionListener {
 
     private SharkContainer sharkContainer;
     private FavouriteSharks favouriteSharks;
 
     /**
-     * Constructor for FavouriteButtonListener
+     * Constructor for FavouriteController
      * @param sharkContainer    The tracked SharkContainer view
      */
-    public FavouriteButtonListener(SharkContainer sharkContainer, FavouriteSharks favouriteSharks) {
+    public FavouriteController(SharkContainer sharkContainer, FavouriteSharks favouriteSharks) {
         this.sharkContainer = sharkContainer;
         this.favouriteSharks = favouriteSharks;
 
         updateFavouriteButton();
     }
 
+    /**
+     * Update the favourite button to "Following" if the shark is already in the favourites
+     */
     private void updateFavouriteButton() {
         for(Shark shark : favouriteSharks.getFavouriteSharks()) {
             if (shark.getName().equals(sharkContainer.getName())) {

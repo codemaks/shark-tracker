@@ -46,6 +46,7 @@ public class FavouriteSharks {
         favouriteSharks.remove(shark);
 
         Scanner reader = new Scanner("data/" + user + ".txt");
+        reader.useDelimiter("\n");
 
         while(reader.hasNext()) {
             String registeredShark = reader.next();
@@ -84,6 +85,10 @@ public class FavouriteSharks {
         return favouriteSharks;
     }
 
+    /**
+     * Get of current user
+     * @return  String representation of current user's username
+     */
     public String getUser() {
         return user;
     }
