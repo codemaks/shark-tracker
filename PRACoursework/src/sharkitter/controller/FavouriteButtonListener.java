@@ -30,17 +30,21 @@ public class FavouriteButtonListener implements ActionListener {
     @Override
     public void actionPerformed(ActionEvent e) {
         JButton followButton = (JButton) e.getSource();
-        if(followButton.getText().equals("Follow")) {
-            favouriteSharks.addShark(sharkContainer.getShark());
-            updateContainerButton(followButton, "Following");
-        }
-        if(followButton.getText().equals("Following")) {
-            try {
-                favouriteSharks.removeShark(sharkContainer.getShark());
-            } catch (FileNotFoundException e1) {
-                e1.printStackTrace();
-            }
-            updateContainerButton(followButton, "Follow");
+        String buttonText = followButton.getText();
+
+        switch (buttonText) {
+            case "Follow":
+                favouriteSharks.addShark(sharkContainer.getShark());
+                updateContainerButton(followButton, "Following");
+                break;
+
+            case "Following":
+                try {
+                    favouriteSharks.removeShark(sharkContainer.getShark());
+                } catch (FileNotFoundException e1) {
+                    e1.printStackTrace();
+                }
+                updateContainerButton(followButton, "Follow");
         }
 
 //        For debugging purposes:

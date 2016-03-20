@@ -39,7 +39,6 @@ public class MenuFrame extends JFrame {
 		searchButton.setHorizontalAlignment(JButton.CENTER);
 
 		favouritesButton = new JButton("Favourites");
-		favouritesButton.setEnabled(false);
 
 		statisticsButton = new JButton("Statistics");
 		statisticsButton.setHorizontalAlignment(JButton.CENTER);
