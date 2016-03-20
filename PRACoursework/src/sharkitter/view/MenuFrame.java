@@ -19,6 +19,10 @@ public class MenuFrame extends JFrame {
 	//private JTextField searchField;
 	private JButton searchButton;
 	private JButton favouritesButton;
+	private JButton statisticsButton;
+	private SearchFrame searchframe;
+	private StatisticsFrame statisticsFrame;
+	private FavouriteSharks favouriteSharks;
 	private JButton disconnectButton;
 	private ActionListener userController, functionalityController;
 
@@ -44,6 +48,10 @@ public class MenuFrame extends JFrame {
 
 		searchButton = new JButton("Search");
 		searchButton.setHorizontalAlignment(JButton.CENTER);
+		searchButton.addActionListener(this);
+		statisticsButton = new JButton("Statistics");
+		statisticsButton.setHorizontalAlignment(JButton.CENTER);
+		statisticsButton.addActionListener(this);
 
 		favouritesButton = new JButton("Favourites");
 		favouritesButton.setEnabled(false);
