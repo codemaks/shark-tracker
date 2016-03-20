@@ -52,7 +52,7 @@ public class SearchFrame extends JFrame {
         setLayout(new BorderLayout());
         setPreferredSize(new Dimension(1200, 700));
         createPanels();
-        setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     }
 
 	/**
@@ -160,14 +160,16 @@ public class SearchFrame extends JFrame {
                 centralPane.setViewportView(supercentralpanel);
                 centralpanel.add(centralPane);
 
-                revalidate();
-                repaint();
                 pack();
             }
 
         }else{
             centralpanel.add(new JLabel("Nothing to show here :)"));
         }
+
+        revalidate();
+        repaint();
+
         return centralpanel;
     }
 

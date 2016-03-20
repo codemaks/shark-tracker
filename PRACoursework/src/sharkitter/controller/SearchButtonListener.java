@@ -24,7 +24,7 @@ public class SearchButtonListener implements ActionListener {
     public SearchButtonListener(SearchFrame searchframe){
         jawsApi = new Jaws("EkZ8ZqX11ozMamO9","E7gdkwWePBYT75KE", true);
         this.searchframe = searchframe;
-        }
+    }
 
     public void actionPerformed(ActionEvent e){
 

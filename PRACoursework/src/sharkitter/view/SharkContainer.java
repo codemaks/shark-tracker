@@ -63,7 +63,6 @@ public class SharkContainer extends JPanel {
 
         JLabel pingLabel = new JLabel("Last ping: " + lastPing.getTime());
 
-        //TODO if shark is in favouriteSharks then button is set to unfollow
         followButton = new JButton("Follow");
         try{
             if(!favouriteSharks.getFavouriteSharks().contains(shark))
@@ -126,5 +125,17 @@ public class SharkContainer extends JPanel {
      */
     public Shark getShark() {
         return shark;
+    }
+
+    /**
+     * Updates a button with the corresponding text
+     * @param text  New text for the JButton
+     */
+    public void updateFollowButton(String text) {
+        SwingUtilities.invokeLater(new Runnable() {
+            public void run() {
+                followButton.setText(text);
+            }
+        });
     }
 }

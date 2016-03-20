@@ -63,10 +63,12 @@ public class UserController implements ActionListener {
 
                         Path pathToFile = Paths.get("data/" + username + ".txt");
                         Scanner reader = new Scanner(pathToFile);
+                        reader.useDelimiter("\n");
 
                         //TODO Check if load sharks
                         while (reader.hasNext()) {
-                            favouriteSharks.loadSharks(api.getShark(reader.next()));
+                            String sharkName = reader.next();
+                            favouriteSharks.loadSharks(api.getShark(sharkName));
                         }
                     } catch (FileNotFoundException e1) {
                         userNotFound.setVisible(true);

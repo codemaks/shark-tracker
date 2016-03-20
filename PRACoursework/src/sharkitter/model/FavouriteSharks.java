@@ -2,20 +2,19 @@ package sharkitter.model;
 
 import api.jaws.Shark;
 
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.PrintWriter;
-import java.io.UnsupportedEncodingException;
+import java.io.*;
+import java.nio.file.*;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Scanner;
-import java.util.prefs.Preferences;
 
 public class FavouriteSharks {
 
     private List<Shark> favouriteSharks;
     private String user;
     private PrintWriter writer;
+    private Path filePath;
 
     /**
      * Constructor of FavouriteSharks
@@ -30,7 +29,12 @@ public class FavouriteSharks {
      */
     public void addShark(Shark shark) {
         favouriteSharks.add(shark);
-        writer.println(shark.getName());
+        List<String> sharkName = Arrays.asList(shark.getName());
+        try {
+            Files.write(filePath, sharkName, StandardOpenOption.APPEND);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     /**
@@ -69,7 +73,7 @@ public class FavouriteSharks {
      */
     public void setUser(String user) throws FileNotFoundException, UnsupportedEncodingException {
         this.user = user;
-        writer = new PrintWriter("data/" + user + ".txt", "UTF-8");
+        filePath = Paths.get("data/" + user + ".txt");
     }
 
     /**

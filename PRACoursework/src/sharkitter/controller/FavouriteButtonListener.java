@@ -1,5 +1,6 @@
 package sharkitter.controller;
 
+import api.jaws.Shark;
 import sharkitter.model.FavouriteSharks;
 import sharkitter.view.SharkContainer;
 
@@ -20,6 +21,16 @@ public class FavouriteButtonListener implements ActionListener {
     public FavouriteButtonListener(SharkContainer sharkContainer, FavouriteSharks favouriteSharks) {
         this.sharkContainer = sharkContainer;
         this.favouriteSharks = favouriteSharks;
+
+        updateFavouriteButton();
+    }
+
+    private void updateFavouriteButton() {
+        for(Shark shark : favouriteSharks.getFavouriteSharks()) {
+            if (shark.getName().equals(sharkContainer.getName())) {
+                sharkContainer.updateFollowButton("Following");
+            }
+        }
     }
 
 
@@ -35,7 +46,7 @@ public class FavouriteButtonListener implements ActionListener {
         switch (buttonText) {
             case "Follow":
                 favouriteSharks.addShark(sharkContainer.getShark());
-                updateContainerButton(followButton, "Following");
+                sharkContainer.updateFollowButton("Following");
                 break;
 
             case "Following":
@@ -44,23 +55,10 @@ public class FavouriteButtonListener implements ActionListener {
                 } catch (FileNotFoundException e1) {
                     e1.printStackTrace();
                 }
-                updateContainerButton(followButton, "Follow");
+                sharkContainer.updateFollowButton("Follow");
         }
 
 //        For debugging purposes:
 //        System.out.println("Pressed");
-    }
-
-    /**
-     * Updates a button with the corresponding text
-     * @param button    JButton to update
-     * @param text  New text for the JButton
-     */
-    private void updateContainerButton(JButton button, String text) {
-        SwingUtilities.invokeLater(new Runnable() {
-            public void run() {
-                button.setText(text);
-            }
-        });
     }
 }
