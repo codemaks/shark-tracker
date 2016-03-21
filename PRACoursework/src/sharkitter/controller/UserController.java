@@ -9,6 +9,8 @@ import sharkitter.view.alert.UserNotFoundAlert;
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -17,7 +19,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Scanner;
 
-public class UserController implements ActionListener {
+public class UserController implements ActionListener, KeyListener {
 
     private ConnectionFrame connectionFrame;
     private AccountCreationFrame accountCreation;
@@ -26,6 +28,8 @@ public class UserController implements ActionListener {
     private FunctionalityController functionalityController;
 
     private Jaws api;
+
+    private String username;
 
     /**
      * Constructor of UserController
@@ -52,38 +56,11 @@ public class UserController implements ActionListener {
     @Override
     public void actionPerformed(ActionEvent e) {
         String buttonName = ((JButton) e.getSource()).getText();
-        String username;
 
         switch (buttonName) {
 
             case "Enter":
-                username = connectionFrame.getUsername();
-                UserNotFoundAlert userNotFound = new UserNotFoundAlert();
-
-                if(!username.equals("")) {
-                    try {
-                        favouriteSharks.setUser(username);
-
-                        Path pathToFile = Paths.get("data/" + username + ".txt");
-                        Scanner reader = new Scanner(pathToFile);
-                        reader.useDelimiter("\n");
-
-                        while (reader.hasNext()) {
-                            String sharkName = reader.next();
-                            favouriteSharks.loadSharks(api.getShark(sharkName));
-                        }
-                    } catch (FileNotFoundException e1) {
-                        userNotFound.setVisible(true);
-                    } catch (UnsupportedEncodingException e1) {
-                        e1.printStackTrace();
-                    } catch (IOException e1) {
-                        e1.printStackTrace();
-                    }
-
-                    connectionFrame.dispose();
-
-                    menuFrame.setVisible(true);
-                }
+                connectUser();
                 break;
 
             case "Create new account":
@@ -128,5 +105,51 @@ public class UserController implements ActionListener {
                 connectionFrame.setVisible(true);
                 break;
         }
+    }
+
+    private void connectUser() {
+        username = connectionFrame.getUsername();
+        UserNotFoundAlert userNotFound = new UserNotFoundAlert();
+
+        if(!username.equals("")) {
+            try {
+                favouriteSharks.setUser(username);
+
+                Path pathToFile = Paths.get("data/" + username + ".txt");
+                Scanner reader = new Scanner(pathToFile);
+                reader.useDelimiter("\n");
+
+                while (reader.hasNext()) {
+                    String sharkName = reader.next();
+                    favouriteSharks.loadSharks(api.getShark(sharkName));
+                }
+            } catch (FileNotFoundException e1) {
+                userNotFound.setVisible(true);
+            } catch (UnsupportedEncodingException e1) {
+                e1.printStackTrace();
+            } catch (IOException e1) {
+                e1.printStackTrace();
+            }
+
+            connectionFrame.dispose();
+
+            menuFrame.setVisible(true);
+        }
+    }
+
+    @Override
+    public void keyTyped(KeyEvent e) {
+
+    }
+
+    @Override
+    public void keyPressed(KeyEvent e) {
+        if(e.getKeyCode() == 10)
+            connectUser();
+    }
+
+    @Override
+    public void keyReleased(KeyEvent e) {
+
     }
 }

@@ -36,6 +36,9 @@ public class ConnectionFrame extends JFrame {
         JLabel usernameLabel = new JLabel("Username: ");
 
         usernameField = new JTextField();
+        usernameField.addKeyListener(userController);
+        usernameField.setFocusable(true);
+
         JButton enter = new JButton("Enter");
         enter.addActionListener(userController);
 
