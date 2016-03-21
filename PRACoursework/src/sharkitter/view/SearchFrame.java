@@ -6,11 +6,16 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Observable;
 import java.util.Observer;
 
 import api.jaws.Jaws;
 import api.jaws.Ping;
+import org.quartz.Scheduler;
+import org.quartz.SchedulerException;
+import org.quartz.SchedulerFactory;
+import org.quartz.impl.StdSchedulerFactory;
 import sharkitter.controller.SearchButtonListener;
 import sharkitter.model.FavouriteSharks;
 
@@ -254,11 +259,27 @@ public class SearchFrame extends JFrame implements Observer {
         mWestPanel.add(mwSouthPanel, BorderLayout.SOUTH);
     }
 
-    private void createWCentralPanel() {
+    /**
+     * Schedules "Shark of the day" so that it changes every day at midnight.
+     */
+    private void createWCentralPanel() throws SchedulerException {
         JPanel mwCentralPanel = new JPanel();
 
         JLabel sharkOfTheDay = new JLabel("Shark of the day: ");
 
+        SchedulerFactory schedFac = new StdSchedulerFactory();
+        Scheduler scheduler = schedFac.getScheduler();
+
+        scheduler.start();
+
+
+
+        scheduler.shutdown();
+        //task: pull a random shark from api
+        //display name
+        //retrieve link to video
+
+        //schedule task to run at midnight
     }
 
     /**
