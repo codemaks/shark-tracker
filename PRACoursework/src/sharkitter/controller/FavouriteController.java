@@ -29,6 +29,8 @@ public class FavouriteController implements ActionListener {
      * Update the favourite button to "Following" if the shark is already in the favourites
      */
     private void updateFavouriteButton() {
+        if(favouriteSharks.getFavouriteSharks().isEmpty())
+            return;
         for(String sharkName : favouriteSharks.getFavouriteSharks()) {
             if (sharkName.equals(sharkContainer.getName())) {
                 sharkContainer.updateFollowButton("Following");

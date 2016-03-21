@@ -5,9 +5,7 @@ import javax.swing.border.Border;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.ArrayList;
-import java.util.Observable;
-import java.util.Observer;
+import java.util.*;
 
 import api.jaws.Jaws;
 import api.jaws.Ping;
@@ -139,7 +137,7 @@ public class SearchFrame extends JFrame {
     private void createSearchButton() {
         search = new JButton("Search");
 
-        sbl = new SearchButtonListener(this);
+        sbl = new SearchButtonListener(this, favouriteSharks);
         search.addActionListener(sbl);
     }
 
@@ -178,7 +176,7 @@ public class SearchFrame extends JFrame {
         return centralpanel;
     }
 
-    public JPanel addSeveralSharkContainersToView (ArrayList<SharkContainer> listofsharkcontainers) {
+    public JPanel addSeveralSharkContainersToView (java.util.List<SharkContainer> listofsharkcontainers) {
 
         supercentralpanel.removeAll();
         System.out.println(listofsharkcontainers);

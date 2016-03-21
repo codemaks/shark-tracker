@@ -2,11 +2,10 @@ package sharkitter.view;
 
 import api.jaws.Ping;
 import api.jaws.Shark;
-import sharkitter.controller.FavouriteButtonListener;
+import sharkitter.controller.FavouriteController;
 import sharkitter.model.FavouriteSharks;
 
 import java.awt.*;
-import java.util.Collection;
 import java.util.HashMap;
 import javax.swing.*;
 
@@ -31,7 +30,7 @@ public class SharkContainer extends JPanel implements Comparable<SharkContainer>
         setLayout(new BorderLayout());
         setName(foundShark.getName());
 
-        favouriteButtonListener = new FavouriteButtonListener(this, favouriteSharks);
+        favouriteController = new FavouriteController(this, favouriteSharks);
         shark = foundShark;
 
         add(createSharkFeaturesTable(shark), BorderLayout.NORTH);
@@ -50,10 +49,6 @@ public class SharkContainer extends JPanel implements Comparable<SharkContainer>
         sharkdetails.put("stageoflife",foundShark.getStageOfLife());
         sharkdetails.put("taglocation",foundShark.getTagLocation());
         sharkdetails.put("lastping",ping.getTime());
-    }
-
-    public String getSharkName(){
-        return sharkdetails.get("name");
     }
 
     public String getSharkDate(){
@@ -85,7 +80,7 @@ public class SharkContainer extends JPanel implements Comparable<SharkContainer>
 
         followButton = new JButton("Follow");
 
-        followButton.addActionListener(favouriteButtonListener);
+        followButton.addActionListener(favouriteController);
 
         pingPanel.add(pingLabel, BorderLayout.CENTER);
         pingPanel.add(followButton, BorderLayout.EAST);
@@ -152,7 +147,6 @@ public class SharkContainer extends JPanel implements Comparable<SharkContainer>
             }
         });
     }
-}
 
     @Override
     public int compareTo(SharkContainer anotherSharkContainer) {
