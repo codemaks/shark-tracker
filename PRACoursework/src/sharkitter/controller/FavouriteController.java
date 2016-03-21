@@ -1,6 +1,5 @@
 package sharkitter.controller;
 
-import api.jaws.Shark;
 import sharkitter.model.FavouriteSharks;
 import sharkitter.view.SharkContainer;
 
@@ -8,6 +7,7 @@ import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.FileNotFoundException;
+import java.io.IOException;
 
 public class FavouriteController implements ActionListener {
 
@@ -29,8 +29,8 @@ public class FavouriteController implements ActionListener {
      * Update the favourite button to "Following" if the shark is already in the favourites
      */
     private void updateFavouriteButton() {
-        for(Shark shark : favouriteSharks.getFavouriteSharks()) {
-            if (shark.getName().equals(sharkContainer.getName())) {
+        for(String sharkName : favouriteSharks.getFavouriteSharks()) {
+            if (sharkName.equals(sharkContainer.getName())) {
                 sharkContainer.updateFollowButton("Following");
             }
         }
@@ -56,6 +56,8 @@ public class FavouriteController implements ActionListener {
                 try {
                     favouriteSharks.removeShark(sharkContainer.getShark());
                 } catch (FileNotFoundException e1) {
+                    e1.printStackTrace();
+                } catch (IOException e1) {
                     e1.printStackTrace();
                 }
                 sharkContainer.updateFollowButton("Follow");

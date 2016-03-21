@@ -4,23 +4,19 @@ import api.jaws.Shark;
 
 import java.io.*;
 import java.nio.file.*;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Scanner;
+import java.util.*;
 
 public class FavouriteSharks {
 
-    private List<Shark> favouriteSharks;
+    private Set<String> favouriteSharks;
     private String user;
-    private PrintWriter writer;
     private Path filePath;
 
     /**
      * Constructor of FavouriteSharks
      */
     public FavouriteSharks() {
-        favouriteSharks = new ArrayList<Shark>();
+        favouriteSharks = new HashSet<String>();
     }
 
     /**
@@ -28,7 +24,7 @@ public class FavouriteSharks {
      * @param shark Shark to be added to the list
      */
     public void addShark(Shark shark) {
-        favouriteSharks.add(shark);
+        favouriteSharks.add(shark.getName());
         List<String> sharkName = Arrays.asList(shark.getName());
         try {
             Files.write(filePath, sharkName, StandardOpenOption.APPEND);
@@ -42,20 +38,10 @@ public class FavouriteSharks {
      * @param shark Shark to be removed from the list
      * @throws FileNotFoundException
      */
-    public void removeShark(Shark shark) throws FileNotFoundException {
-        favouriteSharks.remove(shark);
+    public void removeShark(Shark shark) throws IOException {
+        favouriteSharks.remove(shark.getName());
 
-        Scanner reader = new Scanner("data/" + user + ".txt");
-        reader.useDelimiter("\n");
-
-        while(reader.hasNext()) {
-            String registeredShark = reader.next();
-            if(registeredShark.equals(shark.getName())) {
-                //TODO remove registered shark
-                reader.remove();
-            }
-        }
-        reader.close();
+        Files.write(filePath, favouriteSharks);
     }
 
     /**
@@ -63,7 +49,7 @@ public class FavouriteSharks {
      * @param shark Saved shark
      */
     public void loadSharks(Shark shark) {
-        favouriteSharks.add(shark);
+        favouriteSharks.add(shark.getName());
     }
 
     /**
@@ -81,7 +67,7 @@ public class FavouriteSharks {
      * Getter of favourite sharks
      * @return  A List of favourite Sharks
      */
-    public List<Shark> getFavouriteSharks() {
+    public Set<String> getFavouriteSharks() {
         return favouriteSharks;
     }
 
