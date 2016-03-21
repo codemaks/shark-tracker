@@ -5,10 +5,7 @@ import javax.swing.border.Border;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Observable;
-import java.util.Observer;
+import java.util.*;
 
 import api.jaws.Jaws;
 import api.jaws.Ping;
@@ -20,7 +17,7 @@ import sharkitter.controller.SearchButtonListener;
 import sharkitter.model.FavouriteSharks;
 
 
-public class SearchFrame extends JFrame implements Observer {
+public class SearchFrame extends JFrame {
 
 	private Jaws jawsApi;
 
@@ -44,25 +41,29 @@ public class SearchFrame extends JFrame implements Observer {
     private Border blackLineBorder;
 
     private FavouriteSharks favouriteSharks;
+    private ActionListener functionalityController;
 
-    public SearchFrame(FavouriteSharks favouriteSharks) {
+    public SearchFrame(ActionListener functionalityController, FavouriteSharks favouriteSharks) {
         super("Search");
         jawsApi = new Jaws("EkZ8ZqX11ozMamO9", "E7gdkwWePBYT75KE", true);
+        System.out.println(jawsApi.getLastUpdated());
 
         //create borders for later use
         blackLineBorder = BorderFactory.createLineBorder(Color.BLACK);
 
         this.favouriteSharks = favouriteSharks;
+        this.functionalityController = functionalityController;
         setLayout(new BorderLayout());
         setPreferredSize(new Dimension(1200, 700));
         createPanels();
-        setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     }
 
 	/**
 	 * Create and display the widgets on the main Frame
 	 */
 	private void createPanels() {
+        createNorthPanel();
         createCentralPanel();
         createWestPanel();
         createWSouthPanel();
@@ -77,12 +78,26 @@ public class SearchFrame extends JFrame implements Observer {
 		pack();
 	}
 
+    private void createNorthPanel() {
+        JMenuBar menuBar = new JMenuBar();
+
+        JMenu view = new JMenu("View");
+
+        JMenuItem menu = new JMenuItem("Menu");
+        menu.addActionListener(functionalityController);
+        menu.setToolTipText("Go back to the main menu");
+
+        view.add(menu);
+        menuBar.add(view);
+        add(menuBar, BorderLayout.NORTH);
+    }
+
     /**
      * Creates the combo boxes.
      */
     private void createComboBoxes() {
         stage_of_life = new JComboBox();
-        stage_of_life.addItem("Any");
+        stage_of_life.addItem("All");
         stage_of_life.addItem("Mature");
         stage_of_life.addItem("Immature");
         stage_of_life.addItem("Undetermined");
@@ -93,11 +108,12 @@ public class SearchFrame extends JFrame implements Observer {
         tracking_range.addItem("Last Month");
 
         gender = new JComboBox();
-        gender.addItem("Any");
+        gender.addItem("All");
         gender.addItem("Male");
         gender.addItem("Female");
 
         tag_location = new JComboBox();
+        tag_location.addItem("All");
         for(String tagLoc: jawsApi.getTagLocations()){
             tag_location.addItem(tagLoc);
         }
@@ -125,35 +141,8 @@ public class SearchFrame extends JFrame implements Observer {
     private void createSearchButton() {
         search = new JButton("Search");
 
-        sbl = new SearchButtonListener(this);
+        sbl = new SearchButtonListener(this, favouriteSharks);
         search.addActionListener(sbl);
-                /*new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e){
-                //1. read selected constraint from combo box
-                String sOfLife = (String)stage_of_life.getSelectedItem();
-                String tRange = (String)tracking_range.getSelectedItem();
-                String gen = (String)gender.getSelectedItem();
-                String tagLoc = (String)tag_location.getSelectedItem();
-
-                //2. get all shark components by tracking range
-                if (sOfLife.equals("Last 24 hours")) {
-                    System.out.println(sOfLife);
-                    updateCentralPanel(jawsApi.past24Hours());
-                }
-                else if (sOfLife.equals("Last Week")) {
-                    updateCentralPanel(jawsApi.pastWeek());
-                }
-                else if (sOfLife.equals("Last Month")) {
-                    updateCentralPanel(jawsApi.pastMonth());
-                }
-                else {
-                    System.out.println("Search ButtonListener Error 1 : Invalid ComboBox input");
-                }
-                //3. apply constraint on West panel filled with Shark Component objects
-
-            }
-        });*/
     }
 
 	/**
@@ -161,29 +150,22 @@ public class SearchFrame extends JFrame implements Observer {
      */
     private void createCentralPanel() {
         centralpanel = new JPanel();
+        centralpanel.setLayout(new BorderLayout());;
 
         Border emptyBorder = BorderFactory.createEmptyBorder(5, 0, 5, 5);
         centralpanel.setBorder(BorderFactory.createCompoundBorder(emptyBorder, blackLineBorder));
         supercentralpanel=new JPanel();
+        supercentralpanel.setLayout(new GridLayout(0,1));
         centralPane = new JScrollPane(supercentralpanel);
         centralpanel.add(centralPane);
 
         add(centralpanel, BorderLayout.CENTER);
     }
 
-    public JPanel updateCentralPanel(ArrayList<Ping> listofpings){
-//        For debugging purposes:
-//        System.out.println("updating central panel");
-        counter=(listofpings.size())-1;
+    public JPanel addSharkContainerToView(SharkContainer sharkcontainer){
 
-        if(!listofpings.isEmpty()){
-
-            for(Ping ping :listofpings) {
-//                For debugging purposes:
-//                System.out.println("Added SharkContainer for shark "+ping.getName());
                 centralpanel.setLayout(new BorderLayout());
-                supercentralpanel.setLayout(new GridLayout(0,1));
-                supercentralpanel.add(new SharkContainer(jawsApi.getShark(ping.getName()), ping, favouriteSharks));
+                supercentralpanel.add(sharkcontainer);
                 supercentralpanel.add(new JSeparator(SwingConstants.HORIZONTAL));
                 supercentralpanel.paintComponents(supercentralpanel.getGraphics());
 
@@ -194,21 +176,77 @@ public class SearchFrame extends JFrame implements Observer {
                 revalidate();
                 repaint();
                 pack();
-            }
-//            For debugging purposes:
-//            System.out.println("Central panel updated.");
-        }else{
-            centralpanel.add(new JLabel("Nothing to show here :)"));
-        }
-//        For debugging purposes:
-//        System.out.println("Central panel returned.");
+
         return centralpanel;
     }
 
+    public JPanel addSeveralSharkContainersToView (java.util.List<SharkContainer> listofsharkcontainers) {
 
-    /**
-     * Creates the west panel within the main panel.
-     */
+        supercentralpanel.removeAll();
+        System.out.println(listofsharkcontainers);
+
+        if (!listofsharkcontainers.isEmpty()) {
+            for (SharkContainer sharkcontainer : listofsharkcontainers) {
+
+                supercentralpanel.add(sharkcontainer);
+                supercentralpanel.add(new JSeparator(SwingConstants.HORIZONTAL));
+                centralPane.setViewportView(supercentralpanel);
+                supercentralpanel.paintComponents(supercentralpanel.getGraphics());
+
+                revalidate();
+                repaint();
+                pack();
+            }
+
+        } else {
+            centralpanel.add(new JLabel("Nothing to show here :)"));
+        }
+        return centralpanel;
+    }
+
+    public void clear(){
+        supercentralpanel.removeAll();
+        revalidate();
+        repaint();
+        pack();
+    }
+
+   /* public JPanel updateCentralPanel(ArrayList<Ping> listofpings){
+
+        counter = 0;
+        supercentralpanel.removeAll();
+
+        if(!listofpings.isEmpty()){
+            counter=(listofpings.size())-1;
+            for(Ping ping :listofpings) {
+
+                centralpanel.setLayout(new BorderLayout());
+                supercentralpanel.setLayout(new GridLayout(0,1));
+                supercentralpanel.add(new SharkContainer(jawsApi.getShark(ping.getName()), ping, favouriteSharks));
+                supercentralpanel.add(new JSeparator(SwingConstants.HORIZONTAL));
+                supercentralpanel.paintComponents(supercentralpanel.getGraphics());
+
+                centralpanel.remove(centralPane);
+                centralPane.setViewportView(supercentralpanel);
+                centralpanel.add(centralPane);
+
+                pack();
+            }
+
+        }else{
+            centralpanel.add(new JLabel("Nothing to show here :)"));
+        }
+
+        revalidate();
+        repaint();
+
+        return centralpanel;
+   }*/
+
+
+/**
+ * Creates the west panel within the main panel.
+ */
     private void createWestPanel() {
         mWestPanel = new JPanel(new BorderLayout(10, 10));//west Panel in main panel
 
@@ -223,7 +261,7 @@ public class SearchFrame extends JFrame implements Observer {
      * Creates the north panel within the west panel and adds it to the west panel.
      */
     private void createWNorthPanel() {
-        JPanel mwNorthPanel = new JPanel(new GridLayout(11, 1));
+        JPanel mwNorthPanel = new JPanel(new GridLayout(12, 1));
 
         Border emptyBorder = BorderFactory.createEmptyBorder(5, 5, 5, 5);
         mwNorthPanel.setBorder(emptyBorder);
@@ -239,6 +277,7 @@ public class SearchFrame extends JFrame implements Observer {
         mwNorthPanel.add(new JLabel("Tag location:"));
         mwNorthPanel.add(tag_location);
         mwNorthPanel.add(search);
+        mwNorthPanel.add(new JLabel(jawsApi.getLastUpdated()));
 
         mWestPanel.add(mwNorthPanel);
     }
@@ -292,9 +331,4 @@ public class SearchFrame extends JFrame implements Observer {
         msPanel.add(acknowledgement);
         add(msPanel, BorderLayout.SOUTH);
     }
-
-	@Override
-	public void update(Observable o, Object arg) {
-
-	}
 }
