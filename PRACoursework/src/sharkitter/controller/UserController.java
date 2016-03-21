@@ -42,6 +42,7 @@ public class UserController implements ActionListener {
         menuFrame = new MenuFrame(this);
         functionalityController = new FunctionalityController(menuFrame, favouriteSharks);
         menuFrame.addFunctionalityController(functionalityController);
+        menuFrame.setFocusable(true);
     }
 
     /**

@@ -28,10 +28,23 @@ public class MenuFrame extends JFrame {
 		this.userController = userController;
 
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
+
 		addWidgets();
 	}
 
 	public void addWidgets() {
+		JPanel northPanel = new JPanel(new BorderLayout());
+
+		JPanel tipPanel = new JPanel(new BorderLayout());
+
+		JButton tipButton = new JButton("?");
+		tipButton.setToolTipText("Try a Konami Code =p");
+
+		tipPanel.add(tipButton, BorderLayout.EAST);
+
+		northPanel.add(tipPanel, BorderLayout.EAST);
+
+
 		JPanel southPanel = new JPanel();
 		southPanel.setLayout(new GridLayout(5, 1));
 
@@ -66,12 +79,14 @@ public class MenuFrame extends JFrame {
 
 		add(southPanel, BorderLayout.SOUTH);
 		add(sharkTrackerLabel, BorderLayout.CENTER);
+		add(northPanel, BorderLayout.NORTH);
 
 		pack();
 	}
 
 	public void addFunctionalityController(FunctionalityController functionalityController) {
 		this.functionalityController = functionalityController;
+		addKeyListener(functionalityController);
 		searchButton.addActionListener(functionalityController);
 		favouritesButton.addActionListener(functionalityController);
 		statisticsButton.addActionListener(functionalityController);
