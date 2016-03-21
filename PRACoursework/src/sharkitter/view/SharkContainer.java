@@ -2,7 +2,7 @@ package sharkitter.view;
 
 import api.jaws.Ping;
 import api.jaws.Shark;
-import sharkitter.controller.FavouriteButtonListener;
+import sharkitter.controller.FavouriteController;
 import sharkitter.model.FavouriteSharks;
 
 import java.awt.*;
@@ -10,7 +10,7 @@ import javax.swing.*;
 
 public class SharkContainer extends JPanel {
 
-    private FavouriteButtonListener favouriteButtonListener;
+    private FavouriteController favouriteController;
     private JButton followButton;
     private Shark shark;
     private FavouriteSharks favouriteSharks;
@@ -26,7 +26,7 @@ public class SharkContainer extends JPanel {
         setLayout(new BorderLayout());
         setName(foundShark.getName());
 
-        favouriteButtonListener = new FavouriteButtonListener(this, favouriteSharks);
+        favouriteController = new FavouriteController(this, favouriteSharks);
         shark = foundShark;
 
         add(createSharkFeaturesTable(shark), BorderLayout.NORTH);
@@ -35,7 +35,7 @@ public class SharkContainer extends JPanel {
 
         add(createSharkTrackOptions(lastPing), BorderLayout.SOUTH);
 
-        setPreferredSize(new Dimension(800,200));
+        setSize(new Dimension(800,200));
         setVisible(true);
     }
 
@@ -63,11 +63,9 @@ public class SharkContainer extends JPanel {
 
         JLabel pingLabel = new JLabel("Last ping: " + lastPing.getTime());
 
-        //TODO if shark is in favouriteSharks than button = unfollow
         followButton = new JButton("Follow");
-        if(!favouriteSharks.getFavouriteSharks().contains(shark))
-            followButton.setText("Unfollow");
-        followButton.addActionListener(favouriteButtonListener);
+
+        followButton.addActionListener(favouriteController);
 
         pingPanel.add(pingLabel, BorderLayout.CENTER);
         pingPanel.add(followButton, BorderLayout.EAST);
@@ -121,5 +119,17 @@ public class SharkContainer extends JPanel {
      */
     public Shark getShark() {
         return shark;
+    }
+
+    /**
+     * Updates a button with the corresponding text
+     * @param text  New text for the JButton
+     */
+    public void updateFollowButton(String text) {
+        SwingUtilities.invokeLater(new Runnable() {
+            public void run() {
+                followButton.setText(text);
+            }
+        });
     }
 }
