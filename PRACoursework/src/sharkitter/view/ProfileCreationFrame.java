@@ -32,6 +32,9 @@ public class ProfileCreationFrame extends JFrame {
         JLabel usernameLabel = new JLabel("Username: ");
 
         usernameField = new JTextField();
+        usernameField.setFocusable(true);
+        usernameField.addKeyListener(userController);
+
         JButton enter = new JButton("Register");
         enter.addActionListener(userController);
 

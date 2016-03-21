@@ -2,7 +2,6 @@ package sharkitter.view;
 
 import sharkitter.controller.FunctionalityController;
 import sharkitter.controller.UserController;
-import sharkitter.model.FavouriteSharks;
 
 import java.awt.*;
 import java.awt.event.ActionListener;
@@ -68,6 +67,10 @@ public class MenuFrame extends JFrame {
 		pack();
 	}
 
+	/**
+	 * Create a JMenuBar for choosing between different profiles
+	 * @return	Created JMenuBar
+     */
 	private JMenuBar createjMenuBar() {
 		JMenuBar menuBar = new JMenuBar();
 		JMenu profiles = new JMenu("Profiles");
@@ -82,9 +85,14 @@ public class MenuFrame extends JFrame {
 
 		profiles.add(loadProfiles);
 		profiles.add(createProfile);
+
 		return menuBar;
 	}
 
+	/**
+	 * Add the functionality Controller to this frame
+	 * @param functionalityController	Controller responsible for the different functionalities of this programme
+     */
 	public void addFunctionalityController(FunctionalityController functionalityController) {
 		this.functionalityController = functionalityController;
 		addKeyListener(functionalityController);
@@ -93,21 +101,26 @@ public class MenuFrame extends JFrame {
 		statisticsButton.addActionListener(functionalityController);
 	}
 
-	public void loadProfile(String profile) {
-		JMenuItem profileItem = new JMenuItem(profile);
-		loadProfiles.add(profileItem);
-		profileItem.addActionListener(userController);
-	}
-
+	/**
+	 * Add the user Controller to this frame
+	 * @param userController	Controller responsible to switching between users
+     */
 	public void addUserController(UserController userController) {
 		this.userController = userController;
 		createProfile.addActionListener(this.userController);
 	}
 
+	/**
+	 * Disable the favourite button
+	 */
 	public void disableFavourites() {
 		favouritesButton.setEnabled(false);
 	}
 
+	/**
+	 * Load the given profile to the MenuBar
+	 * @param profile	String representation of a certain username
+	 */
 	public void addProfile(String profile) {
 		JMenuItem profileItem = new JMenuItem(profile);
 		loadProfiles.add(profileItem);

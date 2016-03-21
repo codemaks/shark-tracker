@@ -9,6 +9,8 @@ import sharkitter.view.alert.UserNotFoundAlert;
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -19,7 +21,7 @@ import java.nio.file.Paths;
 import java.nio.file.StandardOpenOption;
 import java.util.*;
 
-public class UserController implements ActionListener {
+public class UserController implements ActionListener, KeyListener {
 
     private ProfileCreationFrame accountCreation;
     private FavouriteSharks favouriteSharks;
@@ -67,40 +69,23 @@ public class UserController implements ActionListener {
                 accountCreation.setVisible(true);
             } else {
                 username = ((JMenuItem) e.getSource()).getText();
-                connectUser(username);
+                loadUser(username);
             }
 
         } else if (e.getSource().getClass().equals(JButton.class)) {
 
             if (((JButton) e.getSource()).getText().equals("Register")) {
 
-                username = accountCreation.getUsername();
-
-                if(!username.equals("")) {
-
-                    List<String> userList = Arrays.asList(username);
-                    try {
-                        File newProfile = new File("data/" + username + ".txt");
-
-                        if (newProfile.createNewFile()) {
-                            Files.write(PATH_TO_PROFILES, userList, StandardOpenOption.APPEND);
-                            favouriteSharks.clearData();
-                            favouriteSharks.setUser(username);
-                            menuFrame.addProfile(username);
-                            accountCreation.dispose();
-                        } else {
-                            ExistingUserAlert existingUser = new ExistingUserAlert();
-                            existingUser.setVisible(true);
-                        }
-                    } catch (IOException e1) {
-                        e1.printStackTrace();
-                    }
-                }
+                registerUser();
 
             }
         }
     }
 
+    /**
+     * Read existing profiles and update the view in consequence
+     * @throws IOException
+     */
     private void readProfiles() throws IOException {
         Path pathToProfile = Paths.get("data/list_of_profiles.txt");
         Scanner reader = new Scanner(pathToProfile);
@@ -108,10 +93,13 @@ public class UserController implements ActionListener {
 
         while (reader.hasNext()) {
             String profileName = reader.next();
-            menuFrame.loadProfile(profileName);
+            menuFrame.addProfile(profileName);
         }
     }
 
+    /**
+     * Load the default profile and any data associated
+     */
     private void loadDefaultProfile() {
         try {
             favouriteSharks.setUser("default");
@@ -140,7 +128,11 @@ public class UserController implements ActionListener {
 
     }
 
-    private void connectUser(String user) {
+    /**
+     * Load specific user
+     * @param user  String representation of a user
+     */
+    private void loadUser(String user) {
         UserNotFoundAlert userNotFound = new UserNotFoundAlert();
 
         if(!username.equals("")) {
@@ -168,5 +160,53 @@ public class UserController implements ActionListener {
                 e1.printStackTrace();
             }
         }
+    }
+
+    /**
+     * Register entered user and update the model and the view in consequence
+     */
+    private void registerUser() {
+        username = accountCreation.getUsername();
+
+        if(!username.equals("")) {
+
+            List<String> userList = Arrays.asList(username);
+            try {
+                File newProfile = new File("data/" + username + ".txt");
+
+                if (newProfile.createNewFile()) {
+                    Files.write(PATH_TO_PROFILES, userList, StandardOpenOption.APPEND);
+                    favouriteSharks.clearData();
+                    favouriteSharks.setUser(username);
+                    menuFrame.addProfile(username);
+                    accountCreation.dispose();
+                } else {
+                    ExistingUserAlert existingUser = new ExistingUserAlert();
+                    existingUser.setVisible(true);
+                }
+            } catch (IOException e1) {
+                e1.printStackTrace();
+            }
+        }
+    }
+
+    @Override
+    public void keyTyped(KeyEvent e) {
+
+    }
+
+    /**
+     * React to "Enter" key
+     * @param e
+     */
+    @Override
+    public void keyPressed(KeyEvent e) {
+        if(e.getKeyCode() == 10)
+            registerUser();
+    }
+
+    @Override
+    public void keyReleased(KeyEvent e) {
+
     }
 }
