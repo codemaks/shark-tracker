@@ -131,20 +131,71 @@ public class SearchFrame extends JFrame {
      */
     private void createCentralPanel() {
         centralpanel = new JPanel();
+        centralpanel.setLayout(new BorderLayout());;
 
         Border emptyBorder = BorderFactory.createEmptyBorder(5, 0, 5, 5);
         centralpanel.setBorder(BorderFactory.createCompoundBorder(emptyBorder, blackLineBorder));
         supercentralpanel=new JPanel();
+        supercentralpanel.setLayout(new GridLayout(0,1));
         centralPane = new JScrollPane(supercentralpanel);
         centralpanel.add(centralPane);
 
         add(centralpanel, BorderLayout.CENTER);
     }
 
-    public JPanel updateCentralPanel(ArrayList<Ping> listofpings){
+    public JPanel addSharkContainerToView(SharkContainer sharkcontainer){
 
-       counter = 0;
-       supercentralpanel.removeAll();
+                centralpanel.setLayout(new BorderLayout());
+                supercentralpanel.add(sharkcontainer);
+                supercentralpanel.add(new JSeparator(SwingConstants.HORIZONTAL));
+                supercentralpanel.paintComponents(supercentralpanel.getGraphics());
+
+                centralpanel.remove(centralPane);
+                centralPane.setViewportView(supercentralpanel);
+                centralpanel.add(centralPane);
+
+                revalidate();
+                repaint();
+                pack();
+
+        return centralpanel;
+    }
+
+    public JPanel addSeveralSharkContainersToView (ArrayList<SharkContainer> listofsharkcontainers) {
+
+        supercentralpanel.removeAll();
+        System.out.println(listofsharkcontainers);
+
+        if (!listofsharkcontainers.isEmpty()) {
+            for (SharkContainer sharkcontainer : listofsharkcontainers) {
+
+                supercentralpanel.add(sharkcontainer);
+                supercentralpanel.add(new JSeparator(SwingConstants.HORIZONTAL));
+                centralPane.setViewportView(supercentralpanel);
+                supercentralpanel.paintComponents(supercentralpanel.getGraphics());
+
+                revalidate();
+                repaint();
+                pack();
+            }
+
+        } else {
+            centralpanel.add(new JLabel("Nothing to show here :)"));
+        }
+        return centralpanel;
+    }
+
+    public void clear(){
+        supercentralpanel.removeAll();
+        revalidate();
+        repaint();
+        pack();
+    }
+
+   /* public JPanel updateCentralPanel(ArrayList<Ping> listofpings){
+
+        counter = 0;
+        supercentralpanel.removeAll();
 
         if(!listofpings.isEmpty()){
             counter=(listofpings.size())-1;
@@ -169,12 +220,12 @@ public class SearchFrame extends JFrame {
             centralpanel.add(new JLabel("Nothing to show here :)"));
         }
         return centralpanel;
-    }
+   }*/
 
 
-    /**
-     * Creates the west panel within the main panel.
-     */
+/**
+ * Creates the west panel within the main panel.
+ */
     private void createWestPanel() {
         mWestPanel = new JPanel(new BorderLayout(10, 10));//west Panel in main panel
 

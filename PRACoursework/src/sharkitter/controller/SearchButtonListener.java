@@ -5,6 +5,7 @@ import api.jaws.Ping;
 import api.jaws.Shark;
 import sharkitter.view.SearchFrame;
 import sharkitter.view.SharkContainer;
+import sun.security.provider.SHA;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -12,9 +13,12 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class SearchButtonListener implements ActionListener{
     private SearchFrame searchframe;
+    private ArrayList<SharkContainer> allSharkContainers;
     private String tracking_range;
     private String gender;
     private String tag_location;
@@ -24,125 +28,148 @@ public class SearchButtonListener implements ActionListener{
     public SearchButtonListener(SearchFrame searchframe){
         jawsApi = new Jaws("EkZ8ZqX11ozMamO9","E7gdkwWePBYT75KE", true);
         this.searchframe = searchframe;
+        allSharkContainers = new ArrayList<>();
         }
 
     public void actionPerformed(ActionEvent e){
-
-        searchframe.updateCentralPanel(updatefromTagLocation( updatefromStageOfLife( updatefromGender(updatefromTrackingRange()))));
-
-
+        sortByDate(updatefromTagLocation(updatefromStageOfLife(updatefromGender(updatefromTrackingRange()))));
     }
 
-    private ArrayList<Ping> sortSharksByDate(ArrayList<Ping> listOfPings){
+    private void sortByDate(ArrayList<SharkContainer> listOfSharkContainers) {
+        //clear the central panel
+        searchframe.clear();
+        //pass in all SharkContainers
+        allSharkContainers = new ArrayList<>();
+        //create hashmap of Shark names to SharkContainers
+        HashMap<String, ArrayList<SharkContainer>> sortBySharkName = new HashMap<>();
+        //loop through SharkContainers and add them to hashmap
+        for (SharkContainer container : listOfSharkContainers) {
 
-       Map<String,ArrayList<Ping>> allSharksNTimes = new HashMap<>();
+            String sharkName;
+            sharkName = container.getSharkName();
 
-        for(Ping ping: listOfPings){
-
-            allSharksNTimes.put(ping.getName(),new ArrayList<>());
-
-           for(Ping ping2: listOfPings){
-               if(ping.getName().equals(ping2.getName()))
-                  allSharksNTimes.getOrDefault(ping.getName(),new ArrayList<>()).add(ping2);
-           }
+            //find an existing arrayList or create one
+            ArrayList<SharkContainer> currentSharks = sortBySharkName.getOrDefault(sharkName, new ArrayList<>());
+            //add SharkContainer to that arrayList
+            currentSharks.add(container);
+            //put that arrayList back if it was created
+            sortBySharkName.putIfAbsent(sharkName, currentSharks);
         }
 
-        return listOfPings;
+        ArrayList<SharkContainer> reverseArray = new ArrayList<>();
+
+        for(String currentName: sortBySharkName.keySet()){
+            //pull all the SharkContainers with the same name into a temporary arrayList
+            ArrayList<SharkContainer> currentList = sortBySharkName.get(currentName);
+            //sort the sharkContainers by their date
+                    Collections.sort(currentList);
+
+            sortBySharkName.put(currentName, currentList);
+
+            if(!currentList.isEmpty()){
+                reverseArray.add(currentList.get(currentList.size()-1));
+            }
+        }
+            //sort the sharkContainers by their date again
+            Collections.sort(reverseArray);
+            for(int i=reverseArray.size()-1; i>-1 ;i--){
+                allSharkContainers.add(reverseArray.get(i));
+            }
+
+        searchframe.addSeveralSharkContainersToView(allSharkContainers);
     }
 
-    private ArrayList<Ping> updatefromTrackingRange(){
+    private ArrayList<SharkContainer> updatefromTrackingRange(){
         //1. read selected constraint from combo box
 
         tracking_range = (String)searchframe.getTracking_range().getSelectedItem();
 
         //2. get all shark components by tracking range
         if (tracking_range.equals("Last 24 Hours")) {
-            searchframe.updateCentralPanel(jawsApi.past24Hours());
-            return jawsApi.past24Hours();
+            for(Ping ping: jawsApi.past24Hours()){
+                allSharkContainers.add(new SharkContainer(jawsApi.getShark(ping.getName()),ping,null));
+            }
 
         } else if (tracking_range.equals("Last Week")) {
-
-            searchframe.updateCentralPanel(jawsApi.pastWeek());
-            return jawsApi.pastWeek();
+            for(Ping ping: jawsApi.pastWeek()){
+                allSharkContainers.add(new SharkContainer(jawsApi.getShark(ping.getName()),ping,null));
+            }
 
         } else if (tracking_range.equals("Last Month")) {
-
-            searchframe.updateCentralPanel(jawsApi.pastMonth());
-            return jawsApi.pastMonth();
+            for(Ping ping: jawsApi.pastMonth()){
+                allSharkContainers.add(new SharkContainer(jawsApi.getShark(ping.getName()),ping,null));
+            }
 
         } else {
             System.out.println("SearchButtonListener Error 1 : Invalid ComboBox input");
-            return null;
         }
+        return allSharkContainers;
     }
 
-    private ArrayList<Ping> updatefromStageOfLife(ArrayList<Ping> listOfPings){
+    private ArrayList<SharkContainer> updatefromStageOfLife(ArrayList<SharkContainer>  listOfPings){
         stage_of_life = (String)searchframe.getStage_of_life().getSelectedItem();
 
         if (stage_of_life!="All"){
             listOfPings=selectSharksByStageofLife(listOfPings,stage_of_life);
-            searchframe.updateCentralPanel(listOfPings);
         }
         return(listOfPings);
     }
 
-    private ArrayList<Ping> selectSharksByStageofLife(ArrayList<Ping> listOfPings, String selectionElement){
+    private ArrayList<SharkContainer>  selectSharksByStageofLife(ArrayList<SharkContainer>  listOfSCs, String selectionElement){
         System.out.println("selectionElement: "+selectionElement);
-        ArrayList<Ping> newlistofPings = new ArrayList<Ping>();
-        for (Ping ping: listOfPings){
-           if( jawsApi.getShark(ping.getName()).getStageOfLife().equals(selectionElement)){
+        ArrayList<SharkContainer>  newlistofSCs = new ArrayList<SharkContainer> ();
+        for (SharkContainer sharkContainer: listOfSCs){
+           if( jawsApi.getShark(sharkContainer.getName()).getStageOfLife().equals(selectionElement)){
                System.out.println("got there! selectionelement: " + selectionElement + " :");
-               newlistofPings.add(ping);
+               newlistofSCs.add(sharkContainer);
            }
         }
-        System.out.println("stageoflife_newlistofPings: "+newlistofPings);
-        return newlistofPings;
+        System.out.println("stageoflife_newlistofPings: "+newlistofSCs);
+        return newlistofSCs;
     }
 
 
-    private ArrayList<Ping> updatefromGender(ArrayList<Ping> listOfPings){
+    private ArrayList<SharkContainer>  updatefromGender(ArrayList<SharkContainer>  listOfSCs){
         gender = (String)searchframe.getGender().getSelectedItem();
 
         if (gender!="All"){
-            listOfPings = selectSharksByGender(listOfPings,gender);
-            searchframe.updateCentralPanel(listOfPings);
+            listOfSCs = selectSharksByGender(listOfSCs,gender);
         }
-        return listOfPings;
+        return listOfSCs;
     }
 
-    private ArrayList<Ping> selectSharksByGender(ArrayList<Ping> listOfPings, String selectionElement){
+    private ArrayList<SharkContainer>  selectSharksByGender(ArrayList<SharkContainer>  listOfSCs, String selectionElement){
         System.out.println("gender: " +selectionElement);
-        ArrayList<Ping> newlistofPings = new ArrayList<Ping>();
-        for (Ping ping: listOfPings){
-            if( jawsApi.getShark(ping.getName()).getGender().equals(selectionElement)){
+        ArrayList<SharkContainer> newlistofSCs = new ArrayList<SharkContainer> ();
+        for (SharkContainer sharkContainer: listOfSCs){
+            if( jawsApi.getShark(sharkContainer.getName()).getGender().equals(selectionElement)){
                 System.out.println("got there! selectionelement: " + selectionElement + " :");
-                newlistofPings.add(ping);
+                newlistofSCs.add(sharkContainer);
             }
         }
-        System.out.println("gender_newlistofPings: "+newlistofPings);
-        return newlistofPings;
+        System.out.println("gender_newlistofPings: "+newlistofSCs);
+        return newlistofSCs;
     }
 
 
-    private ArrayList<Ping> updatefromTagLocation(ArrayList<Ping> listOfPings){
+    private ArrayList<SharkContainer>  updatefromTagLocation(ArrayList<SharkContainer>  listOfSCs){
         tag_location = (String)searchframe.getTag_location().getSelectedItem();
 
         if (tag_location!="All"){
-            listOfPings=selectSharksByTagLocation(listOfPings,tag_location);
-            searchframe.updateCentralPanel(listOfPings);
+            listOfSCs=selectSharksByTagLocation(listOfSCs,tag_location);
         }
-        System.out.println(listOfPings);
-        return listOfPings;
+        System.out.println(listOfSCs);
+        return listOfSCs;
 
     }
 
-    private ArrayList<Ping> selectSharksByTagLocation(ArrayList<Ping> listOfPings, String selectionElement){
+    private ArrayList<SharkContainer>  selectSharksByTagLocation(ArrayList<SharkContainer>  listOfPings, String selectionElement){
         System.out.println("tag location: "+ selectionElement);
-        ArrayList<Ping> newlistofPings = new ArrayList<Ping>();
-        for (Ping ping: listOfPings){
-            if( jawsApi.getShark(ping.getName()).getTagLocation().equals(selectionElement)){
+        ArrayList<SharkContainer>  newlistofPings = new ArrayList<SharkContainer> ();
+        for (SharkContainer sharkContainer: listOfPings){
+            if( jawsApi.getShark(sharkContainer.getName()).getTagLocation().equals(selectionElement)){
                 System.out.println("got there! selectionelement: " + selectionElement + " :");
-                newlistofPings.add(ping);
+                newlistofPings.add(sharkContainer);
             }
         }
         System.out.println("tagloc_newlistofPings: "+newlistofPings);
