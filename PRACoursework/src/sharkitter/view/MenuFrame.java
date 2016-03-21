@@ -4,16 +4,9 @@ import sharkitter.controller.FunctionalityController;
 import sharkitter.model.FavouriteSharks;
 
 import java.awt.*;
-import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.WindowEvent;
-import java.awt.event.WindowListener;
 
-import javax.swing.ImageIcon;
-import javax.swing.JButton;
-import javax.swing.JFrame;
-import javax.swing.JLabel;
-import javax.swing.JPanel;
+import javax.swing.*;
 
 public class MenuFrame extends JFrame {
 	//private JTextField searchField;
@@ -44,6 +37,19 @@ public class MenuFrame extends JFrame {
 
 		northPanel.add(tipPanel, BorderLayout.EAST);
 
+		JMenuBar menuBar = new JMenuBar();
+		JMenu profiles = new JMenu("Profiles");
+		JMenu tip = new JMenu("?");
+		tip.setToolTipText("Try a Konami Code =p");
+
+		menuBar.add(profiles);
+		menuBar.add(tip);
+
+		JMenu loadProfiles = new JMenu("Load Profiles");
+		JMenuItem createProfile = new JMenuItem("Create Profile");
+
+		profiles.add(loadProfiles);
+		profiles.add(createProfile);
 
 		JPanel southPanel = new JPanel();
 		southPanel.setLayout(new GridLayout(5, 1));
@@ -79,7 +85,7 @@ public class MenuFrame extends JFrame {
 
 		add(southPanel, BorderLayout.SOUTH);
 		add(sharkTrackerLabel, BorderLayout.CENTER);
-		add(northPanel, BorderLayout.NORTH);
+		add(menuBar, BorderLayout.NORTH);
 
 		pack();
 	}
