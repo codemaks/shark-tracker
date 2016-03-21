@@ -78,4 +78,8 @@ public class FavouriteSharks {
     public String getUser() {
         return user;
     }
+
+    public void clearData() {
+        favouriteSharks.clear();
+    }
 }

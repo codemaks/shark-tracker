@@ -39,8 +39,9 @@ public class SearchFrame extends JFrame {
     private Border blackLineBorder;
 
     private FavouriteSharks favouriteSharks;
+    private ActionListener functionalityController;
 
-    public SearchFrame(FavouriteSharks favouriteSharks) {
+    public SearchFrame(ActionListener functionalityController, FavouriteSharks favouriteSharks) {
         super("Search");
         jawsApi = new Jaws("EkZ8ZqX11ozMamO9", "E7gdkwWePBYT75KE", true);
         System.out.println(jawsApi.getLastUpdated());
@@ -49,6 +50,7 @@ public class SearchFrame extends JFrame {
         blackLineBorder = BorderFactory.createLineBorder(Color.BLACK);
 
         this.favouriteSharks = favouriteSharks;
+        this.functionalityController = functionalityController;
         setLayout(new BorderLayout());
         setPreferredSize(new Dimension(1200, 700));
         createPanels();
@@ -59,6 +61,7 @@ public class SearchFrame extends JFrame {
 	 * Create and display the widgets on the main Frame
 	 */
 	private void createPanels() {
+        createNorthPanel();
         createCentralPanel();
         createWestPanel();
         createWSouthPanel();
@@ -72,6 +75,20 @@ public class SearchFrame extends JFrame {
 
 		pack();
 	}
+
+    private void createNorthPanel() {
+        JMenuBar menuBar = new JMenuBar();
+
+        JMenu view = new JMenu("View");
+
+        JMenuItem menu = new JMenuItem("Menu");
+        menu.addActionListener(functionalityController);
+        menu.setToolTipText("Go back to the main menu");
+
+        view.add(menu);
+        menuBar.add(view);
+        add(menuBar, BorderLayout.NORTH);
+    }
 
     /**
      * Creates the combo boxes.

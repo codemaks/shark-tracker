@@ -1,10 +1,12 @@
 package sharkitter.view;
 
 import sharkitter.controller.FunctionalityController;
+import sharkitter.controller.UserController;
 import sharkitter.model.FavouriteSharks;
 
 import java.awt.*;
 import java.awt.event.ActionListener;
+import java.io.IOException;
 
 import javax.swing.*;
 
@@ -13,12 +15,14 @@ public class MenuFrame extends JFrame {
 	private JButton searchButton;
 	private JButton favouritesButton;
 	private JButton statisticsButton;
-	private JButton disconnectButton;
+
+	private JMenu loadProfiles;
+	private JMenuItem createProfile;
+
 	private ActionListener userController, functionalityController;
 
-	public MenuFrame(ActionListener userController) {
+	public MenuFrame() throws IOException {
 		super("Amnity Police");
-		this.userController = userController;
 
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
 
@@ -26,30 +30,7 @@ public class MenuFrame extends JFrame {
 	}
 
 	public void addWidgets() {
-		JPanel northPanel = new JPanel(new BorderLayout());
-
-		JPanel tipPanel = new JPanel(new BorderLayout());
-
-		JButton tipButton = new JButton("?");
-		tipButton.setToolTipText("Try a Konami Code =p");
-
-		tipPanel.add(tipButton, BorderLayout.EAST);
-
-		northPanel.add(tipPanel, BorderLayout.EAST);
-
-		JMenuBar menuBar = new JMenuBar();
-		JMenu profiles = new JMenu("Profiles");
-		JMenu tip = new JMenu("?");
-		tip.setToolTipText("Try a Konami Code =p");
-
-		menuBar.add(profiles);
-		menuBar.add(tip);
-
-		JMenu loadProfiles = new JMenu("Load Profiles");
-		JMenuItem createProfile = new JMenuItem("Create Profile");
-
-		profiles.add(loadProfiles);
-		profiles.add(createProfile);
+		JMenuBar menuBar = createjMenuBar();
 
 		JPanel southPanel = new JPanel();
 		southPanel.setLayout(new GridLayout(5, 1));
@@ -63,14 +44,11 @@ public class MenuFrame extends JFrame {
 		statisticsButton.setHorizontalAlignment(JButton.CENTER);
 
 		JLabel blank = new JLabel("");
-		disconnectButton = new JButton("Disconnect");
-		disconnectButton.addActionListener(userController);
 
 		southPanel.add(searchButton);
 		southPanel.add(favouritesButton);
 		southPanel.add(statisticsButton);
 		southPanel.add(blank);
-		southPanel.add(disconnectButton);
 
 		ImageIcon shark = new ImageIcon(getClass().getClassLoader().getResource("resources/SharkTracker.png"));
 		Image img = shark.getImage();
@@ -90,11 +68,51 @@ public class MenuFrame extends JFrame {
 		pack();
 	}
 
+	private JMenuBar createjMenuBar() {
+		JMenuBar menuBar = new JMenuBar();
+		JMenu profiles = new JMenu("Profiles");
+		JMenu tip = new JMenu("?");
+		tip.setToolTipText("Try a Konami Code =p");
+
+		menuBar.add(profiles);
+		menuBar.add(tip);
+
+		loadProfiles = new JMenu("Load Profiles");
+		createProfile = new JMenuItem("Create Profile");
+
+		profiles.add(loadProfiles);
+		profiles.add(createProfile);
+		return menuBar;
+	}
+
 	public void addFunctionalityController(FunctionalityController functionalityController) {
 		this.functionalityController = functionalityController;
 		addKeyListener(functionalityController);
 		searchButton.addActionListener(functionalityController);
 		favouritesButton.addActionListener(functionalityController);
 		statisticsButton.addActionListener(functionalityController);
+	}
+
+	public void loadProfile(String profile) {
+		JMenuItem profileItem = new JMenuItem(profile);
+		loadProfiles.add(profileItem);
+		profileItem.addActionListener(userController);
+	}
+
+	public void addUserController(UserController userController) {
+		this.userController = userController;
+		createProfile.addActionListener(this.userController);
+	}
+
+	public void disableFavourites() {
+		favouritesButton.setEnabled(false);
+	}
+
+	public void addProfile(String profile) {
+		JMenuItem profileItem = new JMenuItem(profile);
+		loadProfiles.add(profileItem);
+		profileItem.addActionListener(userController);
+		revalidate();
+		repaint();
 	}
 }

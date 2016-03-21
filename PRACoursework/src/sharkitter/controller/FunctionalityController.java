@@ -33,23 +33,36 @@ public class FunctionalityController implements ActionListener, KeyListener {
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        String buttonName = ((JButton) e.getSource()).getText();
 
-        switch(buttonName) {
-            case "Search":
-                menuFrame.setVisible(false);
-                searchFrame = new SearchFrame(favouriteSharks);
-                searchFrame.setVisible(true);
-                break;
+        if(e.getSource().getClass() == JButton.class) {
+            String buttonName = ((JButton) e.getSource()).getText();
 
-            case "Favourites":
-                break;
+            switch (buttonName) {
+                case "Search":
+                    menuFrame.setVisible(false);
+                    searchFrame = new SearchFrame(this, favouriteSharks);
+                    searchFrame.setVisible(true);
+                    break;
 
-            case "Statistics":
-                menuFrame.setVisible(false);
-                statisticsFrame = new StatisticsFrame();
-                statisticsFrame.setVisible(true);
-                break;
+                case "Favourites":
+                    break;
+
+                case "Statistics":
+                    menuFrame.setVisible(false);
+                    statisticsFrame = new StatisticsFrame();
+                    statisticsFrame.setVisible(true);
+                    break;
+            }
+        }
+
+        if(e.getSource().getClass() == JMenuItem.class) {
+            String menuName = ((JMenuItem) e.getSource()).getText();
+
+            switch (menuName) {
+                case "Menu":
+                    searchFrame.setVisible(false);
+                    menuFrame.setVisible(true);
+            }
         }
     }
 

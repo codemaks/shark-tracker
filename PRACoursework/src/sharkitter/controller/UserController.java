@@ -9,20 +9,19 @@ import sharkitter.view.alert.UserNotFoundAlert;
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
+import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.Scanner;
+import java.nio.file.StandardOpenOption;
+import java.util.*;
 
-public class UserController implements ActionListener, KeyListener {
+public class UserController implements ActionListener {
 
-    private ConnectionFrame connectionFrame;
-    private AccountCreationFrame accountCreation;
+    private ProfileCreationFrame accountCreation;
     private FavouriteSharks favouriteSharks;
     private MenuFrame menuFrame;
     private FunctionalityController functionalityController;
@@ -31,22 +30,27 @@ public class UserController implements ActionListener, KeyListener {
 
     private String username;
 
+    private static final Path PATH_TO_PROFILES = Paths.get("data/list_of_profiles.txt");
+
     /**
      * Constructor of UserController
-     * @param connectionFrame   Frame used by user to connect
+     * @param menuFrame   Frame used by user to connect
      * @param favouriteSharks   Model of favourite sharks
      */
-    public UserController(ConnectionFrame connectionFrame, FavouriteSharks favouriteSharks) {
-        this.connectionFrame = connectionFrame;
-        this.favouriteSharks = favouriteSharks;
+    public UserController(MenuFrame menuFrame, FavouriteSharks favouriteSharks) throws IOException {
+        this.menuFrame = menuFrame;
+        this.menuFrame.addUserController(this);
 
+        this.favouriteSharks = favouriteSharks;
 
         api = new Jaws("EkZ8ZqX11ozMamO9", "E7gdkwWePBYT75KE", true);
 
-        menuFrame = new MenuFrame(this);
+        readProfiles();
+        loadDefaultProfile();
+
         functionalityController = new FunctionalityController(menuFrame, favouriteSharks);
-        menuFrame.addFunctionalityController(functionalityController);
-        menuFrame.setFocusable(true);
+        this.menuFrame.addFunctionalityController(functionalityController);
+        this.menuFrame.setFocusable(true);
     }
 
     /**
@@ -55,69 +59,102 @@ public class UserController implements ActionListener, KeyListener {
      */
     @Override
     public void actionPerformed(ActionEvent e) {
-        String buttonName = ((JButton) e.getSource()).getText();
 
-        switch (buttonName) {
+        if (e.getSource().getClass().equals(JMenuItem.class)) {
 
-            case "Enter":
-                connectUser();
-                break;
-
-            case "Create new account":
-                accountCreation = new AccountCreationFrame(this);
-                connectionFrame.setVisible(false);
+            if (((JMenuItem) e.getSource()).getText().equals("Create Profile")) {
+                accountCreation = new ProfileCreationFrame(this);
                 accountCreation.setVisible(true);
-                break;
+            } else {
+                username = ((JMenuItem) e.getSource()).getText();
+                connectUser(username);
+            }
 
-            case "Register":
+        } else if (e.getSource().getClass().equals(JButton.class)) {
+
+            if (((JButton) e.getSource()).getText().equals("Register")) {
+
                 username = accountCreation.getUsername();
 
-                File newUser = new File("data/" + username + ".txt");
+                if(!username.equals("")) {
 
-                if(newUser.exists()) {
-                    ExistingUserAlert existingUser = new ExistingUserAlert();
-                    existingUser.setVisible(true);
-                } else {
-//                File newUser = new File("data/" + username + ".txt");
-
-                    //Give user to model
+                    List<String> userList = Arrays.asList(username);
                     try {
-                        favouriteSharks.setUser(username);
-                    } catch (FileNotFoundException e1) {
-                        e1.printStackTrace();
-                    } catch (UnsupportedEncodingException e1) {
+                        File newProfile = new File("data/" + username + ".txt");
+
+                        if (newProfile.createNewFile()) {
+                            Files.write(PATH_TO_PROFILES, userList, StandardOpenOption.APPEND);
+                            favouriteSharks.clearData();
+                            favouriteSharks.setUser(username);
+                            menuFrame.addProfile(username);
+                            accountCreation.dispose();
+                        } else {
+                            ExistingUserAlert existingUser = new ExistingUserAlert();
+                            existingUser.setVisible(true);
+                        }
+                    } catch (IOException e1) {
                         e1.printStackTrace();
                     }
-
-                    accountCreation.dispose();
-                    connectionFrame.setVisible(false);
-                    menuFrame.setVisible(true);
                 }
-                break;
 
-            case "<-":
-                accountCreation.dispose();
-                connectionFrame.setVisible(true);
-                break;
-
-            case "Disconnect":
-                menuFrame.dispose();
-                connectionFrame.setVisible(true);
-                break;
+            }
         }
     }
 
-    private void connectUser() {
-        username = connectionFrame.getUsername();
+    private void readProfiles() throws IOException {
+        Path pathToProfile = Paths.get("data/list_of_profiles.txt");
+        Scanner reader = new Scanner(pathToProfile);
+        reader.useDelimiter("\n");
+
+        while (reader.hasNext()) {
+            String profileName = reader.next();
+            menuFrame.loadProfile(profileName);
+        }
+    }
+
+    private void loadDefaultProfile() {
+        try {
+            favouriteSharks.setUser("default");
+            favouriteSharks.clearData();
+
+            Path pathToFile = Paths.get("data/default.txt");
+            Scanner reader = new Scanner(pathToFile);
+            reader.useDelimiter("\n");
+
+            if(!reader.hasNext()) {
+                menuFrame.disableFavourites();
+            }
+
+            while (reader.hasNext()) {
+                String sharkName = reader.next();
+                favouriteSharks.loadSharks(api.getShark(sharkName));
+            }
+        } catch (FileNotFoundException e1) {
+            UserNotFoundAlert userNotFound = new UserNotFoundAlert();
+            userNotFound.setVisible(true);
+        } catch (UnsupportedEncodingException e1) {
+            e1.printStackTrace();
+        } catch (IOException e1) {
+            e1.printStackTrace();
+        }
+
+    }
+
+    private void connectUser(String user) {
         UserNotFoundAlert userNotFound = new UserNotFoundAlert();
 
         if(!username.equals("")) {
             try {
-                favouriteSharks.setUser(username);
+                favouriteSharks.clearData();
+                favouriteSharks.setUser(user);
 
-                Path pathToFile = Paths.get("data/" + username + ".txt");
+                Path pathToFile = Paths.get("data/" + user + ".txt");
                 Scanner reader = new Scanner(pathToFile);
                 reader.useDelimiter("\n");
+
+                if(!reader.hasNext()) {
+                    menuFrame.disableFavourites();
+                }
 
                 while (reader.hasNext()) {
                     String sharkName = reader.next();
@@ -130,26 +167,6 @@ public class UserController implements ActionListener, KeyListener {
             } catch (IOException e1) {
                 e1.printStackTrace();
             }
-
-            connectionFrame.dispose();
-
-            menuFrame.setVisible(true);
         }
-    }
-
-    @Override
-    public void keyTyped(KeyEvent e) {
-
-    }
-
-    @Override
-    public void keyPressed(KeyEvent e) {
-        if(e.getKeyCode() == 10)
-            connectUser();
-    }
-
-    @Override
-    public void keyReleased(KeyEvent e) {
-
     }
 }
