@@ -2,16 +2,19 @@ package sharkitter.view;
 
 import api.jaws.Ping;
 import api.jaws.Shark;
-import sharkitter.controller.FavouriteController;
+import sharkitter.controller.FavouriteButtonListener;
 import sharkitter.model.FavouriteSharks;
 
 import java.awt.*;
+import java.util.Collection;
+import java.util.HashMap;
 import javax.swing.*;
 
-public class SharkContainer extends JPanel {
+public class SharkContainer extends JPanel implements Comparable<SharkContainer> {
 
     private FavouriteController favouriteController;
     private JButton followButton;
+    private HashMap<String,String> sharkdetails;
     private Shark shark;
     private FavouriteSharks favouriteSharks;
 
@@ -23,22 +26,39 @@ public class SharkContainer extends JPanel {
      * @param lastPing	The last Ping for the matching Shark.
      */
     public SharkContainer(Shark foundShark, Ping lastPing, FavouriteSharks favouriteSharks){
+        sharkdetails = new HashMap<>();
+        populateSharkDetails(foundShark,lastPing);
         setLayout(new BorderLayout());
         setName(foundShark.getName());
 
-        favouriteController = new FavouriteController(this, favouriteSharks);
+        favouriteButtonListener = new FavouriteButtonListener(this, favouriteSharks);
         shark = foundShark;
 
         add(createSharkFeaturesTable(shark), BorderLayout.NORTH);
 
-        add(createSharkDescriptionText(shark), BorderLayout.CENTER);
+        add(createSharkDescriptionText(shark), BorderLayout.WEST);
 
         add(createSharkTrackOptions(lastPing), BorderLayout.SOUTH);
 
-        setSize(new Dimension(800,200));
+        setSize(new Dimension(400,200));
         setVisible(true);
     }
 
+    private void populateSharkDetails(Shark foundShark,Ping ping){
+        sharkdetails.put("name",foundShark.getName());
+        sharkdetails.put("gender",foundShark.getGender());
+        sharkdetails.put("stageoflife",foundShark.getStageOfLife());
+        sharkdetails.put("taglocation",foundShark.getTagLocation());
+        sharkdetails.put("lastping",ping.getTime());
+    }
+
+    public String getSharkName(){
+        return sharkdetails.get("name");
+    }
+
+    public String getSharkDate(){
+        return sharkdetails.get("lastping");
+    }
     /**
      * Create and display the description of a matching Shark.
      * @param foundShark	A Shark matching the chosen criteria.
@@ -48,7 +68,7 @@ public class SharkContainer extends JPanel {
         JPanel descriptionPanel = new JPanel();
 
         descriptionPanel.add(new JLabel("Description: \n\n"));
-        descriptionPanel.add(new JScrollPane(new JLabel(foundShark.getDescription())));
+        descriptionPanel.add(new JScrollPane(new JTextArea(foundShark.getDescription())));
         setVisible(true);
 
         return descriptionPanel;
@@ -65,7 +85,7 @@ public class SharkContainer extends JPanel {
 
         followButton = new JButton("Follow");
 
-        followButton.addActionListener(favouriteController);
+        followButton.addActionListener(favouriteButtonListener);
 
         pingPanel.add(pingLabel, BorderLayout.CENTER);
         pingPanel.add(followButton, BorderLayout.EAST);
@@ -131,5 +151,11 @@ public class SharkContainer extends JPanel {
                 followButton.setText(text);
             }
         });
+    }
+}
+
+    @Override
+    public int compareTo(SharkContainer anotherSharkContainer) {
+        return getSharkDate().compareTo(anotherSharkContainer.getSharkDate());
     }
 }
