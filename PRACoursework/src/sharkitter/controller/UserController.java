@@ -26,7 +26,6 @@ public class UserController implements ActionListener, KeyListener {
     private ProfileCreationFrame accountCreation;
     private FavouriteSharks favouriteSharks;
     private MenuFrame menuFrame;
-    private FunctionalityController functionalityController;
 
     private Jaws api;
 
@@ -39,20 +38,16 @@ public class UserController implements ActionListener, KeyListener {
      * @param menuFrame   Frame used by user to connect
      * @param favouriteSharks   Model of favourite sharks
      */
-    public UserController(MenuFrame menuFrame, FavouriteSharks favouriteSharks) throws IOException {
+    public UserController(MenuFrame menuFrame, FavouriteSharks favouriteSharks, Jaws jaws) throws IOException {
         this.menuFrame = menuFrame;
         this.menuFrame.addUserController(this);
 
         this.favouriteSharks = favouriteSharks;
 
-        api = new Jaws("EkZ8ZqX11ozMamO9", "E7gdkwWePBYT75KE", true);
+        api = jaws;
 
         readProfiles();
         loadDefaultProfile();
-
-        functionalityController = new FunctionalityController(menuFrame, favouriteSharks);
-        this.menuFrame.addFunctionalityController(functionalityController);
-        this.menuFrame.setFocusable(true);
     }
 
     /**
@@ -110,7 +105,7 @@ public class UserController implements ActionListener, KeyListener {
             reader.useDelimiter("\n");
 
             if(!reader.hasNext()) {
-                menuFrame.disableFavourites();
+                menuFrame.toggleFavourites(false);
             }
 
             while (reader.hasNext()) {
@@ -145,7 +140,7 @@ public class UserController implements ActionListener, KeyListener {
                 reader.useDelimiter("\n");
 
                 if(!reader.hasNext()) {
-                    menuFrame.disableFavourites();
+                    menuFrame.toggleFavourites(false);
                 }
 
                 while (reader.hasNext()) {

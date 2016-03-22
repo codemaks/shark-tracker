@@ -38,9 +38,11 @@ public class FavouritesFrame extends JFrame{
 		{
 			distanceToKingsInfo += shark/*.getName()*/;
 
-			Location l = jawsApi.getLastLocation(shark/*.getName()*/);
+			//need to fix before map will work
+
+			/*Location l = jawsApi.getLastLocation(shark/*.getName()/);
 			locations.add(l);
-			distanceToKingsInfo += " : " + findDistanceBetween(kclLocation, l); // haven't tested yet
+			distanceToKingsInfo += " : " + findDistanceBetween(kclLocation, l); */ // haven't tested yet
 			distanceToKingsInfo += "\n";
 		}
 		
