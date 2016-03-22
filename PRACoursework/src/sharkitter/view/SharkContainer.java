@@ -13,7 +13,7 @@ public class SharkContainer extends JPanel implements Comparable<SharkContainer>
 
     private FavouriteController favouriteController;
     private JButton followButton;
-    private HashMap<String,String> sharkdetails;
+    private HashMap<String,String> sharkDetails;
     private Shark shark;
     private FavouriteSharks favouriteSharks;
 
@@ -25,7 +25,7 @@ public class SharkContainer extends JPanel implements Comparable<SharkContainer>
      * @param lastPing	The last Ping for the matching Shark.
      */
     public SharkContainer(Shark foundShark, Ping lastPing, FavouriteSharks favouriteSharks){
-        sharkdetails = new HashMap<>();
+        sharkDetails = new HashMap<>();
         populateSharkDetails(foundShark,lastPing);
         setLayout(new BorderLayout());
         setName(foundShark.getName());
@@ -44,15 +44,15 @@ public class SharkContainer extends JPanel implements Comparable<SharkContainer>
     }
 
     private void populateSharkDetails(Shark foundShark,Ping ping){
-        sharkdetails.put("name",foundShark.getName());
-        sharkdetails.put("gender",foundShark.getGender());
-        sharkdetails.put("stageoflife",foundShark.getStageOfLife());
-        sharkdetails.put("taglocation",foundShark.getTagLocation());
-        sharkdetails.put("lastping",ping.getTime());
+        sharkDetails.put("name",foundShark.getName());
+        sharkDetails.put("gender",foundShark.getGender());
+        sharkDetails.put("stageoflife",foundShark.getStageOfLife());
+        sharkDetails.put("taglocation",foundShark.getTagLocation());
+        sharkDetails.put("lastping",ping.getTime());
     }
 
     public String getSharkDate(){
-        return sharkdetails.get("lastping");
+        return sharkDetails.get("lastping");
     }
     /**
      * Create and display the description of a matching Shark.

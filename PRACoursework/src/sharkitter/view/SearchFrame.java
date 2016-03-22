@@ -21,10 +21,10 @@ public class SearchFrame extends JFrame {
 	private JComboBox<String> gender;
 	private JComboBox<String> tag_location;
 
-	private JPanel centralpanel;
+	private JPanel centralPanel;
 	private JPanel mWestPanel;
 	private JScrollPane centralPane;
-	private JPanel supercentralpanel;
+	private JPanel superCentralPanel;
 
 	private JButton search;
 
@@ -145,49 +145,49 @@ public class SearchFrame extends JFrame {
 	 * Create and display the central element of the SearchFrame i.e. the search results.
 	 */
 	private void createCentralPanel() {
-		centralpanel = new JPanel();
-		centralpanel.setLayout(new BorderLayout());;
+		centralPanel = new JPanel();
+		centralPanel.setLayout(new BorderLayout());;
 
 		Border emptyBorder = BorderFactory.createEmptyBorder(5, 0, 5, 5);
-		centralpanel.setBorder(BorderFactory.createCompoundBorder(emptyBorder, blackLineBorder));
-		supercentralpanel=new JPanel();
-		supercentralpanel.setLayout(new GridLayout(0,1));
-		centralPane = new JScrollPane(supercentralpanel);
-		centralpanel.add(centralPane);
+		centralPanel.setBorder(BorderFactory.createCompoundBorder(emptyBorder, blackLineBorder));
+		superCentralPanel =new JPanel();
+		superCentralPanel.setLayout(new GridLayout(0,1));
+		centralPane = new JScrollPane(superCentralPanel);
+		centralPanel.add(centralPane);
 
-		add(centralpanel, BorderLayout.CENTER);
+		add(centralPanel, BorderLayout.CENTER);
 	}
 
 	public JPanel addSharkContainerToView(SharkContainer sharkcontainer){
 
-        centralpanel.setLayout(new BorderLayout());
-        supercentralpanel.add(sharkcontainer);
-        supercentralpanel.add(new JSeparator(SwingConstants.HORIZONTAL));
-        supercentralpanel.paintComponents(supercentralpanel.getGraphics());
+        centralPanel.setLayout(new BorderLayout());
+        superCentralPanel.add(sharkcontainer);
+        superCentralPanel.add(new JSeparator(SwingConstants.HORIZONTAL));
+        superCentralPanel.paintComponents(superCentralPanel.getGraphics());
 
-        centralpanel.remove(centralPane);
-        centralPane.setViewportView(supercentralpanel);
-        centralpanel.add(centralPane);
+        centralPanel.remove(centralPane);
+        centralPane.setViewportView(superCentralPanel);
+        centralPanel.add(centralPane);
 
         revalidate();
         repaint();
         pack();
 
-		return centralpanel;
+		return centralPanel;
 	}
 
 	public JPanel addSeveralSharkContainersToView (java.util.List<SharkContainer> listofsharkcontainers) {
 
-		supercentralpanel.removeAll();
+		superCentralPanel.removeAll();
 		System.out.println(listofsharkcontainers);
 
 		if (!listofsharkcontainers.isEmpty()) {
 			for (SharkContainer sharkcontainer : listofsharkcontainers) {
 
-				supercentralpanel.add(sharkcontainer);
-				supercentralpanel.add(new JSeparator(SwingConstants.HORIZONTAL));
-				centralPane.setViewportView(supercentralpanel);
-				supercentralpanel.paintComponents(supercentralpanel.getGraphics());
+				superCentralPanel.add(sharkcontainer);
+				superCentralPanel.add(new JSeparator(SwingConstants.HORIZONTAL));
+				centralPane.setViewportView(superCentralPanel);
+				superCentralPanel.paintComponents(superCentralPanel.getGraphics());
 
 				revalidate();
 				repaint();
@@ -195,13 +195,13 @@ public class SearchFrame extends JFrame {
 			}
 
 		} else {
-			centralpanel.add(new JLabel("Nothing to show here :)"));
+			centralPanel.add(new JLabel("Nothing to show here :)"));
 		}
-		return centralpanel;
+		return centralPanel;
 	}
 
 	public void clear(){
-		supercentralpanel.removeAll();
+		superCentralPanel.removeAll();
 		revalidate();
 		repaint();
 		pack();
@@ -210,33 +210,33 @@ public class SearchFrame extends JFrame {
    /* public JPanel updateCentralPanel(ArrayList<Ping> listofpings){
 
 		counter = 0;
-		supercentralpanel.removeAll();
+		superCentralPanel.removeAll();
 
 		if(!listofpings.isEmpty()){
 			counter=(listofpings.size())-1;
 			for(Ping ping :listofpings) {
 
-				centralpanel.setLayout(new BorderLayout());
-				supercentralpanel.setLayout(new GridLayout(0,1));
-				supercentralpanel.add(new SharkContainer(jawsApi.getShark(ping.getName()), ping, favouriteSharks));
-				supercentralpanel.add(new JSeparator(SwingConstants.HORIZONTAL));
-				supercentralpanel.paintComponents(supercentralpanel.getGraphics());
+				centralPanel.setLayout(new BorderLayout());
+				superCentralPanel.setLayout(new GridLayout(0,1));
+				superCentralPanel.add(new SharkContainer(jawsApi.getShark(ping.getName()), ping, favouriteSharks));
+				superCentralPanel.add(new JSeparator(SwingConstants.HORIZONTAL));
+				superCentralPanel.paintComponents(superCentralPanel.getGraphics());
 
-				centralpanel.remove(centralPane);
-				centralPane.setViewportView(supercentralpanel);
-				centralpanel.add(centralPane);
+				centralPanel.remove(centralPane);
+				centralPane.setViewportView(superCentralPanel);
+				centralPanel.add(centralPane);
 
 				pack();
 			}
 
 		}else{
-			centralpanel.add(new JLabel("Nothing to show here :)"));
+			centralPanel.add(new JLabel("Nothing to show here :)"));
 		}
 
 		revalidate();
 		repaint();
 
-		return centralpanel;
+		return centralPanel;
    }*/
 
 
