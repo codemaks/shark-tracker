@@ -25,7 +25,6 @@ public class MenuFrame extends JFrame implements ActionListener, WindowListener 
 
 	public MenuFrame(FavouriteSharks favouriteSharks) {
 		super("Amnity Police");
-
 	//	centreWindow(this);
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
 		addWidgets();

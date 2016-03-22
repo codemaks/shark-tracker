@@ -5,6 +5,7 @@ import sharkitter.view.ConnectionFrame;
 import sharkitter.view.MenuFrame;
 
 import javax.swing.*;
+import java.awt.*;
 
 public class Main {
 

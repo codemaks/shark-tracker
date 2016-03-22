@@ -13,6 +13,8 @@ import api.jaws.Jaws;
 import api.jaws.Ping;
 import sharkitter.controller.SearchButtonListener;
 import sharkitter.model.FavouriteSharks;
+import sharkitter.model.ListOfSharkData;
+import sharkitter.model.SharkData;
 
 
 public class SearchFrame extends JFrame {
@@ -136,7 +138,6 @@ public class SearchFrame extends JFrame {
         Border emptyBorder = BorderFactory.createEmptyBorder(5, 0, 5, 5);
         centralpanel.setBorder(BorderFactory.createCompoundBorder(emptyBorder, blackLineBorder));
         supercentralpanel=new JPanel();
-        supercentralpanel.setLayout(new GridLayout(0,1));
         centralPane = new JScrollPane(supercentralpanel);
         centralpanel.add(centralPane);
 
@@ -161,15 +162,17 @@ public class SearchFrame extends JFrame {
         return centralpanel;
     }
 
-    public JPanel addSeveralSharkContainersToView (ArrayList<SharkContainer> listofsharkcontainers) {
+    public JPanel addSeveralSharkContainersToView (ListOfSharkData listOfSharkData) {
+        int counter = listOfSharkData.size();
 
         supercentralpanel.removeAll();
-        System.out.println(listofsharkcontainers);
+        System.out.println(listOfSharkData);
 
-        if (!listofsharkcontainers.isEmpty()) {
-            for (SharkContainer sharkcontainer : listofsharkcontainers) {
+        if (!listOfSharkData.isEmpty()) {
+            for (SharkData sharkdata : listOfSharkData) {
 
-                supercentralpanel.add(sharkcontainer);
+                supercentralpanel.setLayout(new GridLayout(counter,1));
+                supercentralpanel.add(new SharkContainer(sharkdata,null));
                 supercentralpanel.add(new JSeparator(SwingConstants.HORIZONTAL));
                 centralPane.setViewportView(supercentralpanel);
                 supercentralpanel.paintComponents(supercentralpanel.getGraphics());
@@ -191,37 +194,6 @@ public class SearchFrame extends JFrame {
         repaint();
         pack();
     }
-
-   /* public JPanel updateCentralPanel(ArrayList<Ping> listofpings){
-
-        counter = 0;
-        supercentralpanel.removeAll();
-
-        if(!listofpings.isEmpty()){
-            counter=(listofpings.size())-1;
-            for(Ping ping :listofpings) {
-
-                centralpanel.setLayout(new BorderLayout());
-                supercentralpanel.setLayout(new GridLayout(0,1));
-                supercentralpanel.add(new SharkContainer(jawsApi.getShark(ping.getName()), ping, favouriteSharks));
-                supercentralpanel.add(new JSeparator(SwingConstants.HORIZONTAL));
-                supercentralpanel.paintComponents(supercentralpanel.getGraphics());
-
-                centralpanel.remove(centralPane);
-                centralPane.setViewportView(supercentralpanel);
-                centralpanel.add(centralPane);
-
-                revalidate();
-                repaint();
-                pack();
-            }
-
-        }else{
-            centralpanel.add(new JLabel("Nothing to show here :)"));
-        }
-        return centralpanel;
-   }*/
-
 
 /**
  * Creates the west panel within the main panel.
