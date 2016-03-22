@@ -8,6 +8,7 @@ import sharkitter.model.FavouriteSharks;
 import java.awt.*;
 import java.util.HashMap;
 import javax.swing.*;
+import javax.swing.border.Border;
 
 public class SharkContainer extends JPanel implements Comparable<SharkContainer> {
 
@@ -39,7 +40,11 @@ public class SharkContainer extends JPanel implements Comparable<SharkContainer>
 
         add(createSharkTrackOptions(lastPing), BorderLayout.SOUTH);
 
-        setSize(new Dimension(400,200));
+        setPreferredSize(new Dimension(600,250));
+
+        Border blackLineBorder = BorderFactory.createLineBorder(Color.BLACK);
+        setBorder(blackLineBorder);
+
         setVisible(true);
     }
 
@@ -62,9 +67,14 @@ public class SharkContainer extends JPanel implements Comparable<SharkContainer>
     private JPanel createSharkDescriptionText(Shark foundShark) {
         JPanel descriptionPanel = new JPanel();
 
-        descriptionPanel.add(new JLabel("Description: \n\n"));
-        descriptionPanel.add(new JScrollPane(new JTextArea(foundShark.getDescription())));
-        setVisible(true);
+        descriptionPanel.setLayout(new BorderLayout());
+        descriptionPanel.add(new JLabel("Description:"),BorderLayout.NORTH);
+
+        JTextArea ta = new JTextArea(foundShark.getDescription(), 5, 80);
+        ta.setLineWrap(true);
+        ta.setEditable(false);
+
+        descriptionPanel.add(ta, BorderLayout.CENTER);
 
         return descriptionPanel;
     }
