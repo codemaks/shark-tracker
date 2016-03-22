@@ -22,7 +22,7 @@ public class FavouritesFrame extends JFrame{
 	
 	private ArrayList<Location> locations;
 	// Kings longitude, and latitude
-	private static final double KINGS_LONGITUTDE = 51.510;
+	private static final double KINGS_LONGITUDE = 51.510;
 	private static final double KINGS_LATITUDE = -0.117;
 	public FavouritesFrame(FavouriteSharks favs, Jaws jawsApi) {
 		super();
@@ -32,7 +32,7 @@ public class FavouritesFrame extends JFrame{
 		add(new JLabel("Your favourite sharks are this far away from you right now:") , BorderLayout.NORTH);
 		String distanceToKingsInfo = "";
 
-		Location kclLocation = new Location(KINGS_LONGITUTDE, KINGS_LATITUDE);
+		Location kclLocation = new Location(KINGS_LONGITUDE, KINGS_LATITUDE);
 		locations = new ArrayList<Location>();
 		for(/*Shark*/ String shark: favs.getFavouriteSharks())
 		{
