@@ -13,7 +13,7 @@ import javax.swing.*;
 import javax.swing.border.Border;
 import javax.swing.border.TitledBorder;
 
-public class SharkContainer extends JPanel implements Comparable<SharkContainer> {
+public class SharkContainer extends JPanel {
 
     private FavouriteController favouriteController;
     private JButton followButton;
@@ -33,9 +33,7 @@ public class SharkContainer extends JPanel implements Comparable<SharkContainer>
         this.shark = shark;
         setName(shark.getName());
 
-        favouriteButtonListener = new FavouriteButtonListener(this, favouriteSharks);
         favouriteController = new FavouriteController(this, favouriteSharks);
-
 
         add(createSharkFeaturesTable(shark), BorderLayout.NORTH);
 
@@ -59,7 +57,7 @@ public class SharkContainer extends JPanel implements Comparable<SharkContainer>
         title = BorderFactory.createTitledBorder("Description");
         descriptionPanel.setBorder(title);
         descriptionlabel=new JLabel("<html><br><dr>"+foundShark.getDescription()+"</html?>");
-        descriptionlabel.setPreferredSize(new Dimension(800,150));
+        descriptionlabel.setPreferredSize(new Dimension(getWidth(),150));
         descriptionPanel.add(descriptionlabel,BorderLayout.CENTER);
 
         return descriptionPanel;
@@ -76,7 +74,7 @@ public class SharkContainer extends JPanel implements Comparable<SharkContainer>
 
         followButton = new JButton("Follow");
         try{
-            if(!favouriteSharks.getFavouriteSharks().contains(shark.getShark()))
+            if(!favouriteSharks.getFavouriteSharks().contains(shark))
                 followButton.setText("Unfollow");
         }catch (Exception e){
             //e.printStackTrace();
@@ -130,10 +128,6 @@ public class SharkContainer extends JPanel implements Comparable<SharkContainer>
         return sharkFeatures;
     }
 
-    public String getSharkDate(){
-        return shark.getDate();
-    }
-
     public Shark getShark(){
         return shark.getShark();
     }
@@ -148,10 +142,5 @@ public class SharkContainer extends JPanel implements Comparable<SharkContainer>
                 followButton.setText(text);
             }
         });
-    }
-
-    @Override
-    public int compareTo(SharkContainer anotherSharkContainer) {
-        return getSharkDate().compareTo(anotherSharkContainer.getSharkDate());
     }
 }

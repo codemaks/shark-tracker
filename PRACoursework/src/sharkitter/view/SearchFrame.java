@@ -6,12 +6,10 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.*;
-
 import api.jaws.Jaws;
 import api.jaws.Ping;
 import sharkitter.controller.SearchButtonListener;
 import sharkitter.model.FavouriteSharks;
-import sharkitter.model.ListOfSharkData;
 import sharkitter.model.SharkData;
 
 
@@ -139,7 +137,8 @@ public class SearchFrame extends JFrame {
     private void createSearchButton() {
         search = new JButton("Search");
 
-        sbl = new SearchButtonListener(this, favouriteSharks);
+        sbl = new SearchButtonListener(this
+        );
         search.addActionListener(sbl);
     }
 
@@ -178,14 +177,13 @@ public class SearchFrame extends JFrame {
         return centralpanel;
     }
 
-    public JPanel addSeveralSharkContainersToView (ListOfSharkData listOfSharkData) {
-        int counter = listOfSharkData.size();
+    public JPanel addSeveralSharkContainersToView (ArrayList<SharkData> listofsharks) {
+        int counter = listofsharks.size();
 
         supercentralpanel.removeAll();
-        System.out.println(listOfSharkData);
 
-        if (!listOfSharkData.isEmpty()) {
-            for (SharkData sharkdata : listOfSharkData) {
+        if (!listofsharks.isEmpty()) {
+            for (SharkData sharkdata : listofsharks) {
 
                 supercentralpanel.setLayout(new GridLayout(counter,1));
                 supercentralpanel.add(new SharkContainer(sharkdata,null));

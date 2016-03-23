@@ -10,7 +10,6 @@ import java.io.IOException;
 import javax.swing.*;
 
 public class MenuFrame extends JFrame {
-	//private JTextField searchField;
 	private JButton searchButton;
 	private JButton favouritesButton;
 	private JButton statisticsButton;
@@ -65,8 +64,6 @@ public class MenuFrame extends JFrame {
 		JLabel sharkTrackerLabel = new JLabel("", shark, 0);
 		sharkTrackerLabel.setVerticalTextPosition(JLabel.BOTTOM);
 		sharkTrackerLabel.setHorizontalTextPosition(JLabel.CENTER);
-		//Font font = new Font("Monospace", Font.ITALIC, 30);
-		//sharkTrackerLabel.setFont(font);
 
 		add(southPanel, BorderLayout.SOUTH);
 		add(sharkTrackerLabel, BorderLayout.CENTER);
