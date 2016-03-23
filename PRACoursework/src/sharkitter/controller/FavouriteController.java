@@ -22,7 +22,7 @@ public class FavouriteController implements ActionListener {
         this.sharkContainer = sharkContainer;
         this.favouriteSharks = favouriteSharks;
 
-        updateFavouriteButton();
+        //updateFavouriteButton();
     }
 
     /**

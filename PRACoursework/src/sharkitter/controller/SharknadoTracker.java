@@ -4,6 +4,8 @@ import api.jaws.Jaws;
 import api.jaws.Location;
 import api.jaws.Shark;
 
+import java.awt.image.BufferedImage;
+
 public class SharknadoTracker {
 
 	private Jaws jawsApi;

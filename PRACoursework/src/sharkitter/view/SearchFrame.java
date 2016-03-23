@@ -6,11 +6,11 @@ import java.awt.*;
 import java.awt.event.ActionListener;
 import java.io.*;
 import java.util.*;
-
 import api.jaws.Jaws;
 import sharkitter.controller.RandomSharkRetriever;
 import sharkitter.controller.SearchButtonListener;
 import sharkitter.model.FavouriteSharks;
+import sharkitter.model.SharkData;
 
 public class SearchFrame extends JFrame {
 
