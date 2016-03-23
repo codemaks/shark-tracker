@@ -20,6 +20,7 @@ public class MenuFrame extends JFrame {
 	private JMenuItem createProfile;
 
 	private ActionListener userController, functionalityController;
+
 	private Jaws jaws;
 
 	public MenuFrame() throws IOException {
@@ -119,10 +120,10 @@ public class MenuFrame extends JFrame {
 	}
 
 	/**
-	 * Toggles the favourite button
+	 * Disable the favourite button
 	 */
 	public void toggleFavourites(boolean b) {
-		favouritesButton.setEnabled(b);
+		favouritesButton.setEnabled(false);
 	}
 
 	/**

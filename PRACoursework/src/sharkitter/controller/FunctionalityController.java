@@ -48,7 +48,7 @@ public class FunctionalityController implements ActionListener, KeyListener {
 
                 case "Statistics":
                     menuFrame.setVisible(false);
-                    statisticsFrame = new StatisticsFrame();
+                    statisticsFrame = new StatisticsFrame(this);
                     statisticsFrame.setVisible(true);
                     break;
             }
@@ -61,6 +61,9 @@ public class FunctionalityController implements ActionListener, KeyListener {
                 case "Menu":
                     searchFrame.setVisible(false);
                     if (!favouriteSharks.getFavouriteSharks().isEmpty()) menuFrame.toggleFavourites(true);
+                    menuFrame.setVisible(true);
+                case "Back":
+                    statisticsFrame.setVisible(false);
                     menuFrame.setVisible(true);
             }
         }
