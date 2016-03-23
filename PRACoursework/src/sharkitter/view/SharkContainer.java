@@ -40,7 +40,8 @@ public class SharkContainer extends JPanel {
         add(createSharkDescriptionText(shark), BorderLayout.WEST);
 
         add(createSharkTrackOptions(shark.getDate()), BorderLayout.SOUTH);
-        setPreferredSize(new Dimension(800,200));
+
+        setPreferredSize(new Dimension(800,300));
 
         setVisible(true);
     }
@@ -57,7 +58,7 @@ public class SharkContainer extends JPanel {
         title = BorderFactory.createTitledBorder("Description");
         descriptionPanel.setBorder(title);
         descriptionlabel=new JLabel("<html><br><dr>"+foundShark.getDescription()+"</html?>");
-        descriptionlabel.setPreferredSize(new Dimension(getWidth(),150));
+        descriptionlabel.setPreferredSize(new Dimension(800,200));
         descriptionPanel.add(descriptionlabel,BorderLayout.CENTER);
 
         return descriptionPanel;
