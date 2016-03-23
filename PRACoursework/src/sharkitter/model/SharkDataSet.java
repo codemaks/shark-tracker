@@ -6,9 +6,6 @@ import org.jfree.data.general.PieDataset;
 
 import java.util.List;
 
-/**
- * Created by Evou on 21/03/2016.
- */
 public class SharkDataSet implements PieDataset {
     @Override
     public void addChangeListener(DatasetChangeListener datasetChangeListener) {

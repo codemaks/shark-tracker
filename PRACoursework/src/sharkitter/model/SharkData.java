@@ -5,9 +5,6 @@ import api.jaws.Shark;
 
 import java.util.HashMap;
 
-/**
- * Created by Evou on 22/03/2016.
- */
 public class SharkData implements Comparable<SharkData>{
 
     private String name;

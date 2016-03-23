@@ -82,8 +82,7 @@ public class UserController implements ActionListener, KeyListener {
      * @throws IOException
      */
     private void readProfiles() throws IOException {
-        Path pathToProfile = Paths.get("data/list_of_profiles.txt");
-        Scanner reader = new Scanner(pathToProfile);
+        Scanner reader = new Scanner(PATH_TO_PROFILES);
         reader.useDelimiter("\n");
 
         while (reader.hasNext()) {

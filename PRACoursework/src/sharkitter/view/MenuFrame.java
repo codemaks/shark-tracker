@@ -120,7 +120,7 @@ public class MenuFrame extends JFrame {
 	 * Disable the favourite button
 	 */
 	public void toggleFavourites(boolean b) {
-		favouritesButton.setEnabled(false);
+		favouritesButton.setEnabled(b);
 	}
 
 	/**
