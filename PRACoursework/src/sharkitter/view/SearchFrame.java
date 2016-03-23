@@ -39,9 +39,9 @@ public class SearchFrame extends JFrame {
     private FavouriteSharks favouriteSharks;
     private ActionListener functionalityController;
 
-    public SearchFrame(ActionListener functionalityController, FavouriteSharks favouriteSharks) {
+    public SearchFrame(ActionListener functionalityController, FavouriteSharks favouriteSharks, Jaws jawsApi) {
         super("Search");
-        jawsApi = new Jaws("EkZ8ZqX11ozMamO9", "E7gdkwWePBYT75KE", true);
+        this.jawsApi = jawsApi;
         System.out.println(jawsApi.getLastUpdated());
 
         //create borders for later use
@@ -137,7 +137,7 @@ public class SearchFrame extends JFrame {
     private void createSearchButton() {
         search = new JButton("Search");
 
-        sbl = new SearchButtonListener(this, favouriteSharks);
+        sbl = new SearchButtonListener(this, favouriteSharks, jawsApi);
         search.addActionListener(sbl);
     }
 

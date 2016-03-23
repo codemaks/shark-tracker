@@ -21,8 +21,8 @@ public class SearchButtonListener implements ActionListener {
     private String stage_of_life;
     private Jaws jawsApi;
 
-    public SearchButtonListener(SearchFrame searchframe, FavouriteSharks favouriteSharks){
-        jawsApi = new Jaws("EkZ8ZqX11ozMamO9","E7gdkwWePBYT75KE", true);
+    public SearchButtonListener(SearchFrame searchframe, FavouriteSharks favouriteSharks, Jaws api){
+        jawsApi = api;
         this.searchframe = searchframe;
         this.favouriteSharks = favouriteSharks;
         allSharkContainers = new ArrayList<>();

@@ -22,7 +22,7 @@ public class Main {
 
         UserController controller = new UserController(frame, favouriteSharks, api);
 
-        FunctionalityController functionalityController = new FunctionalityController(frame, favouriteSharks);
+        FunctionalityController functionalityController = new FunctionalityController(frame, favouriteSharks, api);
         frame.addFunctionalityController(functionalityController);
         frame.setFocusable(true);
         frame.setVisible(true);

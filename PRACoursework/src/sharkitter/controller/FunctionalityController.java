@@ -1,5 +1,6 @@
 package sharkitter.controller;
 
+import api.jaws.Jaws;
 import sharkitter.model.FavouriteSharks;
 import sharkitter.model.Konami;
 import sharkitter.view.*;
@@ -18,12 +19,14 @@ public class FunctionalityController implements ActionListener, KeyListener {
     private EasterEggFrame easterEggFrame;
 
     private FavouriteSharks favouriteSharks;
+    private Jaws jawsApi;
 
     private Konami konami;
 
-    public FunctionalityController(MenuFrame menuFrame, FavouriteSharks favouriteSharks) {
+    public FunctionalityController(MenuFrame menuFrame, FavouriteSharks favouriteSharks, Jaws jawsApi) {
         this.menuFrame = menuFrame;
         this.favouriteSharks = favouriteSharks;
+        this.jawsApi = jawsApi;
 
         konami = new Konami();
     }
@@ -37,7 +40,7 @@ public class FunctionalityController implements ActionListener, KeyListener {
             switch (buttonName) {
                 case "Search":
                     menuFrame.setVisible(false);
-                    searchFrame = new SearchFrame(this, favouriteSharks);
+                    searchFrame = new SearchFrame(this, favouriteSharks, jawsApi);
                     searchFrame.setVisible(true);
                     break;
 
