@@ -19,7 +19,6 @@ public class SharkContainer extends JPanel {
     private JButton followButton;
     private FavouriteSharks favouriteSharks;
     private SharkData shark;
-    private JLabel descriptionlabel;
 
     /**
      * Class constructor: provides a JPanel containing all the details of a Shark when the following parameters
@@ -57,11 +56,8 @@ public class SharkContainer extends JPanel {
     private JPanel createSharkDescriptionText(SharkData foundShark) {
         JPanel descriptionPanel = new JPanel();
         descriptionPanel.setLayout(new BorderLayout());
-        TitledBorder title;
-        title = BorderFactory.createTitledBorder("Description");
-        descriptionPanel.setBorder(title);
-        descriptionlabel=new JLabel("<html><br><dr>"+foundShark.getDescription()+"</html?>");
-        descriptionlabel.setPreferredSize(new Dimension(800,200));
+
+        JLabel descriptionlabel = new JLabel("<html> Description: <br><br>"+foundShark.getDescription()+"</html?>");
         descriptionPanel.add(descriptionlabel,BorderLayout.CENTER);
 
         return descriptionPanel;

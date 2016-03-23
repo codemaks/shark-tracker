@@ -15,9 +15,6 @@ import java.awt.*;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-/**
- * Created by Evou on 11/03/2016.
- */
 public class StatisticsFrame extends JFrame {
 
     private JComboBox<String> tag_location;
@@ -35,6 +32,7 @@ public class StatisticsFrame extends JFrame {
         this.functionalityController = functionalityController;
         this.statisticsItemListener = new StatisticsItemListener(this);
         setPreferredSize(new Dimension(400, 600));
+        centreWindow(this);
         setDefaultCloseOperation(EXIT_ON_CLOSE);
 
         createUI(this.functionalityController);
@@ -116,16 +114,30 @@ public class StatisticsFrame extends JFrame {
         return new ChartPanel( chart );
     }
 
+    private static void centreWindow(Window frame) {
+        Dimension dimension = Toolkit.getDefaultToolkit().getScreenSize();
+        int x = (int) ((dimension.getWidth() - frame.getWidth()) /3);
+        int y = (int) ((dimension.getHeight() - frame.getHeight())/4 );
+        frame.setLocation(x, y);
+    }
+
     private JMenuBar createjMenuBar(FunctionalityController functionalityController) {
         JMenuBar menuBar = new JMenuBar();
 
         JMenu view = new JMenu("View");
 
-        JMenuItem menu = new JMenuItem("Back");
+        JMenuItem menu = new JMenuItem("Menu");
+        menu.setName("StatisticsFrame");
         menu.addActionListener(functionalityController);
         menu.setToolTipText("Go back to the main menu");
 
+        JMenuItem search = new JMenuItem("Search");
+        search.setName("StatisticsFrame");
+        search.addActionListener(functionalityController);
+        search.setToolTipText("Search for sharks!");
+
         view.add(menu);
+        view.add(search);
         menuBar.add(view);
         add(menuBar, BorderLayout.NORTH);
 
