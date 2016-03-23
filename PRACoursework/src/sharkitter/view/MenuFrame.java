@@ -1,5 +1,6 @@
 package sharkitter.view;
 
+import api.jaws.Jaws;
 import sharkitter.controller.FunctionalityController;
 import sharkitter.controller.UserController;
 
@@ -10,7 +11,7 @@ import java.io.IOException;
 import javax.swing.*;
 
 public class MenuFrame extends JFrame {
-	//private JTextField searchField;
+
 	private JButton searchButton;
 	private JButton favouritesButton;
 	private JButton statisticsButton;
@@ -19,6 +20,7 @@ public class MenuFrame extends JFrame {
 	private JMenuItem createProfile;
 
 	private ActionListener userController, functionalityController;
+	private Jaws jaws;
 
 	public MenuFrame() throws IOException {
 		super("Amnity Police");
@@ -65,8 +67,6 @@ public class MenuFrame extends JFrame {
 		JLabel sharkTrackerLabel = new JLabel("", shark, 0);
 		sharkTrackerLabel.setVerticalTextPosition(JLabel.BOTTOM);
 		sharkTrackerLabel.setHorizontalTextPosition(JLabel.CENTER);
-		//Font font = new Font("Monospace", Font.ITALIC, 30);
-		//sharkTrackerLabel.setFont(font);
 
 		add(southPanel, BorderLayout.SOUTH);
 		add(sharkTrackerLabel, BorderLayout.CENTER);
@@ -119,10 +119,10 @@ public class MenuFrame extends JFrame {
 	}
 
 	/**
-	 * Disable the favourite button
+	 * Toggles the favourite button
 	 */
-	public void disableFavourites() {
-		favouritesButton.setEnabled(false);
+	public void toggleFavourites(boolean b) {
+		favouritesButton.setEnabled(b);
 	}
 
 	/**
@@ -136,4 +136,8 @@ public class MenuFrame extends JFrame {
 		revalidate();
 		repaint();
 	}
+	public void setJaws(Jaws jaws){this.jaws = jaws;}
+	public Jaws getJaws(){return jaws;}
+
+
 }
