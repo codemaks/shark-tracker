@@ -1,5 +1,6 @@
 package sharkitter.view;
 
+import api.jaws.Jaws;
 import sharkitter.controller.FunctionalityController;
 import sharkitter.controller.UserController;
 
@@ -10,6 +11,7 @@ import java.io.IOException;
 import javax.swing.*;
 
 public class MenuFrame extends JFrame {
+
 	private JButton searchButton;
 	private JButton favouritesButton;
 	private JButton statisticsButton;
@@ -18,6 +20,7 @@ public class MenuFrame extends JFrame {
 	private JMenuItem createProfile;
 
 	private ActionListener userController, functionalityController;
+	private Jaws jaws;
 
 	public MenuFrame() throws IOException {
 		super("Amnity Police");
@@ -133,4 +136,8 @@ public class MenuFrame extends JFrame {
 		revalidate();
 		repaint();
 	}
+	public void setJaws(Jaws jaws){this.jaws = jaws;}
+	public Jaws getJaws(){return jaws;}
+
+
 }

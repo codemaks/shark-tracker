@@ -2,10 +2,7 @@ package sharkitter.controller;
 
 import sharkitter.model.FavouriteSharks;
 import sharkitter.model.Konami;
-import sharkitter.view.EasterEggFrame;
-import sharkitter.view.MenuFrame;
-import sharkitter.view.SearchFrame;
-import sharkitter.view.StatisticsFrame;
+import sharkitter.view.*;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
@@ -45,6 +42,8 @@ public class FunctionalityController implements ActionListener, KeyListener {
                     break;
 
                 case "Favourites":
+                    FavouritesFrame favouritesFrame = new FavouritesFrame(favouriteSharks, menuFrame.getJaws());
+                    favouritesFrame.setVisible(true);
                     break;
 
                 case "Statistics":
@@ -61,6 +60,7 @@ public class FunctionalityController implements ActionListener, KeyListener {
             switch (menuName) {
                 case "Menu":
                     searchFrame.setVisible(false);
+                    if (!favouriteSharks.getFavouriteSharks().isEmpty()) menuFrame.toggleFavourites(true);
                     menuFrame.setVisible(true);
                 case "Back":
                     statisticsFrame.setVisible(false);
