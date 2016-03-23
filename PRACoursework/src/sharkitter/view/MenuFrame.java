@@ -1,73 +1,61 @@
 package sharkitter.view;
 
-import sharkitter.model.FavouriteSharks;
+import sharkitter.controller.FunctionalityController;
+import sharkitter.controller.UserController;
 
 import java.awt.*;
-import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.WindowEvent;
-import java.awt.event.WindowListener;
+import java.io.IOException;
 
-import javax.swing.ImageIcon;
-import javax.swing.JButton;
-import javax.swing.JFrame;
-import javax.swing.JLabel;
-import javax.swing.JPanel;
+import javax.swing.*;
 
-public class MenuFrame extends JFrame implements ActionListener, WindowListener {
+public class MenuFrame extends JFrame {
 	//private JTextField searchField;
 	private JButton searchButton;
 	private JButton favouritesButton;
 	private JButton statisticsButton;
-	private SearchFrame searchframe;
-	private StatisticsFrame statisticsFrame;
-	private FavouriteSharks favouriteSharks;
 
-	public MenuFrame(FavouriteSharks favouriteSharks) {
+	private JMenu loadProfiles;
+	private JMenuItem createProfile;
+
+	private ActionListener userController, functionalityController;
+
+	public MenuFrame() throws IOException {
 		super("Amnity Police");
-	//	centreWindow(this);
+
+		centreWindow(this);
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
+
 		addWidgets();
 	}
 
-	/*public static void centreWindow(Window frame) {
+	public static void centreWindow(Window frame) {
 		Dimension dimension = Toolkit.getDefaultToolkit().getScreenSize();
 		int x = (int) ((dimension.getWidth() - frame.getWidth()) /3);
 		int y = (int) ((dimension.getHeight() - frame.getHeight())/4 );
 		frame.setLocation(x, y);
-	}*/
+	}
 
 	public void addWidgets() {
-		JPanel sPanel = new JPanel();
-		sPanel.setLayout(new GridLayout(0,1));
+		JMenuBar menuBar = createjMenuBar();
 
-		//searchField = new JTextField("Search");
-		//searchField.setHorizontalAlignment(JTextField.CENTER);
-		//searchField.addActionListener(new ActionListener() {
+		JPanel southPanel = new JPanel();
+		southPanel.setLayout(new GridLayout(5, 1));
 
 		searchButton = new JButton("Search");
 		searchButton.setHorizontalAlignment(JButton.CENTER);
-		searchButton.addActionListener(this);
+
+		favouritesButton = new JButton("Favourites");
 
 		statisticsButton = new JButton("Statistics");
 		statisticsButton.setHorizontalAlignment(JButton.CENTER);
-		statisticsButton.addActionListener(this);
 
-/*		searchButton.addActionListener(new ActionListener(){
-			public void actionPerformed(ActionEvent e) {
-				JTextField tf = (JTextField) e.getSource();
-				System.out.println("You Pressed Enter");
-				tf.setText("");
-			}
-		});*/
+		JLabel blank = new JLabel("");
 
-		favouritesButton = new JButton("Favourites");
-		favouritesButton.setEnabled(false);
-
-		//sPanel.add(searchField, BorderLayout.NORTH);
-		sPanel.add(searchButton);
-		sPanel.add(favouritesButton);
-		sPanel.add(statisticsButton);
+		southPanel.add(searchButton);
+		southPanel.add(favouritesButton);
+		southPanel.add(statisticsButton);
+		southPanel.add(blank);
 
 		ImageIcon shark = new ImageIcon(getClass().getClassLoader().getResource("resources/SharkTracker.png"));
 		Image img = shark.getImage();
@@ -80,59 +68,72 @@ public class MenuFrame extends JFrame implements ActionListener, WindowListener 
 		//Font font = new Font("Monospace", Font.ITALIC, 30);
 		//sharkTrackerLabel.setFont(font);
 
-		add(sPanel, BorderLayout.SOUTH);
+		add(southPanel, BorderLayout.SOUTH);
 		add(sharkTrackerLabel, BorderLayout.CENTER);
+		add(menuBar, BorderLayout.NORTH);
 
 		pack();
 	}
 
-	@Override
-	public void actionPerformed(ActionEvent e) {
-		if(e.getSource() == searchButton) {
-			setVisible(false);
-			searchframe = new SearchFrame(favouriteSharks);
-			searchframe.addWindowListener(this);
-			searchframe.setVisible(true);
-		}else if(e.getSource() == statisticsButton){
-			setVisible(false);
-			statisticsFrame = new StatisticsFrame();
-			statisticsFrame.addWindowListener(this);
-			statisticsFrame.setVisible(true);
-		}
+	/**
+	 * Create a JMenuBar for choosing between different profiles
+	 * @return	Created JMenuBar
+     */
+	private JMenuBar createjMenuBar() {
+		JMenuBar menuBar = new JMenuBar();
+		JMenu profiles = new JMenu("Profiles");
+		JMenu tip = new JMenu("?");
+		tip.setToolTipText("Try a Konami Code =p");
+
+		menuBar.add(profiles);
+		menuBar.add(tip);
+
+		loadProfiles = new JMenu("Load Profiles");
+		createProfile = new JMenuItem("Create Profile");
+
+		profiles.add(loadProfiles);
+		profiles.add(createProfile);
+
+		return menuBar;
 	}
 
-	@Override
-	public void windowOpened(WindowEvent e) {
-
+	/**
+	 * Add the functionality Controller to this frame
+	 * @param functionalityController	Controller responsible for the different functionalities of this programme
+     */
+	public void addFunctionalityController(FunctionalityController functionalityController) {
+		this.functionalityController = functionalityController;
+		addKeyListener(functionalityController);
+		searchButton.addActionListener(functionalityController);
+		favouritesButton.addActionListener(functionalityController);
+		statisticsButton.addActionListener(functionalityController);
 	}
 
-	@Override
-	public void windowClosing(WindowEvent e) {
-
+	/**
+	 * Add the user Controller to this frame
+	 * @param userController	Controller responsible to switching between users
+     */
+	public void addUserController(UserController userController) {
+		this.userController = userController;
+		createProfile.addActionListener(this.userController);
 	}
 
-	@Override
-	public void windowClosed(WindowEvent e) {
-		setVisible(true);
+	/**
+	 * Disable the favourite button
+	 */
+	public void disableFavourites() {
+		favouritesButton.setEnabled(false);
 	}
 
-	@Override
-	public void windowIconified(WindowEvent e) {
-
-	}
-
-	@Override
-	public void windowDeiconified(WindowEvent e) {
-
-	}
-
-	@Override
-	public void windowActivated(WindowEvent e) {
-
-	}
-
-	@Override
-	public void windowDeactivated(WindowEvent e) {
-
+	/**
+	 * Load the given profile to the MenuBar
+	 * @param profile	String representation of a certain username
+	 */
+	public void addProfile(String profile) {
+		JMenuItem profileItem = new JMenuItem(profile);
+		loadProfiles.add(profileItem);
+		profileItem.addActionListener(userController);
+		revalidate();
+		repaint();
 	}
 }

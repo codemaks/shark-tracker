@@ -4,6 +4,5 @@ PRACoursework.iml
 .classpath
 .project
 .idea
-.db
-.txt
+*.db
 PRACoursework/out

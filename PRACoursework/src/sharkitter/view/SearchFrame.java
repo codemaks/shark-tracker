@@ -5,9 +5,7 @@ import javax.swing.border.Border;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.ArrayList;
-import java.util.Observable;
-import java.util.Observer;
+import java.util.*;
 
 import api.jaws.Jaws;
 import api.jaws.Ping;
@@ -41,8 +39,9 @@ public class SearchFrame extends JFrame {
     private Border blackLineBorder;
 
     private FavouriteSharks favouriteSharks;
+    private ActionListener functionalityController;
 
-    public SearchFrame(FavouriteSharks favouriteSharks) {
+    public SearchFrame(ActionListener functionalityController, FavouriteSharks favouriteSharks) {
         super("Search");
         jawsApi = new Jaws("EkZ8ZqX11ozMamO9", "E7gdkwWePBYT75KE", true);
         System.out.println(jawsApi.getLastUpdated());
@@ -51,16 +50,18 @@ public class SearchFrame extends JFrame {
         blackLineBorder = BorderFactory.createLineBorder(Color.BLACK);
 
         this.favouriteSharks = favouriteSharks;
+        this.functionalityController = functionalityController;
         setLayout(new BorderLayout());
         setPreferredSize(new Dimension(1200, 700));
         createPanels();
-        setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     }
 
 	/**
 	 * Create and display the widgets on the main Frame
 	 */
 	private void createPanels() {
+        createNorthPanel();
         createCentralPanel();
         createWestPanel();
         createWSouthPanel();
@@ -74,6 +75,20 @@ public class SearchFrame extends JFrame {
 
 		pack();
 	}
+
+    private void createNorthPanel() {
+        JMenuBar menuBar = new JMenuBar();
+
+        JMenu view = new JMenu("View");
+
+        JMenuItem menu = new JMenuItem("Menu");
+        menu.addActionListener(functionalityController);
+        menu.setToolTipText("Go back to the main menu");
+
+        view.add(menu);
+        menuBar.add(view);
+        add(menuBar, BorderLayout.NORTH);
+    }
 
     /**
      * Creates the combo boxes.
@@ -124,7 +139,7 @@ public class SearchFrame extends JFrame {
     private void createSearchButton() {
         search = new JButton("Search");
 
-        sbl = new SearchButtonListener(this);
+        sbl = new SearchButtonListener(this, favouriteSharks);
         search.addActionListener(sbl);
     }
 
@@ -138,6 +153,7 @@ public class SearchFrame extends JFrame {
         Border emptyBorder = BorderFactory.createEmptyBorder(5, 0, 5, 5);
         centralpanel.setBorder(BorderFactory.createCompoundBorder(emptyBorder, blackLineBorder));
         supercentralpanel=new JPanel();
+        supercentralpanel.setLayout(new GridLayout(0,1));
         centralPane = new JScrollPane(supercentralpanel);
         centralpanel.add(centralPane);
 
@@ -247,6 +263,13 @@ public class SearchFrame extends JFrame {
         JLabel sharkIcon = new JLabel("", shark, 0);
         mwSouthPanel.add(sharkIcon);
         mWestPanel.add(mwSouthPanel, BorderLayout.SOUTH);
+    }
+
+    private void createWCentralPanel() {
+        JPanel mwCentralPanel = new JPanel();
+
+        JLabel sharkOfTheDay = new JLabel("Shark of the day: ");
+
     }
 
     /**

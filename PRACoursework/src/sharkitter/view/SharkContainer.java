@@ -2,7 +2,7 @@ package sharkitter.view;
 
 import api.jaws.Ping;
 import api.jaws.Shark;
-import sharkitter.controller.FavouriteButtonListener;
+import sharkitter.controller.FavouriteController;
 import sharkitter.model.FavouriteSharks;
 import sharkitter.model.SharkData;
 
@@ -15,11 +15,11 @@ import javax.swing.border.TitledBorder;
 
 public class SharkContainer extends JPanel implements Comparable<SharkContainer> {
 
-    private FavouriteButtonListener favouriteButtonListener;
+    private FavouriteController favouriteController;
     private JButton followButton;
     private FavouriteSharks favouriteSharks;
     private SharkData shark;
-    JLabel descriptionlabel;
+    private JLabel descriptionlabel;
 
     /**
      * Class constructor: provides a JPanel containing all the details of a Shark when the following parameters
@@ -34,6 +34,8 @@ public class SharkContainer extends JPanel implements Comparable<SharkContainer>
         setName(shark.getName());
 
         favouriteButtonListener = new FavouriteButtonListener(this, favouriteSharks);
+        favouriteController = new FavouriteController(this, favouriteSharks);
+
 
         add(createSharkFeaturesTable(shark), BorderLayout.NORTH);
 
@@ -72,7 +74,6 @@ public class SharkContainer extends JPanel implements Comparable<SharkContainer>
 
         JLabel pingLabel = new JLabel("Last ping: " + date);
 
-        //TODO if shark is in favouriteSharks then button is set to unfollow
         followButton = new JButton("Follow");
         try{
             if(!favouriteSharks.getFavouriteSharks().contains(shark.getShark()))
@@ -81,7 +82,7 @@ public class SharkContainer extends JPanel implements Comparable<SharkContainer>
             //e.printStackTrace();
         }
 
-        followButton.addActionListener(favouriteButtonListener);
+        followButton.addActionListener(favouriteController);
 
         pingPanel.add(pingLabel, BorderLayout.CENTER);
         pingPanel.add(followButton, BorderLayout.EAST);
@@ -135,6 +136,18 @@ public class SharkContainer extends JPanel implements Comparable<SharkContainer>
 
     public Shark getShark(){
         return shark.getShark();
+    }
+
+    /**
+     * Updates a button with the corresponding text
+     * @param text  New text for the JButton
+     */
+    public void updateFollowButton(String text) {
+        SwingUtilities.invokeLater(new Runnable() {
+            public void run() {
+                followButton.setText(text);
+            }
+        });
     }
 
     @Override
