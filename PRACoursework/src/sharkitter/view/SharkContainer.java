@@ -37,7 +37,7 @@ public class SharkContainer extends JPanel {
 
         add(createSharkFeaturesTable(shark), BorderLayout.NORTH);
 
-        add(createSharkDescriptionText(shark), BorderLayout.WEST);
+        add(createSharkDescriptionText(shark), BorderLayout.CENTER);
 
         add(createSharkTrackOptions(shark.getDate()), BorderLayout.SOUTH);
 
@@ -77,12 +77,6 @@ public class SharkContainer extends JPanel {
         JLabel pingLabel = new JLabel("Last ping: " + date);
 
         followButton = new JButton("Follow");
-        try{
-            if(!favouriteSharks.getFavouriteSharks().contains(shark))
-                followButton.setText("Unfollow");
-        }catch (Exception e){
-            //e.printStackTrace();
-        }
 
         followButton.addActionListener(favouriteController);
 
@@ -132,7 +126,11 @@ public class SharkContainer extends JPanel {
         return sharkFeatures;
     }
 
-    public Shark getShark(){
+    /**
+     * Getter of the corresponding shark
+     * @return  The Shark object displayed by this container
+     */
+    public Shark getShark() {
         return shark.getShark();
     }
 
