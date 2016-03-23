@@ -185,9 +185,9 @@ public class SearchFrame extends JFrame {
         if (!listofsharks.isEmpty()) {
             for (SharkData sharkdata : listofsharks) {
 
-                supercentralpanel.setLayout(new GridLayout(counter*2,1));
+                supercentralpanel.setLayout(new GridLayout(counter,1));
                 supercentralpanel.add(new SharkContainer(sharkdata,favouriteSharks));
-                supercentralpanel.add(new JSeparator(SwingConstants.HORIZONTAL));
+               // supercentralpanel.add(new JSeparator(SwingConstants.HORIZONTAL));
                 centralPane.setViewportView(supercentralpanel);
                 supercentralpanel.paintComponents(supercentralpanel.getGraphics());
 

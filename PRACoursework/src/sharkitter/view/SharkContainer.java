@@ -43,6 +43,9 @@ public class SharkContainer extends JPanel {
 
         setPreferredSize(new Dimension(800,300));
 
+        Border blackLineBorder = BorderFactory.createLineBorder(Color.black);
+        setBorder(blackLineBorder);
+
         setVisible(true);
     }
 

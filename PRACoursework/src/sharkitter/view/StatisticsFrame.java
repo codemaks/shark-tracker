@@ -5,14 +5,12 @@ import org.jfree.chart.ChartPanel;
 import org.jfree.chart.JFreeChart;
 import org.jfree.data.general.DefaultPieDataset;
 import org.jfree.data.general.PieDataset;
-import org.jfree.ui.RefineryUtilities;
 import sharkitter.controller.FunctionalityController;
 import sharkitter.controller.StatisticsItemListener;
 import sharkitter.model.SharkData;
 import javax.swing.JPanel;
 
 import javax.swing.*;
-import javax.swing.border.Border;
 import java.awt.*;
 import java.util.ArrayList;
 import java.util.HashMap;
