@@ -137,7 +137,7 @@ public class SearchFrame extends JFrame {
 	private void createSearchButton() {
 		search = new JButton("Search");
 
-		sbl = new SearchButtonListener(this, favouriteSharks);
+		sbl = new SearchButtonListener(this);
 		search.addActionListener(sbl);
 	}
 
@@ -176,15 +176,15 @@ public class SearchFrame extends JFrame {
 		return centralPanel;
 	}
 
-	public JPanel addSeveralSharkContainersToView (java.util.List<SharkContainer> listofsharkcontainers) {
+	public JPanel addSeveralSharkContainersToView (ArrayList<SharkData> listofsharkcontainers) {
 
 		superCentralPanel.removeAll();
 		System.out.println(listofsharkcontainers);
 
 		if (!listofsharkcontainers.isEmpty()) {
-			for (SharkContainer sharkcontainer : listofsharkcontainers) {
+			for (SharkData sharkData : listofsharkcontainers) {
 
-				superCentralPanel.add(sharkcontainer);
+				superCentralPanel.add(new SharkContainer(sharkData, favouriteSharks));
 				superCentralPanel.add(new JSeparator(SwingConstants.HORIZONTAL));
 				centralPane.setViewportView(superCentralPanel);
 				superCentralPanel.paintComponents(superCentralPanel.getGraphics());

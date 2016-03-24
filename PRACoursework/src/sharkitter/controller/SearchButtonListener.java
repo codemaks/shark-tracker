@@ -35,6 +35,7 @@ public class SearchButtonListener implements ActionListener{
 
         Map<String,Ping> MapOfPings = new HashMap<>();
 
+        //TODO check duplicated code
         for(Ping ping: listOfPings){
 
             if(MapOfPings.containsKey(ping.getName())){

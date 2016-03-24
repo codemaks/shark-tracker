@@ -1,6 +1,10 @@
 package sharkitter;
 
 import api.jaws.Jaws;
+import com.google.maps.ElevationApi;
+import com.google.maps.GeoApiContext;
+import com.google.maps.model.ElevationResult;
+import com.google.maps.model.LatLng;
 import sharkitter.controller.FunctionalityController;
 import sharkitter.controller.UserController;
 import sharkitter.model.FavouriteSharks;
@@ -12,7 +16,7 @@ public class Main {
 
     public static void main(String[] args) throws IOException {
 
-        FavouriteSharks favouriteSharks = new FavouriteSharks();
+	    FavouriteSharks favouriteSharks = new FavouriteSharks();
 
         MenuFrame frame = new MenuFrame();
 
