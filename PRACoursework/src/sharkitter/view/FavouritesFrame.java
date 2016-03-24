@@ -58,6 +58,7 @@ public class FavouritesFrame extends JFrame{
 		
 		
 		JTextArea ta = new JTextArea(distanceToKingsInfo);
+		ta.setEditable(false);
 		add(ta, BorderLayout.CENTER);
 		
 		JButton button = new JButton("Map");
