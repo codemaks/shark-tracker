@@ -17,7 +17,7 @@ public class EasterEggFrame extends JFrame implements ActionListener {
     }
 
     private void addWidget() {
-        JLabel message = new JLabel("Easter Egg!!!");
+        JLabel message = new JLabel("<html>Easter Egg!!!<br>You've been rick rolled ;)</html>");
 
         JButton ok = new JButton("Ok");
         ok.addActionListener(this);

@@ -10,14 +10,11 @@ import sun.audio.ContinuousAudioDataStream;
 
 import javax.sound.sampled.*;
 import javax.swing.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
+import java.awt.event.*;
 import java.io.*;
 import java.net.URISyntaxException;
 
-public class FunctionalityController implements ActionListener, KeyListener {
+public class FunctionalityController implements ActionListener, KeyListener, WindowListener {
 
     private MenuFrame menuFrame;
     private SearchFrame searchFrame;
@@ -29,7 +26,10 @@ public class FunctionalityController implements ActionListener, KeyListener {
 
     private Konami konami;
 
-    public FunctionalityController(MenuFrame menuFrame, FavouriteSharks favouriteSharks) {
+    private AudioPlayer player;
+    private AudioStream stream;
+
+    public FunctionalityController(MenuFrame menuFrame, FavouriteSharks favouriteSharks) throws IOException, URISyntaxException {
         this.menuFrame = menuFrame;
         this.favouriteSharks = favouriteSharks;
 
@@ -38,6 +38,10 @@ public class FunctionalityController implements ActionListener, KeyListener {
         statisticsFrame = new StatisticsFrame(this);
 
         konami = new Konami();
+
+        player = AudioPlayer.player;
+        InputStream test = new FileInputStream(new File(getClass().getClassLoader().getResource("resources/Never Give Up On Sharks.wav").toURI()));
+        stream = new AudioStream(test);
     }
 
     @Override
@@ -86,14 +90,11 @@ public class FunctionalityController implements ActionListener, KeyListener {
                         case "Search":
                             statisticsFrame.setVisible(false);
                             searchFrame.setVisible(true);
+                            break;
                     }
+                    break;
             }
         }
-    }
-
-    @Override
-    public void keyTyped(KeyEvent e) {
-
     }
 
     @Override
@@ -102,23 +103,20 @@ public class FunctionalityController implements ActionListener, KeyListener {
         if(konami.checkKonamiCode()) {
             konami.reset();
             easterEggFrame = new EasterEggFrame();
+            easterEggFrame.addWindowListener(this);
             easterEggFrame.setVisible(true);
-            SwingUtilities.invokeLater(new Runnable() {
-                public void run() {
-                    try {
-                        music();
-                    } catch (IOException e1) {
-                        e1.printStackTrace();
-                    } catch (URISyntaxException e1) {
-                        e1.printStackTrace();
-                    } catch (UnsupportedAudioFileException e1) {
-                        e1.printStackTrace();
-                    } catch (LineUnavailableException e1) {
-                        e1.printStackTrace();
-                    }
-                }
-            });
+            player.start(stream);
         }
+    }
+
+    @Override
+    public void windowClosed(WindowEvent e) {
+        player.stop(stream);
+    }
+
+    @Override
+    public void keyTyped(KeyEvent e) {
+
     }
 
     @Override
@@ -126,20 +124,33 @@ public class FunctionalityController implements ActionListener, KeyListener {
 
     }
 
-    private void music() throws IOException, URISyntaxException, LineUnavailableException, UnsupportedAudioFileException {
-        /*AudioPlayer player = AudioPlayer.player;
-        AudioStream stream = new AudioStream(new FileInputStream("data/Candy Shop.mp3"));
-        AudioData data = stream.getData();
-        ContinuousAudioDataStream loop = new ContinuousAudioDataStream(data);
-        player.start(loop);*/
+    @Override
+    public void windowOpened(WindowEvent e) {
 
-        InputStream audioSrc = getClass().getResourceAsStream("data/Candy Shop.mp3");
-//add buffer for mark/reset support
-        InputStream bufferedIn = new BufferedInputStream(audioSrc);
-        AudioInputStream audioStream = AudioSystem.getAudioInputStream(bufferedIn);
-        Clip clip = AudioSystem.getClip();
-//        AudioInputStream inputStream = AudioSystem.getAudioInputStream(new FileInputStream("data/Candy Shop.mp3"));
-        clip.open(audioStream);
-        clip.start();
+    }
+
+    @Override
+    public void windowClosing(WindowEvent e) {
+
+    }
+
+    @Override
+    public void windowIconified(WindowEvent e) {
+
+    }
+
+    @Override
+    public void windowDeiconified(WindowEvent e) {
+
+    }
+
+    @Override
+    public void windowActivated(WindowEvent e) {
+
+    }
+
+    @Override
+    public void windowDeactivated(WindowEvent e) {
+
     }
 }

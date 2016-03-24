@@ -11,11 +11,12 @@ import sharkitter.view.MenuFrame;
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
+import java.net.URISyntaxException;
 import java.net.URL;
 
 public class Main {
 
-    public static void main(String[] args) throws IOException {
+    public static void main(String[] args) throws IOException, URISyntaxException {
 
         FavouriteSharks favouriteSharks = new FavouriteSharks();
 
