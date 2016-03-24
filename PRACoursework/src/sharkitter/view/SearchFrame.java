@@ -10,6 +10,7 @@ import api.jaws.Jaws;
 import api.jaws.Ping;
 import sharkitter.controller.SearchButtonListener;
 import sharkitter.model.FavouriteSharks;
+import sharkitter.model.PingCollection;
 import sharkitter.model.SharkData;
 
 
@@ -38,8 +39,9 @@ public class SearchFrame extends JFrame {
 
     private FavouriteSharks favouriteSharks;
     private ActionListener functionalityController;
+    private PingCollection pingCollection;
 
-    public SearchFrame(ActionListener functionalityController, FavouriteSharks favouriteSharks) {
+    public SearchFrame(ActionListener functionalityController, FavouriteSharks favouriteSharks, PingCollection pingCollection) {
         super("Search");
         jawsApi = new Jaws("EkZ8ZqX11ozMamO9", "E7gdkwWePBYT75KE", true);
         System.out.println(jawsApi.getLastUpdated());
@@ -47,6 +49,7 @@ public class SearchFrame extends JFrame {
         //create borders for later use
         blackLineBorder = BorderFactory.createLineBorder(Color.BLACK);
 
+        this.pingCollection = pingCollection;
         this.favouriteSharks = favouriteSharks;
         this.functionalityController = functionalityController;
         setLayout(new BorderLayout());
@@ -137,8 +140,7 @@ public class SearchFrame extends JFrame {
     private void createSearchButton() {
         search = new JButton("Search");
 
-        sbl = new SearchButtonListener(this
-        );
+        sbl = new SearchButtonListener(this,pingCollection);
         search.addActionListener(sbl);
     }
 

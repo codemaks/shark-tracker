@@ -2,6 +2,7 @@ package sharkitter.controller;
 
 import api.jaws.Jaws;
 import api.jaws.Ping;
+import sharkitter.model.PingCollection;
 import sharkitter.model.SharkData;
 import sharkitter.view.SearchFrame;
 
@@ -18,38 +19,21 @@ public class SearchButtonListener implements ActionListener{
     private String gender;
     private String tag_location;
     private String stage_of_life;
+    private PingCollection pingCollection;
     private Jaws jawsApi;
 
-    public SearchButtonListener(SearchFrame searchframe){
+    public SearchButtonListener(SearchFrame searchframe, PingCollection pingCollection){
         jawsApi = new Jaws("EkZ8ZqX11ozMamO9","E7gdkwWePBYT75KE", true);
         this.searchframe = searchframe;
-        listOfSharks = new ArrayList<SharkData>();
+        this.pingCollection = pingCollection;
+        listOfSharks = new ArrayList<>();
         }
 
     public void actionPerformed(ActionEvent e){
-       listOfSharks= updatefromTagLocation(updatefromStageOfLife(updatefromGender(updatefromTrackingRange())));
+        pingCollection.update();
+        listOfSharks= updatefromTagLocation(updatefromStageOfLife(updatefromGender(updatefromTrackingRange())));
         searchframe.addSeveralSharkContainersToView(listOfSharks);
     }
-
-    private Map<String,Ping> sortPings(ArrayList<Ping> listOfPings){
-
-        Map<String,Ping> MapOfPings = new HashMap<>();
-
-        for(Ping ping: listOfPings){
-
-            if(MapOfPings.containsKey(ping.getName())){
-
-               if(MapOfPings.get(ping.getName()).getTime().compareTo(ping.getTime()) == -1){
-                   MapOfPings.put(ping.getName(),ping);
-               }
-                continue;
-            }
-            MapOfPings.putIfAbsent(ping.getName(),ping);
-        }
-        return MapOfPings;
-    }
-
-
 
     private ArrayList<SharkData> updatefromTrackingRange(){
         //1. read selected constraint from combo box
@@ -58,19 +42,19 @@ public class SearchButtonListener implements ActionListener{
 
         //2. get all shark components by tracking range
         if (tracking_range.equals("Last 24 Hours")) {
-            for(Ping ping: sortPings(jawsApi.past24Hours()).values()){
+            for(Ping ping: pingCollection.getPast24hours().values()){
 
                listOfSharks.add(new SharkData(jawsApi.getShark(ping.getName()),ping));
             }
 
         } else if (tracking_range.equals("Last Week")) {
-            for(Ping ping: sortPings(jawsApi.pastWeek()).values()){
+            for(Ping ping: pingCollection.getPastWeek().values()){
 
                 listOfSharks.add(new SharkData(jawsApi.getShark(ping.getName()),ping));
             }
 
         } else if (tracking_range.equals("Last Month")) {
-            for(Ping ping: sortPings(jawsApi.pastMonth()).values()){
+            for(Ping ping: pingCollection.getPastMonth().values()){
 
                 listOfSharks.add(new SharkData(jawsApi.getShark(ping.getName()),ping));
             }

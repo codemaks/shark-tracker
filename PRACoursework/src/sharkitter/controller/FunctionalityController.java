@@ -2,6 +2,7 @@ package sharkitter.controller;
 
 import sharkitter.model.FavouriteSharks;
 import sharkitter.model.Konami;
+import sharkitter.model.PingCollection;
 import sharkitter.view.*;
 
 import javax.swing.*;
@@ -16,14 +17,16 @@ public class FunctionalityController implements ActionListener, KeyListener {
     private SearchFrame searchFrame;
     private StatisticsFrame statisticsFrame;
     private EasterEggFrame easterEggFrame;
+    private PingCollection pingCollection;
 
     private FavouriteSharks favouriteSharks;
 
     private Konami konami;
 
-    public FunctionalityController(MenuFrame menuFrame, FavouriteSharks favouriteSharks) {
+    public FunctionalityController(MenuFrame menuFrame, FavouriteSharks favouriteSharks, PingCollection pingCollection) {
         this.menuFrame = menuFrame;
         this.favouriteSharks = favouriteSharks;
+        this.pingCollection = pingCollection;
 
         konami = new Konami();
     }
@@ -37,7 +40,7 @@ public class FunctionalityController implements ActionListener, KeyListener {
             switch (buttonName) {
                 case "Search":
                     menuFrame.setVisible(false);
-                    searchFrame = new SearchFrame(this, favouriteSharks);
+                    searchFrame = new SearchFrame(this, favouriteSharks, pingCollection);
                     searchFrame.setVisible(true);
                     break;
 
@@ -48,7 +51,7 @@ public class FunctionalityController implements ActionListener, KeyListener {
 
                 case "Statistics":
                     menuFrame.setVisible(false);
-                    statisticsFrame = new StatisticsFrame(this);
+                    statisticsFrame = new StatisticsFrame(this, pingCollection);
                     statisticsFrame.setVisible(true);
                     break;
             }
@@ -60,10 +63,13 @@ public class FunctionalityController implements ActionListener, KeyListener {
             switch (menuName) {
                 case "Menu":
                     searchFrame.setVisible(false);
-                    if (!favouriteSharks.getFavouriteSharks().isEmpty()) menuFrame.toggleFavourites(true);
+                    if (!favouriteSharks.getFavouriteSharks().isEmpty())
+                        menuFrame.toggleFavourites(true);
                     menuFrame.setVisible(true);
                 case "Back":
-                    statisticsFrame.setVisible(false);
+                    if(statisticsFrame!=null){
+                        statisticsFrame.setVisible(false);
+                    }
                     menuFrame.setVisible(true);
             }
         }
