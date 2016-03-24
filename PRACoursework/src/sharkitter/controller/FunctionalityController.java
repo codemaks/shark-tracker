@@ -30,7 +30,7 @@ public class FunctionalityController implements ActionListener, KeyListener {
         this.pingCollection = pingCollection;
 
         searchFrame = new SearchFrame(this, favouriteSharks,pingCollection);
-        favouritesFrame = new FavouritesFrame(favouriteSharks, menuFrame.getJaws(),pingCollection);
+        favouritesFrame = new FavouritesFrame(favouriteSharks, menuFrame.getJaws());
         statisticsFrame = new StatisticsFrame(this,pingCollection);
 
         konami = new Konami();
@@ -39,7 +39,7 @@ public class FunctionalityController implements ActionListener, KeyListener {
     @Override
     public void actionPerformed(ActionEvent e) {
 
-        if(e.getSource().getClass() == JButton.class) {
+        if (e.getSource().getClass() == JButton.class) {
             String buttonName = ((JButton) e.getSource()).getText();
 
             switch (buttonName) {
@@ -61,7 +61,7 @@ public class FunctionalityController implements ActionListener, KeyListener {
             }
         }
 
-        if(e.getSource().getClass() == JMenuItem.class) {
+        if (e.getSource().getClass() == JMenuItem.class) {
             JMenuItem source = (JMenuItem) e.getSource();
             String menuName = source.getText();
 
@@ -72,51 +72,54 @@ public class FunctionalityController implements ActionListener, KeyListener {
                         menuFrame.toggleFavourites(true);
                     menuFrame.setVisible(true);
                 case "Back":
-                    if(statisticsFrame!=null){
+                    if (statisticsFrame != null) {
                         statisticsFrame.setVisible(false);
                     }
                     menuFrame.setVisible(true);
-            switch (source.getName()) {
-                case "SearchFrame":
-                    switch (menuName) {
-                        case "Menu":
-                            searchFrame.setVisible(false);
-                            if (!favouriteSharks.getFavouriteSharks().isEmpty()) menuFrame.toggleFavourites(true);
-                            menuFrame.setVisible(true);
+                    switch (source.getName()) {
+                        case "SearchFrame":
+                            switch (menuName) {
+                                case "Menu":
+                                    searchFrame.setVisible(false);
+                                    if (!favouriteSharks.getFavouriteSharks().isEmpty())
+                                        menuFrame.toggleFavourites(true);
+                                    menuFrame.setVisible(true);
+                                    break;
+                            }
                             break;
+                        case "StatisticsFrame":
+                            switch (menuName) {
+                                case "Menu":
+                                    statisticsFrame.setVisible(false);
+                                    menuFrame.setVisible(true);
+                                    break;
+                                case "Search":
+                                    statisticsFrame.setVisible(false);
+                                    searchFrame.setVisible(true);
+                            }
                     }
-                    break;
-                case "StatisticsFrame":
-                    switch (menuName) {
-                        case "Menu":
-                            statisticsFrame.setVisible(false);
-                            menuFrame.setVisible(true);
-                            break;
-                        case "Search":
-                            statisticsFrame.setVisible(false);
-                            searchFrame.setVisible(true);
-                    }
+                }
             }
         }
-    }
 
-    @Override
-    public void keyTyped(KeyEvent e) {
+        @Override
+        public void keyTyped (KeyEvent e){
 
-    }
-
-    @Override
-    public void keyPressed(KeyEvent e) {
-        konami.registerPressedKey(e.getKeyCode());
-        if(konami.checkKonamiCode()) {
-            konami.reset();
-            easterEggFrame = new EasterEggFrame();
-            easterEggFrame.setVisible(true);
         }
-    }
 
-    @Override
-    public void keyReleased(KeyEvent e) {
+        @Override
+        public void keyPressed (KeyEvent e){
+            konami.registerPressedKey(e.getKeyCode());
+            if (konami.checkKonamiCode()) {
+                konami.reset();
+                easterEggFrame = new EasterEggFrame();
+                easterEggFrame.setVisible(true);
+            }
+        }
 
-    }
+        @Override
+        public void keyReleased (KeyEvent e){
+
+        }
+
 }
