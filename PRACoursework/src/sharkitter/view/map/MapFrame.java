@@ -74,7 +74,7 @@ public class MapFrame extends JFrame {
 		else setMinimumSize(new Dimension( width/2, height/2));
 	
 		setTitle("Sharkitter Map (Test Version)");
-		setDefaultCloseOperation(EXIT_ON_CLOSE);
+		setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 		pack();
 	}
 	

@@ -28,7 +28,7 @@ public class FavouritesFrame extends JFrame{
 
 	public FavouritesFrame(FavouriteSharks favs, Jaws jawsApi) {
 		super();
-		setDefaultCloseOperation(EXIT_ON_CLOSE);
+		setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 		setLayout(new BorderLayout());
 		setPreferredSize(new Dimension(300,300));
 		add(new JLabel("Your favourite sharks are this far away from you right now:") , BorderLayout.NORTH);
