@@ -5,6 +5,7 @@ import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
+import java.util.Set;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -27,7 +28,7 @@ public class FavouritesFrame extends JFrame{
 
 	public FavouritesFrame(FavouriteSharks favs, Jaws jawsApi) {
 		super();
-		setDefaultCloseOperation(EXIT_ON_CLOSE);
+		setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 		setLayout(new BorderLayout());
 		setPreferredSize(new Dimension(300,300));
 		add(new JLabel("Your favourite sharks are this far away from you right now:") , BorderLayout.NORTH);
@@ -35,15 +36,19 @@ public class FavouritesFrame extends JFrame{
 
 		Location kclLocation = new Location(KINGS_LONGITUDE, KINGS_LATITUDE);
 		locations = new ArrayList<Location>();
-		for(/*Shark*/ String shark: favs.getFavouriteSharks())
+
+		Set<String> favouriteNames = favs.getFavouriteSharks();
+		//System.out.println(favouriteNames); //for debugging purposes
+		for(/*Shark*/ String shark: favouriteNames)
 		{
 			distanceToKingsInfo += shark/*.getName()*/;
 
 			//need to fix before map will work
+			System.out.println("**" + shark + "**");
 
-			/*Location l = jawsApi.getLastLocation(shark/*.getName()/);
+			Location l = jawsApi.getLastLocation(shark); //debugging location
 			locations.add(l);
-			distanceToKingsInfo += " : " + findDistanceBetween(kclLocation, l); */ // haven't tested yet
+			distanceToKingsInfo += " : " + findDistanceBetween(kclLocation, l);  // haven't tested yet */
 			distanceToKingsInfo += "\n";
 		}
 		

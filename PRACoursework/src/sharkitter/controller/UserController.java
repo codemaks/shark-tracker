@@ -20,6 +20,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardOpenOption;
 import java.util.*;
+import java.util.regex.Pattern;
 
 public class UserController implements ActionListener, KeyListener {
 
@@ -32,6 +33,7 @@ public class UserController implements ActionListener, KeyListener {
     private String username;
 
     private static final Path PATH_TO_PROFILES = Paths.get("data/list_of_profiles.txt");
+    private static final Pattern delimeterPattern = Pattern.compile("\\r\\n|\\n");
 
     /**
      * Constructor of UserController
@@ -101,7 +103,8 @@ public class UserController implements ActionListener, KeyListener {
 
             Path pathToFile = Paths.get("data/default.txt");
             Scanner reader = new Scanner(pathToFile);
-            reader.useDelimiter("\n");
+            //Pattern delimeterPattern = Pattern.compile("\\r\\n|\\n");
+            reader.useDelimiter(delimeterPattern);
 
             if(!reader.hasNext()) {
                 menuFrame.toggleFavourites(false);

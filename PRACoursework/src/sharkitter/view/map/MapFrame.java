@@ -13,8 +13,7 @@ import java.util.List;
 //import java.util.Random;
 
 import javax.imageio.ImageIO;
-import javax.swing.JFrame;
-import javax.swing.JLabel;
+import javax.swing.*;
 
 import api.jaws.Location;
 /**
@@ -24,30 +23,27 @@ import api.jaws.Location;
  */
 @SuppressWarnings("serial")
 public class MapFrame extends JFrame {
-	private final String MAP_IMAGE = "resources\\Equirectangular_projection_SW.jpg";
+	private final String MAP_IMAGE = "resources/Equirectangular_projection_SW.jpg";
 	private final int MAP_IMAGE_BORDER_PIXLES = 6; 
 	//specific to map "Equirectangular_projection_SW.jpg"
-	public static final int SCALE_DOWN = 1;
+	public static final int SCALE_DOWN = 2;
 	
 	
 	@SuppressWarnings("unused") // change SCALE_DOWN, in code to 1,2,3,4 to see
 	public MapFrame(List<Location> locations)
-	{ 
-		BufferedImage img = null;
-		try {
-		    img = ImageIO.read(new File(MAP_IMAGE));
-		} catch (IOException e) {
-		    e.printStackTrace();
-		    System.out.println("Map Image:\'" + MAP_IMAGE + "\' failed to load");
-		}
-		final int IMG_HEIGHT = img.getHeight();
-		final int IMG_WIDTH = img.getWidth();
+	{
+		final int IMG_HEIGHT = 1036;
+		final int IMG_WIDTH = 2058;
 		
 		
 		// Making an earth map, based on image
 		int height = IMG_HEIGHT / SCALE_DOWN;
 		int width = IMG_WIDTH / SCALE_DOWN;
-		Image dimg = img.getScaledInstance(width , height, Image.SCALE_SMOOTH);
+
+
+		ImageIcon mapIcon = new ImageIcon(getClass().getClassLoader().getResource(MAP_IMAGE));//"resources/SharkTracker.png"));
+		Image oldimg = mapIcon.getImage();
+		Image img = oldimg.getScaledInstance(width, height, Image.SCALE_SMOOTH);
 		
 		
 		EarthMapModel model = new EarthMapModel(
@@ -65,7 +61,7 @@ public class MapFrame extends JFrame {
 		
 		model.addMapCoords(list2);
 		
-		EarthMap map = new EarthMap(dimg, model);
+		EarthMap map = new EarthMap(img, model);
 		JLabel info = new JLabel();
 		info.setForeground(Color.GRAY);
 		info.setFont(new Font("Arial", Font.BOLD, 20));
@@ -78,7 +74,7 @@ public class MapFrame extends JFrame {
 		else setMinimumSize(new Dimension( width/2, height/2));
 	
 		setTitle("Sharkitter Map (Test Version)");
-		setDefaultCloseOperation(EXIT_ON_CLOSE);
+		setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 		pack();
 	}
 	
