@@ -5,7 +5,6 @@ import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
-import java.util.Set;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -15,6 +14,7 @@ import javax.swing.JTextArea;
 import api.jaws.Jaws;
 import api.jaws.Location;
 import api.jaws.Shark;
+import sharkitter.controller.SharknadoTracker;
 import sharkitter.model.FavouriteSharks;
 import sharkitter.view.map.MapFrame;
 
@@ -32,29 +32,33 @@ public class FavouritesFrame extends JFrame{
 		setLayout(new BorderLayout());
 		setPreferredSize(new Dimension(300,300));
 		add(new JLabel("Your favourite sharks are this far away from you right now:") , BorderLayout.NORTH);
+
+		SharknadoTracker sharknadoTracker = new SharknadoTracker(jawsApi);
 		String distanceToKingsInfo = "";
 
 		Location kclLocation = new Location(KINGS_LONGITUDE, KINGS_LATITUDE);
 		locations = new ArrayList<Location>();
-
-		Set<String> favouriteNames = favs.getFavouriteSharks();
-		//System.out.println(favouriteNames); //for debugging purposes
-		for(/*Shark*/ String shark: favouriteNames)
-		{
+		for(/*Shark*/ String shark: favs.getFavouriteSharks()) {
 			distanceToKingsInfo += shark/*.getName()*/;
 
 			//need to fix before map will work
-			System.out.println("**" + shark + "**");
 
-			Location l = jawsApi.getLastLocation(shark); //debugging location
+			/*Location l = jawsApi.getLastLocation(shark/*.getName()/);
 			locations.add(l);
-			distanceToKingsInfo += " : " + findDistanceBetween(kclLocation, l);  // haven't tested yet */
+			distanceToKingsInfo += " : " + findDistanceBetween(kclLocation, l); */ // haven't tested yet
+
+			//checks whether a Sharknado is occurring for this shark
+			if(sharknadoTracker.isOverLand(shark)) {
+				distanceToKingsInfo += "Sharknado - this shark is over land right now!";
+			}
+
 			distanceToKingsInfo += "\n";
 		}
 		
 		
 		
 		JTextArea ta = new JTextArea(distanceToKingsInfo);
+		ta.setEditable(false);
 		add(ta, BorderLayout.CENTER);
 		
 		JButton button = new JButton("Map");
@@ -83,7 +87,6 @@ public class FavouritesFrame extends JFrame{
 	 * @param loc2 Second location in longitude and latitude
      * @return The distance between locations in kilometers
      */
-	//TODO move out of frame?
 	private static double findDistanceBetween(Location loc1, Location loc2)
 	{
 		double R = 6371; // kilometers

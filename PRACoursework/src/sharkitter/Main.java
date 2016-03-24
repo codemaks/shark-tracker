@@ -1,18 +1,13 @@
 package sharkitter;
 
 import api.jaws.Jaws;
-import api.jaws.Location;
-import api.jaws.Shark;
 import sharkitter.controller.FunctionalityController;
 import sharkitter.controller.UserController;
 import sharkitter.model.FavouriteSharks;
 import sharkitter.model.PingCollection;
 import sharkitter.view.MenuFrame;
 
-import javax.imageio.ImageIO;
-import java.awt.image.BufferedImage;
 import java.io.IOException;
-import java.net.URL;
 
 public class Main {
 
