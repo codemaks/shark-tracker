@@ -9,11 +9,12 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class SearchButtonListener implements ActionListener{
     private SearchFrame searchframe;
-    private ArrayList<SharkData> listOfSharks;
+    private List<SharkData> listOfSharks;
     private String tracking_range;
     private String gender;
     private String tag_location;
@@ -51,7 +52,7 @@ public class SearchButtonListener implements ActionListener{
 
 
 
-    private ArrayList<SharkData> updatefromTrackingRange(){
+    private List<SharkData> updatefromTrackingRange(){
         //1. read selected constraint from combo box
 
         tracking_range = (String)searchframe.getTracking_range().getSelectedItem();
@@ -81,7 +82,7 @@ public class SearchButtonListener implements ActionListener{
         return listOfSharks;
     }
 
-    private ArrayList<SharkData> updatefromStageOfLife(ArrayList<SharkData> listofsharks){
+    private List<SharkData> updatefromStageOfLife(List<SharkData> listofsharks){
         stage_of_life = (String)searchframe.getStage_of_life().getSelectedItem();
 
         if (stage_of_life!="All"){
@@ -90,7 +91,7 @@ public class SearchButtonListener implements ActionListener{
         return(listofsharks);
     }
 
-    private ArrayList<SharkData> selectSharksByStageofLife(ArrayList<SharkData> listOfSD, String selectionElement){
+    private List<SharkData> selectSharksByStageofLife(List<SharkData> listOfSD, String selectionElement){
         System.out.println("selectionElement: "+selectionElement);
         ArrayList<SharkData> newlistofSD = new ArrayList<SharkData> ();
         for (SharkData sharkData: listOfSD){
@@ -104,7 +105,7 @@ public class SearchButtonListener implements ActionListener{
     }
 
 
-    private ArrayList<SharkData> updatefromGender(ArrayList<SharkData> listOfSD){
+    private List<SharkData> updatefromGender(List<SharkData> listOfSD){
         gender = (String)searchframe.getGender().getSelectedItem();
 
         if (gender!="All"){
@@ -113,7 +114,7 @@ public class SearchButtonListener implements ActionListener{
         return listOfSD;
     }
 
-    private ArrayList<SharkData>  selectSharksByGender(ArrayList<SharkData>  listOfSD, String selectionElement){
+    private List<SharkData>  selectSharksByGender(List<SharkData>  listOfSD, String selectionElement){
         System.out.println("gender: " +selectionElement);
         ArrayList<SharkData> newlistOfSD = new ArrayList<SharkData> ();
         for (SharkData SharkData: listOfSD){
@@ -127,7 +128,7 @@ public class SearchButtonListener implements ActionListener{
     }
 
 
-    private ArrayList<SharkData>  updatefromTagLocation(ArrayList<SharkData>  listOfSD){
+    private List<SharkData>  updatefromTagLocation(List<SharkData>  listOfSD){
         tag_location = (String)searchframe.getTag_location().getSelectedItem();
 
         if (tag_location!="All"){
@@ -138,7 +139,7 @@ public class SearchButtonListener implements ActionListener{
 
     }
 
-    private ArrayList<SharkData>  selectSharksByTagLocation(ArrayList<SharkData>  listOfPings, String selectionElement){
+    private List<SharkData>  selectSharksByTagLocation(List<SharkData>  listOfPings, String selectionElement){
         System.out.println("tag location: "+ selectionElement);
         ArrayList<SharkData>  newlistofPings = new ArrayList<SharkData> ();
         for (SharkData SharkData: listOfPings){

@@ -6,6 +6,8 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.*;
+import java.util.List;
+
 import api.jaws.Jaws;
 import api.jaws.Ping;
 import sharkitter.controller.SearchButtonListener;
@@ -139,8 +141,7 @@ public class SearchFrame extends JFrame {
     private void createSearchButton() {
         search = new JButton("Search");
 
-        sbl = new SearchButtonListener(this
-        );
+        sbl = new SearchButtonListener(this);
         search.addActionListener(sbl);
     }
 
@@ -186,7 +187,7 @@ public class SearchFrame extends JFrame {
         return centralpanel;
     }
 
-    public JPanel addSeveralSharkContainersToView (ArrayList<SharkData> listofsharks) {
+    public JPanel addSeveralSharkContainersToView (List<SharkData> listofsharks) {
         int counter = listofsharks.size();
 
         supercentralpanel.removeAll();

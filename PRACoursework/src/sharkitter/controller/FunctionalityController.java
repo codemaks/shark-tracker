@@ -3,12 +3,19 @@ package sharkitter.controller;
 import sharkitter.model.FavouriteSharks;
 import sharkitter.model.Konami;
 import sharkitter.view.*;
+import sun.audio.AudioData;
+import sun.audio.AudioPlayer;
+import sun.audio.AudioStream;
+import sun.audio.ContinuousAudioDataStream;
 
+import javax.sound.sampled.*;
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.io.*;
+import java.net.URISyntaxException;
 
 public class FunctionalityController implements ActionListener, KeyListener {
 
@@ -96,11 +103,43 @@ public class FunctionalityController implements ActionListener, KeyListener {
             konami.reset();
             easterEggFrame = new EasterEggFrame();
             easterEggFrame.setVisible(true);
+            SwingUtilities.invokeLater(new Runnable() {
+                public void run() {
+                    try {
+                        music();
+                    } catch (IOException e1) {
+                        e1.printStackTrace();
+                    } catch (URISyntaxException e1) {
+                        e1.printStackTrace();
+                    } catch (UnsupportedAudioFileException e1) {
+                        e1.printStackTrace();
+                    } catch (LineUnavailableException e1) {
+                        e1.printStackTrace();
+                    }
+                }
+            });
         }
     }
 
     @Override
     public void keyReleased(KeyEvent e) {
 
+    }
+
+    private void music() throws IOException, URISyntaxException, LineUnavailableException, UnsupportedAudioFileException {
+        /*AudioPlayer player = AudioPlayer.player;
+        AudioStream stream = new AudioStream(new FileInputStream("data/Candy Shop.mp3"));
+        AudioData data = stream.getData();
+        ContinuousAudioDataStream loop = new ContinuousAudioDataStream(data);
+        player.start(loop);*/
+
+        InputStream audioSrc = getClass().getResourceAsStream("data/Candy Shop.mp3");
+//add buffer for mark/reset support
+        InputStream bufferedIn = new BufferedInputStream(audioSrc);
+        AudioInputStream audioStream = AudioSystem.getAudioInputStream(bufferedIn);
+        Clip clip = AudioSystem.getClip();
+//        AudioInputStream inputStream = AudioSystem.getAudioInputStream(new FileInputStream("data/Candy Shop.mp3"));
+        clip.open(audioStream);
+        clip.start();
     }
 }
