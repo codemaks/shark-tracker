@@ -10,15 +10,27 @@ import com.google.maps.model.LatLng;
 
 public class SharknadoTracker {
 
+	/**
+	 * The Jaws API.
+	 */
 	private Jaws jawsApi;
 
+	/**
+	 * Creates a new Sharknado tracker.
+	 * @param jawsApi the instance of the Jaws API to be used.
+	 */
 	public SharknadoTracker(Jaws jawsApi) {
 		this.jawsApi = jawsApi;
 	}
 
-	public boolean isOverLand(Shark s) {
+	/**
+	 * Checks whether the given shark's last location is over land, using the Google Elevation API to check elevation.
+	 * @param sName the name of the shark to check location for.
+	 * @return true if a Sharknado event has occurred, false if not.
+	 */
+	public boolean isOverLand(String sName) {
 		//get shark's last location
-		Location location = jawsApi.getLastLocation(s.getName());
+		Location location = jawsApi.getLastLocation(sName);
 
 		//query Google Elevation API
 		LatLng latLngLocation = new LatLng(location.getLatitude(), location.getLongitude());
@@ -27,16 +39,12 @@ public class SharknadoTracker {
 
 		try {
 			ElevationResult result = ElevationApi.getByPoint(context, latLngLocation).await();
-			//for debugging purposes
-			System.out.println(result.toString());
 
 			//if the elevation is bigger than 0, ie if shark location is over land
 			if(result.elevation > 0) {
-				System.out.println("Sharknado!");
 				return true;
 			}
 			else {
-				System.out.println("Not a Sharknado.");
 				return false;
 			}
 		}
@@ -44,11 +52,6 @@ public class SharknadoTracker {
 			e.printStackTrace();
 		}
 
-		/*
-		TODO use this method in a new method in FavouriteSharks - check whether any of the sharks stored in the
-		list of favourite sharks are involved in a Sharknado event (= isOverLand returns true). if there are any
-		sharks fitting this criteria, return the details of those sharks as a Sharknado alert.
-		 */
 		return false;
 	}
 }
