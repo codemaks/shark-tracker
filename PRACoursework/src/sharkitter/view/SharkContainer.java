@@ -19,7 +19,6 @@ public class SharkContainer extends JPanel {
     private JButton followButton;
     private FavouriteSharks favouriteSharks;
     private SharkData shark;
-    private JLabel descriptionlabel;
 
     /**
      * Class constructor: provides a JPanel containing all the details of a Shark when the following parameters
@@ -37,7 +36,7 @@ public class SharkContainer extends JPanel {
 
         add(createSharkFeaturesTable(shark), BorderLayout.NORTH);
 
-        add(createSharkDescriptionText(shark), BorderLayout.WEST);
+        add(createSharkDescriptionText(shark), BorderLayout.CENTER);
 
         add(createSharkTrackOptions(shark.getDate()), BorderLayout.SOUTH);
 
@@ -57,11 +56,8 @@ public class SharkContainer extends JPanel {
     private JPanel createSharkDescriptionText(SharkData foundShark) {
         JPanel descriptionPanel = new JPanel();
         descriptionPanel.setLayout(new BorderLayout());
-        TitledBorder title;
-        title = BorderFactory.createTitledBorder("Description");
-        descriptionPanel.setBorder(title);
-        descriptionlabel=new JLabel("<html><br><dr>"+foundShark.getDescription()+"</html?>");
-        descriptionlabel.setPreferredSize(new Dimension(800,200));
+
+        JLabel descriptionlabel = new JLabel("<html> Description: <br><br>"+foundShark.getDescription()+"</html?>");
         descriptionPanel.add(descriptionlabel,BorderLayout.CENTER);
 
         return descriptionPanel;
@@ -77,12 +73,6 @@ public class SharkContainer extends JPanel {
         JLabel pingLabel = new JLabel("Last ping: " + date);
 
         followButton = new JButton("Follow");
-        try{
-            if(!favouriteSharks.getFavouriteSharks().contains(shark))
-                followButton.setText("Unfollow");
-        }catch (Exception e){
-            //e.printStackTrace();
-        }
 
         followButton.addActionListener(favouriteController);
 
@@ -132,7 +122,11 @@ public class SharkContainer extends JPanel {
         return sharkFeatures;
     }
 
-    public Shark getShark(){
+    /**
+     * Getter of the corresponding shark
+     * @return  The Shark object displayed by this container
+     */
+    public Shark getShark() {
         return shark.getShark();
     }
 

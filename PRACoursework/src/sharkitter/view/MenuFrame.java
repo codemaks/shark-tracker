@@ -32,7 +32,7 @@ public class MenuFrame extends JFrame {
 		addWidgets();
 	}
 
-	public static void centreWindow(Window frame) {
+	private static void centreWindow(Window frame) {
 		Dimension dimension = Toolkit.getDefaultToolkit().getScreenSize();
 		int x = (int) ((dimension.getWidth() - frame.getWidth()) /3);
 		int y = (int) ((dimension.getHeight() - frame.getHeight())/4 );
@@ -43,7 +43,7 @@ public class MenuFrame extends JFrame {
 		JMenuBar menuBar = createjMenuBar();
 
 		JPanel southPanel = new JPanel();
-		southPanel.setLayout(new GridLayout(5, 1));
+		southPanel.setLayout(new GridLayout(3, 1));
 
 		searchButton = new JButton("Search");
 		searchButton.setHorizontalAlignment(JButton.CENTER);
@@ -53,12 +53,9 @@ public class MenuFrame extends JFrame {
 		statisticsButton = new JButton("Statistics");
 		statisticsButton.setHorizontalAlignment(JButton.CENTER);
 
-		JLabel blank = new JLabel("");
-
 		southPanel.add(searchButton);
 		southPanel.add(favouritesButton);
 		southPanel.add(statisticsButton);
-		southPanel.add(blank);
 
 		ImageIcon shark = new ImageIcon(getClass().getClassLoader().getResource("resources/SharkTracker.png"));
 		Image img = shark.getImage();
@@ -123,7 +120,7 @@ public class MenuFrame extends JFrame {
 	 * Disable the favourite button
 	 */
 	public void toggleFavourites(boolean b) {
-		favouritesButton.setEnabled(false);
+		favouritesButton.setEnabled(b);
 	}
 
 	/**

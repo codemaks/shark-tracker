@@ -16,6 +16,7 @@ public class FunctionalityController implements ActionListener, KeyListener {
     private MenuFrame menuFrame;
     private SearchFrame searchFrame;
     private StatisticsFrame statisticsFrame;
+    private FavouritesFrame favouritesFrame;
     private EasterEggFrame easterEggFrame;
     private PingCollection pingCollection;
 
@@ -27,6 +28,10 @@ public class FunctionalityController implements ActionListener, KeyListener {
         this.menuFrame = menuFrame;
         this.favouriteSharks = favouriteSharks;
         this.pingCollection = pingCollection;
+
+        searchFrame = new SearchFrame(this, favouriteSharks,pingCollection);
+        favouritesFrame = new FavouritesFrame(favouriteSharks, menuFrame.getJaws(),pingCollection);
+        statisticsFrame = new StatisticsFrame(this,pingCollection);
 
         konami = new Konami();
     }
@@ -45,7 +50,6 @@ public class FunctionalityController implements ActionListener, KeyListener {
                     break;
 
                 case "Favourites":
-                    FavouritesFrame favouritesFrame = new FavouritesFrame(favouriteSharks, menuFrame.getJaws());
                     favouritesFrame.setVisible(true);
                     break;
 
@@ -58,7 +62,8 @@ public class FunctionalityController implements ActionListener, KeyListener {
         }
 
         if(e.getSource().getClass() == JMenuItem.class) {
-            String menuName = ((JMenuItem) e.getSource()).getText();
+            JMenuItem source = (JMenuItem) e.getSource();
+            String menuName = source.getText();
 
             switch (menuName) {
                 case "Menu":
@@ -71,6 +76,26 @@ public class FunctionalityController implements ActionListener, KeyListener {
                         statisticsFrame.setVisible(false);
                     }
                     menuFrame.setVisible(true);
+            switch (source.getName()) {
+                case "SearchFrame":
+                    switch (menuName) {
+                        case "Menu":
+                            searchFrame.setVisible(false);
+                            if (!favouriteSharks.getFavouriteSharks().isEmpty()) menuFrame.toggleFavourites(true);
+                            menuFrame.setVisible(true);
+                            break;
+                    }
+                    break;
+                case "StatisticsFrame":
+                    switch (menuName) {
+                        case "Menu":
+                            statisticsFrame.setVisible(false);
+                            menuFrame.setVisible(true);
+                            break;
+                        case "Search":
+                            statisticsFrame.setVisible(false);
+                            searchFrame.setVisible(true);
+                    }
             }
         }
     }

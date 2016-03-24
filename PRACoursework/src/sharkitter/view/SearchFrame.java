@@ -54,6 +54,7 @@ public class SearchFrame extends JFrame {
         this.functionalityController = functionalityController;
         setLayout(new BorderLayout());
         setPreferredSize(new Dimension(1200, 700));
+        centreWindow(this);
         createPanels();
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     }
@@ -83,6 +84,7 @@ public class SearchFrame extends JFrame {
         JMenu view = new JMenu("View");
 
         JMenuItem menu = new JMenuItem("Menu");
+        menu.setName("SearchFrame");
         menu.addActionListener(functionalityController);
         menu.setToolTipText("Go back to the main menu");
 
@@ -161,20 +163,27 @@ public class SearchFrame extends JFrame {
         add(centralpanel, BorderLayout.CENTER);
     }
 
+    private static void centreWindow(Window frame) {
+        Dimension dimension = Toolkit.getDefaultToolkit().getScreenSize();
+        int x = (int) ((dimension.getWidth() - frame.getWidth()) /3);
+        int y = (int) ((dimension.getHeight() - frame.getHeight())/4 );
+        frame.setLocation(x, y);
+    }
+
     public JPanel addSharkContainerToView(SharkContainer sharkcontainer){
 
-                centralpanel.setLayout(new BorderLayout());
-                supercentralpanel.add(sharkcontainer);
-                supercentralpanel.add(new JSeparator(SwingConstants.HORIZONTAL));
-                supercentralpanel.paintComponents(supercentralpanel.getGraphics());
+        centralpanel.setLayout(new BorderLayout());
+        supercentralpanel.add(sharkcontainer);
+        supercentralpanel.add(new JSeparator(SwingConstants.HORIZONTAL));
+        supercentralpanel.paintComponents(supercentralpanel.getGraphics());
 
-                centralpanel.remove(centralPane);
-                centralPane.setViewportView(supercentralpanel);
-                centralpanel.add(centralPane);
+        centralpanel.remove(centralPane);
+        centralPane.setViewportView(supercentralpanel);
+        centralpanel.add(centralPane);
 
-                revalidate();
-                repaint();
-                pack();
+        revalidate();
+        repaint();
+        pack();
 
         return centralpanel;
     }
