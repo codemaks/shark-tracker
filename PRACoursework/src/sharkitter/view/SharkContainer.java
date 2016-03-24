@@ -4,89 +4,73 @@ import api.jaws.Ping;
 import api.jaws.Shark;
 import sharkitter.controller.FavouriteController;
 import sharkitter.model.FavouriteSharks;
+import sharkitter.model.SharkData;
 
 import java.awt.*;
+import java.util.Collection;
 import java.util.HashMap;
 import javax.swing.*;
 import javax.swing.border.Border;
+import javax.swing.border.TitledBorder;
 
-public class SharkContainer extends JPanel implements Comparable<SharkContainer> {
+public class SharkContainer extends JPanel {
 
     private FavouriteController favouriteController;
     private JButton followButton;
-    private HashMap<String,String> sharkdetails;
-    private Shark shark;
     private FavouriteSharks favouriteSharks;
+    private SharkData shark;
 
     /**
      * Class constructor: provides a JPanel containing all the details of a Shark when the following parameters
      * are given:
      * Display all information concerning the Sharks that fit the chosen fields for the search.
-     * @param foundShark	A Shark matching the chosen criteria.
-     * @param lastPing	The last Ping for the matching Shark.
+     * @param shark	A SharkData containing the Shark matching the chosen criteria.
+     * @param favouriteSharks	A list of sharks to which the corresponding shark could belong to.
      */
-    public SharkContainer(Shark foundShark, Ping lastPing, FavouriteSharks favouriteSharks){
-        sharkdetails = new HashMap<>();
-        populateSharkDetails(foundShark,lastPing);
+    public SharkContainer(SharkData shark, FavouriteSharks favouriteSharks){
         setLayout(new BorderLayout());
-        setName(foundShark.getName());
+        this.shark = shark;
+        setName(shark.getName());
 
         favouriteController = new FavouriteController(this, favouriteSharks);
-        shark = foundShark;
 
         add(createSharkFeaturesTable(shark), BorderLayout.NORTH);
 
-        add(createSharkDescriptionText(shark), BorderLayout.WEST);
+        add(createSharkDescriptionText(shark), BorderLayout.CENTER);
 
-        add(createSharkTrackOptions(lastPing), BorderLayout.SOUTH);
+        add(createSharkTrackOptions(shark.getDate()), BorderLayout.SOUTH);
 
-        setPreferredSize(new Dimension(600,250));
+        setPreferredSize(new Dimension(800,300));
 
-        Border blackLineBorder = BorderFactory.createLineBorder(Color.BLACK);
+        Border blackLineBorder = BorderFactory.createLineBorder(Color.black);
         setBorder(blackLineBorder);
 
         setVisible(true);
     }
 
-    private void populateSharkDetails(Shark foundShark,Ping ping){
-        sharkdetails.put("name",foundShark.getName());
-        sharkdetails.put("gender",foundShark.getGender());
-        sharkdetails.put("stageoflife",foundShark.getStageOfLife());
-        sharkdetails.put("taglocation",foundShark.getTagLocation());
-        sharkdetails.put("lastping",ping.getTime());
-    }
-
-    public String getSharkDate(){
-        return sharkdetails.get("lastping");
-    }
     /**
      * Create and display the description of a matching Shark.
-     * @param foundShark	A Shark matching the chosen criteria.
+     * @param foundShark A Shark matching the chosen criteria.
      * @return	A JPanel containing all relevant information (description).
      */
-    private JPanel createSharkDescriptionText(Shark foundShark) {
+    private JPanel createSharkDescriptionText(SharkData foundShark) {
         JPanel descriptionPanel = new JPanel();
-
         descriptionPanel.setLayout(new BorderLayout());
-        descriptionPanel.add(new JLabel("Description:"),BorderLayout.NORTH);
 
-        JTextArea ta = new JTextArea(foundShark.getDescription(), 5, 80);
-        ta.setLineWrap(true);
-        ta.setEditable(false);
-
-        descriptionPanel.add(ta, BorderLayout.CENTER);
+        JLabel descriptionlabel = new JLabel("<html> Description: <br><br>"+foundShark.getDescription()+"</html?>");
+        descriptionPanel.add(descriptionlabel,BorderLayout.CENTER);
 
         return descriptionPanel;
     }
     /**
      * Create and display the last ping of a given Shark and the option to follow it.
-     * @param lastPing	Object containing information about the last point of contact with a given shark.
+     * @param date String object containing information about the last point of contact with a given shark.
      * @return	A JPanel containing all relevant information and a follow button.
      */
-    private JPanel createSharkTrackOptions(Ping lastPing) {
+    private JPanel createSharkTrackOptions(String date) {
         JPanel pingPanel = new JPanel(new BorderLayout());
 
-        JLabel pingLabel = new JLabel("Last ping: " + lastPing.getTime());
+        JLabel pingLabel = new JLabel("Last ping: " + date);
 
         followButton = new JButton("Follow");
 
@@ -104,7 +88,7 @@ public class SharkContainer extends JPanel implements Comparable<SharkContainer>
      * @param foundShark	A Shark matching the chosen criteria.
      * @return	a JPanel containing all relevant information (name, gender, satge of life, species, length and weight).
      */
-    private JPanel createSharkFeaturesTable(Shark foundShark) {
+    private JPanel createSharkFeaturesTable(SharkData foundShark) {
         JPanel sharkFeatures = new JPanel(new GridLayout(6, 2));
 
         JLabel nameLabel = new JLabel("Name: ");
@@ -143,7 +127,7 @@ public class SharkContainer extends JPanel implements Comparable<SharkContainer>
      * @return  The Shark object displayed by this container
      */
     public Shark getShark() {
-        return shark;
+        return shark.getShark();
     }
 
     /**
@@ -156,10 +140,5 @@ public class SharkContainer extends JPanel implements Comparable<SharkContainer>
                 followButton.setText(text);
             }
         });
-    }
-
-    @Override
-    public int compareTo(SharkContainer anotherSharkContainer) {
-        return getSharkDate().compareTo(anotherSharkContainer.getSharkDate());
     }
 }

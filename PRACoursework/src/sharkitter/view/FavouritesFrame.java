@@ -24,6 +24,7 @@ public class FavouritesFrame extends JFrame{
 	// Kings longitude, and latitude
 	private static final double KINGS_LONGITUDE = 51.510;
 	private static final double KINGS_LATITUDE = -0.117;
+
 	public FavouritesFrame(FavouriteSharks favs, Jaws jawsApi) {
 		super();
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
@@ -77,6 +78,7 @@ public class FavouritesFrame extends JFrame{
 	 * @param loc2 Second location in longitude and latitude
      * @return The distance between locations in kilometers
      */
+	//TODO move out of frame?
 	private static double findDistanceBetween(Location loc1, Location loc2)
 	{
 		double R = 6371; // kilometers

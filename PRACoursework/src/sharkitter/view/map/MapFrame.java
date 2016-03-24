@@ -24,7 +24,7 @@ import api.jaws.Location;
  */
 @SuppressWarnings("serial")
 public class MapFrame extends JFrame {
-	private final String MAP_IMAGE = "Equirectangular_projection_SW.jpg";
+	private final String MAP_IMAGE = "resources\\Equirectangular_projection_SW.jpg";
 	private final int MAP_IMAGE_BORDER_PIXLES = 6; 
 	//specific to map "Equirectangular_projection_SW.jpg"
 	public static final int SCALE_DOWN = 1;
