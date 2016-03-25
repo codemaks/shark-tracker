@@ -15,7 +15,6 @@ public class SharkData implements Comparable<SharkData>{
     private String species;
     private String date;
 
-
     public SharkData(Shark foundShark, Ping lastPing){
         populateSharkDetails(foundShark, lastPing);
     }
