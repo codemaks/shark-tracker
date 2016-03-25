@@ -9,9 +9,7 @@ import sharkitter.view.SearchFrame;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 public class SearchButtonListener implements ActionListener{
     private SearchFrame searchframe;
@@ -24,6 +22,7 @@ public class SearchButtonListener implements ActionListener{
     private Jaws jawsApi;
 
     public SearchButtonListener(SearchFrame searchframe, PingCollection pingCollection){
+        //TODO api still called there?
         jawsApi = new Jaws("EkZ8ZqX11ozMamO9","E7gdkwWePBYT75KE", true);
         this.searchframe = searchframe;
         this.pingCollection = pingCollection;
@@ -61,6 +60,7 @@ public class SearchButtonListener implements ActionListener{
             }
 
         } else {
+            //TODO removed Println
             System.out.println("SearchButtonListener Error 1 : Invalid ComboBox input");
         }
         return listOfSharks;
@@ -76,14 +76,17 @@ public class SearchButtonListener implements ActionListener{
     }
 
     private List<SharkData> selectSharksByStageofLife(List<SharkData> listOfSD, String selectionElement){
+        //TODO remove println
         System.out.println("selectionElement: "+selectionElement);
-        ArrayList<SharkData> newlistofSD = new ArrayList<SharkData> ();
+        List<SharkData> newlistofSD = new ArrayList<SharkData> ();
         for (SharkData sharkData: listOfSD){
            if( jawsApi.getShark(sharkData.getName()).getStageOfLife().equals(selectionElement)){
+               //TODO remove println
                System.out.println("got there! selectionelement: " + selectionElement + " :");
                newlistofSD.add(sharkData);
            }
         }
+        //TODO remove println
         System.out.println("stageoflife_newlistofPings: "+newlistofSD);
         return newlistofSD;
     }
@@ -98,40 +101,47 @@ public class SearchButtonListener implements ActionListener{
         return listOfSD;
     }
 
-    private List<SharkData>  selectSharksByGender(List<SharkData>  listOfSD, String selectionElement){
+    private List<SharkData> selectSharksByGender(List<SharkData> listOfSD, String selectionElement){
+        //TODO remove println
         System.out.println("gender: " +selectionElement);
-        ArrayList<SharkData> newlistOfSD = new ArrayList<SharkData> ();
+        List<SharkData> newlistOfSD = new ArrayList<SharkData> ();
         for (SharkData SharkData: listOfSD){
             if( jawsApi.getShark(SharkData.getName()).getGender().equals(selectionElement)){
+                //TODO remove println
                 System.out.println("got there! selectionelement: " + selectionElement + " :");
                 newlistOfSD.add(SharkData);
             }
         }
+        //TODO remove println
         System.out.println("gender_newlistofPings: "+newlistOfSD);
         return newlistOfSD;
     }
 
 
-    private List<SharkData>  updatefromTagLocation(List<SharkData>  listOfSD){
+    private List<SharkData> updatefromTagLocation(List<SharkData> listOfSD){
         tag_location = (String)searchframe.getTag_location().getSelectedItem();
 
         if (tag_location!="All"){
             listOfSD=selectSharksByTagLocation(listOfSD,tag_location);
         }
+        //TODO remove println
         System.out.println(listOfSD);
         return listOfSD;
 
     }
 
     private List<SharkData>  selectSharksByTagLocation(List<SharkData>  listOfPings, String selectionElement){
+        //TODO remove println
         System.out.println("tag location: "+ selectionElement);
-        ArrayList<SharkData>  newlistofPings = new ArrayList<SharkData> ();
+        List<SharkData>  newlistofPings = new ArrayList<SharkData> ();
         for (SharkData SharkData: listOfPings){
             if( jawsApi.getShark(SharkData.getName()).getTagLocation().equals(selectionElement)){
+                //TODO remove println
                 System.out.println("got there! selectionelement: " + selectionElement + " :");
                 newlistofPings.add(SharkData);
             }
         }
+        //TODO remove println
         System.out.println("tagloc_newlistofPings: "+newlistofPings);
         return newlistofPings;
     }

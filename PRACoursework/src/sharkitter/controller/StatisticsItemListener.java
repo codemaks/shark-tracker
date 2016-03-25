@@ -11,11 +11,9 @@ import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
-/**
- * Created by Evou on 23/03/2016.
- */
 public class StatisticsItemListener implements ItemListener
 {
     private Jaws jawsApi;
@@ -23,6 +21,7 @@ public class StatisticsItemListener implements ItemListener
     private PingCollection pingCollection;
 
     public StatisticsItemListener(StatisticsFrame statisticsFrame, PingCollection pingCollection){
+        //TODO api called here
         jawsApi = new Jaws("EkZ8ZqX11ozMamO9","E7gdkwWePBYT75KE", true);
         this.statisticsFrame = statisticsFrame;
         this.pingCollection = pingCollection;
@@ -32,7 +31,7 @@ public class StatisticsItemListener implements ItemListener
        updateChart(updatefromTrackingRange((JComboBox<String>)e.getSource()),(JComboBox) e.getSource());
     }
 
-    private ArrayList<SharkData> updatefromTrackingRange(JComboBox<String> trackingrange){
+    private List<SharkData> updatefromTrackingRange(JComboBox<String> trackingrange){
         pingCollection.update();
         //1. read selected constraint from combo box
 
@@ -59,12 +58,13 @@ public class StatisticsItemListener implements ItemListener
             }
 
         } else {
+            //TODO remove println
             System.out.println("SearchButtonListener Error 1 : Invalid ComboBox input");
         }
         return listOfSharks;
     }
 
-    private void updateChart(ArrayList<SharkData> listofsharks, JComboBox source){
+    private void updateChart(List<SharkData> listofsharks, JComboBox source){
         statisticsFrame.updateShark(listofsharks,source);
     }
 }

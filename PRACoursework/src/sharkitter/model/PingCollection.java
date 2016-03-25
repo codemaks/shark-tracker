@@ -3,14 +3,8 @@ package sharkitter.model;
 import api.jaws.Jaws;
 import api.jaws.Ping;
 
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
-/**
- * Created by Evou on 24/03/2016.
- */
 public class PingCollection {
     private Map<String,Ping> past24hours;
     private Map<String,Ping> pastWeek;
@@ -19,13 +13,14 @@ public class PingCollection {
 
 
     public PingCollection(){
+        //TODO Api called there
         jawsApi = new Jaws("EkZ8ZqX11ozMamO9","E7gdkwWePBYT75KE", true);
         past24hours = sortPings(jawsApi.past24Hours());
         pastWeek = sortPings(jawsApi.pastWeek());
         pastMonth = sortPings(jawsApi.pastMonth());
     }
 
-    private Map<String,Ping> sortPings(ArrayList<Ping> listOfPings){
+    private Map<String,Ping> sortPings(List<Ping> listOfPings){
 
         Map<String,Ping> MapOfPings = new HashMap<>();
 

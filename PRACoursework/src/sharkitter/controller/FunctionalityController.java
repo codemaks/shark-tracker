@@ -10,7 +10,6 @@ import sun.audio.AudioStream;
 import javax.swing.*;
 import java.awt.event.*;
 import java.io.*;
-import java.net.URISyntaxException;
 
 public class FunctionalityController implements ActionListener, KeyListener, WindowListener {
 
@@ -30,12 +29,14 @@ public class FunctionalityController implements ActionListener, KeyListener, Win
 
     private static final String SONG = "resources/Never Give Up On Sharks.wav";
 
-    public FunctionalityController(MenuFrame menuFrame, FavouriteSharks favouriteSharks, PingCollection pingCollection) throws IOException, URISyntaxException {
+    public FunctionalityController(MenuFrame menuFrame, FavouriteSharks favouriteSharks, PingCollection pingCollection) throws IOException {
         this.menuFrame = menuFrame;
         this.favouriteSharks = favouriteSharks;
         this.pingCollection = pingCollection;
 
         searchFrame = new SearchFrame(this, favouriteSharks,pingCollection);
+
+        //TODO MenuFrame doesn't use api, put it in other class, FavouriteSharks for example?
         favouritesFrame = new FavouritesFrame(favouriteSharks, menuFrame.getJaws());
         statisticsFrame = new StatisticsFrame(this,pingCollection);
 

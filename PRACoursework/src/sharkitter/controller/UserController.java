@@ -33,7 +33,7 @@ public class UserController implements ActionListener, KeyListener {
     private String username;
 
     private static final Path PATH_TO_PROFILES = Paths.get("data/list_of_profiles.txt");
-    private static final Pattern delimeterPattern = Pattern.compile("\\r\\n|\\n");
+    private static final Pattern DELIMITER = Pattern.compile("\\r\\n|\\n");
 
     /**
      * Constructor of UserController
@@ -84,8 +84,7 @@ public class UserController implements ActionListener, KeyListener {
      * @throws IOException
      */
     private void readProfiles() throws IOException {
-        Scanner reader = new Scanner(PATH_TO_PROFILES);
-        reader.useDelimiter("\n");
+        Scanner reader = createScanner(PATH_TO_PROFILES);
 
         while (reader.hasNext()) {
             String profileName = reader.next();
@@ -187,7 +186,7 @@ public class UserController implements ActionListener, KeyListener {
 
     private Scanner createScanner(Path pathToFile) throws IOException {
         Scanner reader = new Scanner(pathToFile);
-        reader.useDelimiter(delimeterPattern);
+        reader.useDelimiter(DELIMITER);
         return reader;
     }
 

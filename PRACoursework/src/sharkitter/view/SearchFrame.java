@@ -3,13 +3,10 @@ package sharkitter.view;
 import javax.swing.*;
 import javax.swing.border.Border;
 import java.awt.*;
-import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.*;
 import java.util.List;
 
 import api.jaws.Jaws;
-import api.jaws.Ping;
 import sharkitter.controller.SearchButtonListener;
 import sharkitter.model.FavouriteSharks;
 import sharkitter.model.PingCollection;
@@ -25,16 +22,14 @@ public class SearchFrame extends JFrame {
 	private JComboBox<String> gender;
 	private JComboBox<String> tag_location;
 
-	private JPanel centralpanel;
+	private JPanel centralPanel;
     private JPanel mWestPanel;
     private JScrollPane centralPane;
-    private JPanel supercentralpanel;
+    private JPanel superCentralPanel;
 
     private JButton search;
 
-	private int counter;
-
-    private SearchButtonListener sbl;
+    private SearchButtonListener searchButtonListener;
 
     //black line border
     private Border blackLineBorder;
@@ -45,6 +40,8 @@ public class SearchFrame extends JFrame {
 
     public SearchFrame(ActionListener functionalityController, FavouriteSharks favouriteSharks, PingCollection pingCollection) {
         super("Search");
+
+        //TODO: still calling api there?
         jawsApi = new Jaws("EkZ8ZqX11ozMamO9", "E7gdkwWePBYT75KE", true);
         System.out.println(jawsApi.getLastUpdated());
 
@@ -56,8 +53,8 @@ public class SearchFrame extends JFrame {
         this.functionalityController = functionalityController;
         setLayout(new BorderLayout());
         setPreferredSize(new Dimension(1200, 700));
-        centreWindow(this);
         createPanels();
+        setLocationRelativeTo(null);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     }
 
@@ -144,65 +141,39 @@ public class SearchFrame extends JFrame {
     private void createSearchButton() {
         search = new JButton("Search");
 
-        sbl = new SearchButtonListener(this,pingCollection);
-        search.addActionListener(sbl);
+        searchButtonListener = new SearchButtonListener(this,pingCollection);
+        search.addActionListener(searchButtonListener);
     }
 
 	/**
 	 * Create and display the central element of the SearchFrame i.e. the search results.
      */
     private void createCentralPanel() {
-        centralpanel = new JPanel();
-        centralpanel.setLayout(new BorderLayout());;
+        centralPanel = new JPanel();
+        centralPanel.setLayout(new BorderLayout());;
 
         Border emptyBorder = BorderFactory.createEmptyBorder(5, 0, 5, 5);
-        centralpanel.setBorder(BorderFactory.createCompoundBorder(emptyBorder, blackLineBorder));
-        supercentralpanel=new JPanel();
-        supercentralpanel.setLayout(new GridLayout(0,1));
-        centralPane = new JScrollPane(supercentralpanel);
-        centralpanel.add(centralPane);
+        centralPanel.setBorder(BorderFactory.createCompoundBorder(emptyBorder, blackLineBorder));
+        superCentralPanel =new JPanel();
+        superCentralPanel.setLayout(new GridLayout(0,1));
+        centralPane = new JScrollPane(superCentralPanel);
+        centralPanel.add(centralPane);
 
-        add(centralpanel, BorderLayout.CENTER);
-    }
-
-    private static void centreWindow(Window frame) {
-        Dimension dimension = Toolkit.getDefaultToolkit().getScreenSize();
-        int x = (int) ((dimension.getWidth() - frame.getWidth()) /3);
-        int y = (int) ((dimension.getHeight() - frame.getHeight())/4 );
-        frame.setLocation(x, y);
-    }
-
-    public JPanel addSharkContainerToView(SharkContainer sharkcontainer){
-
-        centralpanel.setLayout(new BorderLayout());
-        supercentralpanel.add(sharkcontainer);
-        supercentralpanel.add(new JSeparator(SwingConstants.HORIZONTAL));
-        supercentralpanel.paintComponents(supercentralpanel.getGraphics());
-
-        centralpanel.remove(centralPane);
-        centralPane.setViewportView(supercentralpanel);
-        centralpanel.add(centralPane);
-
-        revalidate();
-        repaint();
-        pack();
-
-        return centralpanel;
+        add(centralPanel, BorderLayout.CENTER);
     }
 
     public JPanel addSeveralSharkContainersToView (List<SharkData> listofsharks) {
         int counter = listofsharks.size();
 
-        supercentralpanel.removeAll();
+        superCentralPanel.removeAll();
 
         if (!listofsharks.isEmpty()) {
             for (SharkData sharkdata : listofsharks) {
 
-                supercentralpanel.setLayout(new GridLayout(counter,1));
-                supercentralpanel.add(new SharkContainer(sharkdata,favouriteSharks));
-               // supercentralpanel.add(new JSeparator(SwingConstants.HORIZONTAL));
-                centralPane.setViewportView(supercentralpanel);
-                supercentralpanel.paintComponents(supercentralpanel.getGraphics());
+                superCentralPanel.setLayout(new GridLayout(counter,1));
+                superCentralPanel.add(new SharkContainer(sharkdata,favouriteSharks));
+                centralPane.setViewportView(superCentralPanel);
+                superCentralPanel.paintComponents(superCentralPanel.getGraphics());
 
                 revalidate();
                 repaint();
@@ -210,21 +181,14 @@ public class SearchFrame extends JFrame {
             }
 
         } else {
-            centralpanel.add(new JLabel("Nothing to show here :)"));
+            centralPanel.add(new JLabel("Nothing to show here :)"));
         }
-        return centralpanel;
+        return centralPanel;
     }
 
-    public void clear(){
-        supercentralpanel.removeAll();
-        revalidate();
-        repaint();
-        pack();
-    }
-
-/**
- * Creates the west panel within the main panel.
- */
+    /**
+     * Creates the west panel within the main panel.
+     */
     private void createWestPanel() {
         mWestPanel = new JPanel(new BorderLayout(10, 10));//west Panel in main panel
 
