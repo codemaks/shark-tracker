@@ -61,21 +61,21 @@ public class UserController implements ActionListener, KeyListener {
     public void actionPerformed(ActionEvent e) {
 
         if (e.getSource().getClass().equals(JMenuItem.class)) {
+            String text = ((JMenuItem) e.getSource()).getText();
 
-            if (((JMenuItem) e.getSource()).getText().equals("Create Profile")) {
+            if (text.equals("Create Profile")) {
                 accountCreation = new ProfileCreationFrame(this);
                 accountCreation.setVisible(true);
             } else {
-                username = ((JMenuItem) e.getSource()).getText();
+                username = text;
                 loadUser(username);
             }
 
         } else if (e.getSource().getClass().equals(JButton.class)) {
+            String text = ((JButton) e.getSource()).getText();
 
-            if (((JButton) e.getSource()).getText().equals("Register")) {
-
+            if (text.equals("Register")) {
                 registerUser();
-
             }
         }
     }

@@ -211,10 +211,10 @@ public class StatisticsFrame extends JFrame {
         Map<String,Integer> mapofsharks = new HashMap<>();
 
         for(SharkData sharkdata: listofsharks){
-            if(mapofsharks.containsKey(sharkdata.getTaglocation())){
-                mapofsharks.put(sharkdata.getTaglocation(),mapofsharks.get(sharkdata.getTaglocation())+1);
+            if(mapofsharks.containsKey(sharkdata.getTagLocation())){
+                mapofsharks.put(sharkdata.getTagLocation(),mapofsharks.get(sharkdata.getTagLocation())+1);
             }
-            mapofsharks.putIfAbsent(sharkdata.getTaglocation(),1);
+            mapofsharks.putIfAbsent(sharkdata.getTagLocation(),1);
         }
         for(String key : mapofsharks.keySet()){
            dataset.setValue(key,mapofsharks.get(key));

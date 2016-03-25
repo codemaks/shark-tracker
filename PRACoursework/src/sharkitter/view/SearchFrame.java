@@ -18,10 +18,10 @@ public class SearchFrame extends JFrame {
 
 	private Jaws jawsApi;
 
-	private JComboBox<String> stage_of_life;
-	private JComboBox<String> tracking_range;
+	private JComboBox<String> stageOfLife;
+	private JComboBox<String> trackingRange;
 	private JComboBox<String> gender;
-	private JComboBox<String> tag_location;
+	private JComboBox<String> tagLocation;
 
 	private JPanel centralPanel;
     private JPanel mWestPanel;
@@ -30,9 +30,6 @@ public class SearchFrame extends JFrame {
 
     private JButton search;
 
-    private SearchButtonListener searchButtonListener;
-
-    //black line border
     private Border blackLineBorder;
 
     private FavouriteSharks favouriteSharks;
@@ -55,7 +52,7 @@ public class SearchFrame extends JFrame {
         setPreferredSize(new Dimension(1200, 700));
         createPanels();
         setLocationRelativeTo(null);
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(EXIT_ON_CLOSE);
     }
 
 	/**
@@ -96,43 +93,43 @@ public class SearchFrame extends JFrame {
      * Creates the combo boxes.
      */
     private void createComboBoxes() {
-        stage_of_life = new JComboBox();
-        stage_of_life.addItem("All");
-        stage_of_life.addItem("Mature");
-        stage_of_life.addItem("Immature");
-        stage_of_life.addItem("Undetermined");
+        stageOfLife = new JComboBox();
+        stageOfLife.addItem("All");
+        stageOfLife.addItem("Mature");
+        stageOfLife.addItem("Immature");
+        stageOfLife.addItem("Undetermined");
 
-        tracking_range = new JComboBox();
-        tracking_range.addItem("Last 24 Hours");
-        tracking_range.addItem("Last Week");
-        tracking_range.addItem("Last Month");
+        trackingRange = new JComboBox();
+        trackingRange.addItem("Last 24 Hours");
+        trackingRange.addItem("Last Week");
+        trackingRange.addItem("Last Month");
 
         gender = new JComboBox();
         gender.addItem("All");
         gender.addItem("Male");
         gender.addItem("Female");
 
-        tag_location = new JComboBox();
-        tag_location.addItem("All");
+        tagLocation = new JComboBox();
+        tagLocation.addItem("All");
         for(String tagLoc: jawsApi.getTagLocations()){
-            tag_location.addItem(tagLoc);
+            tagLocation.addItem(tagLoc);
         }
     }
 
-    public JComboBox<String> getStage_of_life(){
-        return stage_of_life;
+    public JComboBox<String> getStageOfLife(){
+        return stageOfLife;
     }
 
-    public JComboBox<String> getTracking_range(){
-        return tracking_range;
+    public JComboBox<String> getTrackingRange(){
+        return trackingRange;
     }
 
     public JComboBox<String> getGender(){
         return gender;
     }
 
-    public JComboBox<String> getTag_location(){
-        return tag_location;
+    public JComboBox<String> getTagLocation(){
+        return tagLocation;
     }
 
     /**
@@ -141,7 +138,7 @@ public class SearchFrame extends JFrame {
     private void createSearchButton() {
         search = new JButton("Search");
 
-        searchButtonListener = new SearchButtonListener(this,pingCollection);
+        SearchButtonListener searchButtonListener = new SearchButtonListener(this, pingCollection);
         search.addActionListener(searchButtonListener);
     }
 
@@ -162,13 +159,13 @@ public class SearchFrame extends JFrame {
         add(centralPanel, BorderLayout.CENTER);
     }
 
-    public JPanel addSeveralSharkContainersToView (List<SharkData> listofsharks) {
-        int counter = listofsharks.size();
+    public JPanel addSeveralSharkContainersToView (List<SharkData> sharkDataList) {
+        int counter = sharkDataList.size();
 
         superCentralPanel.removeAll();
 
-        if (!listofsharks.isEmpty()) {
-            for (SharkData sharkdata : listofsharks) {
+        if (!sharkDataList.isEmpty()) {
+            for (SharkData sharkdata : sharkDataList) {
 
                 superCentralPanel.setLayout(new GridLayout(counter,1));
                 superCentralPanel.add(new SharkContainer(sharkdata,favouriteSharks));
@@ -211,13 +208,13 @@ public class SearchFrame extends JFrame {
         mwNorthPanel.add(new JLabel("Shark Tracker"));
         mwNorthPanel.add(new JSeparator(JSeparator.HORIZONTAL));
         mwNorthPanel.add(new JLabel("Stage of life"));
-        mwNorthPanel.add(stage_of_life);
+        mwNorthPanel.add(stageOfLife);
         mwNorthPanel.add(new JLabel("Tracking range:"));
-        mwNorthPanel.add(tracking_range);
+        mwNorthPanel.add(trackingRange);
         mwNorthPanel.add(new JLabel("Gender:"));
         mwNorthPanel.add(gender);
         mwNorthPanel.add(new JLabel("Tag location:"));
-        mwNorthPanel.add(tag_location);
+        mwNorthPanel.add(tagLocation);
         mwNorthPanel.add(search);
         mwNorthPanel.add(new JLabel(jawsApi.getLastUpdated()));
 
@@ -235,7 +232,7 @@ public class SearchFrame extends JFrame {
         Image newImg = img.getScaledInstance(300, 300, Image.SCALE_SMOOTH);
         shark = new ImageIcon(newImg);
 
-        JLabel sharkIcon = new JLabel("", shark, 0);
+        JLabel sharkIcon = new JLabel("", shark, SwingConstants.CENTER);
         mwSouthPanel.add(sharkIcon);
         mWestPanel.add(mwSouthPanel, BorderLayout.SOUTH);
     }

@@ -18,7 +18,6 @@ public class FunctionalityController implements ActionListener, KeyListener, Win
     private StatisticsFrame statisticsFrame;
     private FavouritesFrame favouritesFrame;
     private EasterEggFrame easterEggFrame;
-    private PingCollection pingCollection;
 
     private FavouriteSharks favouriteSharks;
 
@@ -32,12 +31,11 @@ public class FunctionalityController implements ActionListener, KeyListener, Win
     public FunctionalityController(MenuFrame menuFrame, FavouriteSharks favouriteSharks, PingCollection pingCollection) throws IOException {
         this.menuFrame = menuFrame;
         this.favouriteSharks = favouriteSharks;
-        this.pingCollection = pingCollection;
 
-        searchFrame = new SearchFrame(this, favouriteSharks,pingCollection);
+        searchFrame = new SearchFrame(this, favouriteSharks, pingCollection);
 
         favouritesFrame = new FavouritesFrame(favouriteSharks);
-        statisticsFrame = new StatisticsFrame(this,pingCollection);
+        statisticsFrame = new StatisticsFrame(this, pingCollection);
 
         konami = new Konami();
 

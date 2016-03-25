@@ -2,6 +2,7 @@ package sharkitter.controller;
 
 import api.jaws.Jaws;
 import api.jaws.Ping;
+import sharkitter.api.JawsApi;
 import sharkitter.model.PingCollection;
 import sharkitter.model.SharkData;
 import sharkitter.view.StatisticsFrame;
@@ -10,9 +11,7 @@ import javax.swing.*;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 public class StatisticsItemListener implements ItemListener
 {
@@ -21,36 +20,36 @@ public class StatisticsItemListener implements ItemListener
     private PingCollection pingCollection;
 
     public StatisticsItemListener(StatisticsFrame statisticsFrame, PingCollection pingCollection){
-        jawsApi = new Jaws("EkZ8ZqX11ozMamO9","E7gdkwWePBYT75KE", true);
+        jawsApi = JawsApi.getInstance();
         this.statisticsFrame = statisticsFrame;
         this.pingCollection = pingCollection;
     }
     @Override
     public void itemStateChanged(ItemEvent e) {
-       updateChart(updatefromTrackingRange((JComboBox<String>)e.getSource()),(JComboBox) e.getSource());
+       updateChart(updateFromTrackingRange((JComboBox<String>)e.getSource()),(JComboBox) e.getSource());
     }
 
-    private List<SharkData> updatefromTrackingRange(JComboBox<String> trackingrange){
+    private List<SharkData> updateFromTrackingRange(JComboBox<String> trackingRange){
         pingCollection.update();
         //1. read selected constraint from combo box
 
-        String tracking_range = (String)trackingrange.getSelectedItem();
+        String trackingRangeSelectedItem = (String)trackingRange.getSelectedItem();
         ArrayList<SharkData> listOfSharks = new ArrayList<>();
 
         //2. get all shark components by tracking range
-        if (tracking_range.equals("Last 24 Hours")) {
+        if (trackingRangeSelectedItem.equals("Last 24 Hours")) {
             for(Ping ping: pingCollection.getPast24hours().values()){
 
                 listOfSharks.add(new SharkData(jawsApi.getShark(ping.getName()),ping));
             }
 
-        } else if (tracking_range.equals("Last Week")) {
+        } else if (trackingRangeSelectedItem.equals("Last Week")) {
             for(Ping ping: pingCollection.getPastWeek().values()){
 
                 listOfSharks.add(new SharkData(jawsApi.getShark(ping.getName()),ping));
             }
 
-        } else if (tracking_range.equals("Last Month")) {
+        } else if (trackingRangeSelectedItem.equals("Last Month")) {
             for(Ping ping: pingCollection.getPastMonth().values()){
 
                 listOfSharks.add(new SharkData(jawsApi.getShark(ping.getName()),ping));
@@ -63,7 +62,7 @@ public class StatisticsItemListener implements ItemListener
         return listOfSharks;
     }
 
-    private void updateChart(List<SharkData> listofsharks, JComboBox source){
-        statisticsFrame.updateShark(listofsharks,source);
+    private void updateChart(List<SharkData> sharkDataList, JComboBox source){
+        statisticsFrame.updateShark(sharkDataList, source);
     }
 }

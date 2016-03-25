@@ -30,7 +30,7 @@ public class MenuFrame extends JFrame {
 	}
 
 	public void addWidgets() {
-		JMenuBar menuBar = createjMenuBar();
+		JMenuBar menuBar = createJMenuBar();
 
 		JPanel southPanel = new JPanel();
 		southPanel.setLayout(new GridLayout(3, 1));
@@ -52,7 +52,7 @@ public class MenuFrame extends JFrame {
 		Image newImg = img.getScaledInstance(300, 300, Image.SCALE_SMOOTH);
 		shark = new ImageIcon(newImg);
 
-		JLabel sharkTrackerLabel = new JLabel("", shark, 0);
+		JLabel sharkTrackerLabel = new JLabel("", shark, SwingConstants.CENTER);
 		sharkTrackerLabel.setVerticalTextPosition(JLabel.BOTTOM);
 		sharkTrackerLabel.setHorizontalTextPosition(JLabel.CENTER);
 
@@ -67,7 +67,7 @@ public class MenuFrame extends JFrame {
 	 * Create a JMenuBar for choosing between different profiles
 	 * @return	Created JMenuBar
      */
-	private JMenuBar createjMenuBar() {
+	private JMenuBar createJMenuBar() {
 		JMenuBar menuBar = new JMenuBar();
 		JMenu profiles = new JMenu("Profiles");
 

@@ -28,11 +28,11 @@ public class PingCollection {
             if(MapOfPings.containsKey(ping.getName())){
 
                 if(MapOfPings.get(ping.getName()).getTime().compareTo(ping.getTime()) == -1){
-                    MapOfPings.put(ping.getName(),ping);
+                    MapOfPings.put(ping.getName(), ping);
                 }
                 continue;
             }
-            MapOfPings.putIfAbsent(ping.getName(),ping);
+            MapOfPings.putIfAbsent(ping.getName(), ping);
         }
         return MapOfPings;
     }
