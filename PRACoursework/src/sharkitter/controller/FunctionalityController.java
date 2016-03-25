@@ -2,6 +2,7 @@ package sharkitter.controller;
 
 import sharkitter.model.FavouriteSharks;
 import sharkitter.model.Konami;
+import sharkitter.model.PingCollection;
 import sharkitter.view.*;
 import sun.audio.AudioPlayer;
 import sun.audio.AudioStream;
@@ -18,6 +19,7 @@ public class FunctionalityController implements ActionListener, KeyListener, Win
     private StatisticsFrame statisticsFrame;
     private FavouritesFrame favouritesFrame;
     private EasterEggFrame easterEggFrame;
+    private PingCollection pingCollection;
 
     private FavouriteSharks favouriteSharks;
 
@@ -28,13 +30,14 @@ public class FunctionalityController implements ActionListener, KeyListener, Win
 
     private static final String SONG = "resources/Never Give Up On Sharks.wav";
 
-    public FunctionalityController(MenuFrame menuFrame, FavouriteSharks favouriteSharks) throws IOException, URISyntaxException {
+    public FunctionalityController(MenuFrame menuFrame, FavouriteSharks favouriteSharks, PingCollection pingCollection) throws IOException, URISyntaxException {
         this.menuFrame = menuFrame;
         this.favouriteSharks = favouriteSharks;
+        this.pingCollection = pingCollection;
 
-        searchFrame = new SearchFrame(this, favouriteSharks);
+        searchFrame = new SearchFrame(this, favouriteSharks,pingCollection);
         favouritesFrame = new FavouritesFrame(favouriteSharks, menuFrame.getJaws());
-        statisticsFrame = new StatisticsFrame(this);
+        statisticsFrame = new StatisticsFrame(this,pingCollection);
 
         konami = new Konami();
 
@@ -84,6 +87,7 @@ public class FunctionalityController implements ActionListener, KeyListener, Win
                             break;
                     }
                     break;
+
                 case "StatisticsFrame":
                     switch (menuName) {
                         case "Menu":

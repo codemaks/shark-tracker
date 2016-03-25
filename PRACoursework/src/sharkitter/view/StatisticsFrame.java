@@ -7,6 +7,7 @@ import org.jfree.data.general.DefaultPieDataset;
 import org.jfree.data.general.PieDataset;
 import sharkitter.controller.FunctionalityController;
 import sharkitter.controller.StatisticsItemListener;
+import sharkitter.model.PingCollection;
 import sharkitter.model.SharkData;
 import javax.swing.JPanel;
 
@@ -22,15 +23,17 @@ public class StatisticsFrame extends JFrame {
     private JComboBox<String> stage_of_life;
     private FunctionalityController functionalityController;
     private StatisticsItemListener statisticsItemListener;
+    private PingCollection pingCollection;
     private JPanel stage_of_lifepanel;
     private JPanel genderpanel;
     private JPanel taglocpanel;
 
-    public StatisticsFrame(FunctionalityController functionalityController){
+    public StatisticsFrame(FunctionalityController functionalityController, PingCollection pingCollection){
 
         super("Shark Statistics");
         this.functionalityController = functionalityController;
-        this.statisticsItemListener = new StatisticsItemListener(this);
+        this.statisticsItemListener = new StatisticsItemListener(this, pingCollection);
+        this.pingCollection = pingCollection;
         setPreferredSize(new Dimension(400, 600));
         centreWindow(this);
         setDefaultCloseOperation(EXIT_ON_CLOSE);
