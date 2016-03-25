@@ -15,31 +15,61 @@ import sharkitter.model.SharkData;
 
 public class SearchFrame extends JFrame {
 
+	/**
+	 * The Jaws API.
+	 */
 	private Jaws jawsApi;
 
+	/**
+	 * The drop-down boxes for searching in the search frame.
+	 */
 	private JComboBox<String> stage_of_life;
 	private JComboBox<String> tracking_range;
 	private JComboBox<String> gender;
 	private JComboBox<String> tag_location;
 
+	/**
+	 * The panels in the search frame.
+	 */
 	private JPanel centralPanel;
 	private JPanel mWestPanel;
-	private JScrollPane centralPane;
 	private JPanel superCentralPanel;
 
+	/**
+	 * The scroll pane in the search frame.
+	 */
+	private JScrollPane centralPane;
+
+	/**
+	 * The search button.
+	 */
 	private JButton search;
 
 	private int counter;
 
+	/**
+	 * The action listener for the search button.
+	 */
 	private SearchButtonListener sbl;
 
-	//black line border
+	/**
+	 * A black line border.
+	 */
 	private Border blackLineBorder;
 
+	/**
+	 * Data about favourite sharks.
+	 */
     private FavouriteSharks favouriteSharks;
     private ActionListener functionalityController;
     private PingCollection pingCollection;
 
+	/**
+	 * Creates a new search frame.
+	 * @param functionalityController
+	 * @param favouriteSharks data about favourite sharks.
+	 * @param pingCollection
+	 */
     public SearchFrame(ActionListener functionalityController, FavouriteSharks favouriteSharks, PingCollection pingCollection) {
         super("Search");
         jawsApi = new Jaws("EkZ8ZqX11ozMamO9", "E7gdkwWePBYT75KE", true);
@@ -59,7 +89,7 @@ public class SearchFrame extends JFrame {
     }
 
 	/**
-	 * Create and display the widgets on the main Frame
+	 * Creates and displays the widgets on the search frame.
 	 */
 	private void createPanels() {
 		createNorthPanel();
@@ -85,7 +115,6 @@ public class SearchFrame extends JFrame {
 		JMenuItem menu = new JMenuItem("Menu");
 		menu.addActionListener(functionalityController);
 		menu.setToolTipText("Go back to the main menu");
-        JMenuItem menu = new JMenuItem("Menu");
         menu.setName("SearchFrame");
         menu.addActionListener(functionalityController);
         menu.setToolTipText("Go back to the main menu");
@@ -193,16 +222,16 @@ public class SearchFrame extends JFrame {
     public JPanel addSeveralSharkContainersToView (ArrayList<SharkData> listofsharks) {
         int counter = listofsharks.size();
 
-        supercentralpanel.removeAll();
+        superCentralPanel.removeAll();
 
         if (!listofsharks.isEmpty()) {
             for (SharkData sharkdata : listofsharks) {
 
-                supercentralpanel.setLayout(new GridLayout(counter,1));
-                supercentralpanel.add(new SharkContainer(sharkdata,favouriteSharks));
+                superCentralPanel.setLayout(new GridLayout(counter,1));
+                superCentralPanel.add(new SharkContainer(sharkdata,favouriteSharks));
                // supercentralpanel.add(new JSeparator(SwingConstants.HORIZONTAL));
-                centralPane.setViewportView(supercentralpanel);
-                supercentralpanel.paintComponents(supercentralpanel.getGraphics());
+                centralPane.setViewportView(superCentralPanel);
+                superCentralPanel.paintComponents(superCentralPanel.getGraphics());
 
 				revalidate();
 				repaint();
