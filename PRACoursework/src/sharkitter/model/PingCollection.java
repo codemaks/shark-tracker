@@ -12,8 +12,7 @@ public class PingCollection {
     private Jaws jawsApi;
 
 
-    public PingCollection(){
-        //TODO Api called there
+    public PingCollection() {
         jawsApi = new Jaws("EkZ8ZqX11ozMamO9","E7gdkwWePBYT75KE", true);
         past24hours = sortPings(jawsApi.past24Hours());
         pastWeek = sortPings(jawsApi.pastWeek());

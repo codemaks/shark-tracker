@@ -36,7 +36,7 @@ public class FunctionalityController implements ActionListener, KeyListener, Win
 
         searchFrame = new SearchFrame(this, favouriteSharks,pingCollection);
 
-        //TODO MenuFrame doesn't use api, put it in other class, FavouriteSharks for example?
+        //TODO MenuFrame doesn't use api, put it in other class?
         favouritesFrame = new FavouritesFrame(favouriteSharks, menuFrame.getJaws());
         statisticsFrame = new StatisticsFrame(this,pingCollection);
 

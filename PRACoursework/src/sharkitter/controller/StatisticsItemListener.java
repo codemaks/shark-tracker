@@ -21,7 +21,6 @@ public class StatisticsItemListener implements ItemListener
     private PingCollection pingCollection;
 
     public StatisticsItemListener(StatisticsFrame statisticsFrame, PingCollection pingCollection){
-        //TODO api called here
         jawsApi = new Jaws("EkZ8ZqX11ozMamO9","E7gdkwWePBYT75KE", true);
         this.statisticsFrame = statisticsFrame;
         this.pingCollection = pingCollection;

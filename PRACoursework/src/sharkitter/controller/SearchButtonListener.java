@@ -22,7 +22,6 @@ public class SearchButtonListener implements ActionListener{
     private Jaws jawsApi;
 
     public SearchButtonListener(SearchFrame searchframe, PingCollection pingCollection){
-        //TODO api still called there?
         jawsApi = new Jaws("EkZ8ZqX11ozMamO9","E7gdkwWePBYT75KE", true);
         this.searchframe = searchframe;
         this.pingCollection = pingCollection;
