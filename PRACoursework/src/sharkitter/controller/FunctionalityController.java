@@ -3,12 +3,9 @@ package sharkitter.controller;
 import sharkitter.model.FavouriteSharks;
 import sharkitter.model.Konami;
 import sharkitter.view.*;
-import sun.audio.AudioData;
 import sun.audio.AudioPlayer;
 import sun.audio.AudioStream;
-import sun.audio.ContinuousAudioDataStream;
 
-import javax.sound.sampled.*;
 import javax.swing.*;
 import java.awt.event.*;
 import java.io.*;
@@ -29,6 +26,8 @@ public class FunctionalityController implements ActionListener, KeyListener, Win
     private AudioPlayer player;
     private AudioStream stream;
 
+    private static final String SONG = "resources/Never Give Up On Sharks.wav";
+
     public FunctionalityController(MenuFrame menuFrame, FavouriteSharks favouriteSharks) throws IOException, URISyntaxException {
         this.menuFrame = menuFrame;
         this.favouriteSharks = favouriteSharks;
@@ -40,8 +39,7 @@ public class FunctionalityController implements ActionListener, KeyListener, Win
         konami = new Konami();
 
         player = AudioPlayer.player;
-        InputStream test = new FileInputStream(new File(getClass().getClassLoader().getResource("resources/Never Give Up On Sharks.wav").toURI()));
-        stream = new AudioStream(test);
+        stream = new AudioStream(getClass().getClassLoader().getResourceAsStream(SONG));
     }
 
     @Override
@@ -54,6 +52,7 @@ public class FunctionalityController implements ActionListener, KeyListener, Win
                 case "Search":
                     menuFrame.setVisible(false);
                     searchFrame.setVisible(true);
+                    konami.reset();
                     break;
 
                 case "Favourites":
@@ -63,6 +62,10 @@ public class FunctionalityController implements ActionListener, KeyListener, Win
                 case "Statistics":
                     menuFrame.setVisible(false);
                     statisticsFrame.setVisible(true);
+                    break;
+
+                case "Ok":
+                    easterEggFrame.dispose();
                     break;
             }
         }
@@ -102,7 +105,7 @@ public class FunctionalityController implements ActionListener, KeyListener, Win
         konami.registerPressedKey(e.getKeyCode());
         if(konami.checkKonamiCode()) {
             konami.reset();
-            easterEggFrame = new EasterEggFrame();
+            easterEggFrame = new EasterEggFrame(this);
             easterEggFrame.addWindowListener(this);
             easterEggFrame.setVisible(true);
             player.start(stream);
@@ -112,6 +115,7 @@ public class FunctionalityController implements ActionListener, KeyListener, Win
     @Override
     public void windowClosed(WindowEvent e) {
         player.stop(stream);
+        konami.reset();
     }
 
     @Override

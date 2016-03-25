@@ -5,6 +5,7 @@ import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Set;
 
 import javax.swing.JButton;
@@ -18,10 +19,10 @@ import api.jaws.Shark;
 import sharkitter.model.FavouriteSharks;
 import sharkitter.view.map.MapFrame;
 
-@SuppressWarnings("serial")
 public class FavouritesFrame extends JFrame{
 	
-	private ArrayList<Location> locations;
+	private List<Location> locations;
+
 	// Kings longitude, and latitude
 	private static final double KINGS_LONGITUDE = 51.510;
 	private static final double KINGS_LATITUDE = -0.117;
