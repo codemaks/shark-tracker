@@ -11,6 +11,9 @@ import java.io.IOException;
 import javax.management.JMException;
 import javax.swing.*;
 
+/**
+ * Menuframe class, a JFrame which belongs to the view. It is the first frame shown to the user.
+ */
 public class MenuFrame extends JFrame {
 
 	private JButton searchButton;
@@ -24,6 +27,10 @@ public class MenuFrame extends JFrame {
 
 	private Jaws jaws;
 
+	/**
+	 * Instantiates a new MenuFrame object with the title "Amnity Police", three buttons and an ImageIcon
+	 * @throws IOException if the resource file is not found
+     */
 	public MenuFrame() throws IOException {
 		super("Amnity Police");
 
@@ -33,6 +40,9 @@ public class MenuFrame extends JFrame {
 		setLocationRelativeTo(null);
 	}
 
+	/**
+	 * void method which creates and places all visual components of the frame inside it
+	 */
 	public void addWidgets() {
 		JMenuBar menuBar = createjMenuBar();
 

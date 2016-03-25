@@ -11,6 +11,10 @@ import javax.swing.*;
 import java.awt.event.*;
 import java.io.*;
 
+
+/**
+ * A controller public class which implements ActionListener, Keylistener and WindowListener
+ */
 public class FunctionalityController implements ActionListener, KeyListener, WindowListener {
 
     private MenuFrame menuFrame;
@@ -28,6 +32,13 @@ public class FunctionalityController implements ActionListener, KeyListener, Win
 
     private static final String SONG = "resources/Never Give Up On Sharks.wav";
 
+    /**
+     * Instantiates a FunctionalityController from a given MenuFrame, FavoriteSharks and PingCollection.
+     * @param menuFrame
+     * @param favouriteSharks
+     * @param pingCollection
+     * @throws IOException if the audio file isn't found
+     */
     public FunctionalityController(MenuFrame menuFrame, FavouriteSharks favouriteSharks, PingCollection pingCollection) throws IOException {
         this.menuFrame = menuFrame;
         this.favouriteSharks = favouriteSharks;
@@ -44,6 +55,10 @@ public class FunctionalityController implements ActionListener, KeyListener, Win
         stream = new AudioStream(getClass().getClassLoader().getResourceAsStream(SONG));
     }
 
+    /**
+     * Void method from the ActionListener interface
+     * @param e, an action event
+     */
     @Override
     public void actionPerformed(ActionEvent e) {
 
@@ -103,9 +118,12 @@ public class FunctionalityController implements ActionListener, KeyListener, Win
         }
     }
 
+    /**
+     * void method inherited from the KeyListener interface which instantiates a new EasterEggFrame
+     * @param e, a key event
+     */
     @Override
     public void keyPressed(KeyEvent e) {
-        System.out.println("Came here");
         konami.registerPressedKey(e.getKeyCode());
         if(konami.checkKonamiCode()) {
             System.out.println("Konami Code was typed... Unleashing shark power.");
@@ -117,6 +135,11 @@ public class FunctionalityController implements ActionListener, KeyListener, Win
         }
     }
 
+    /**
+     * void method which stops the music and resets the list of keys pressed in the konami object when the window is*
+     * closed. Inherited from the WindowListener interface.
+     * @param e, a window event
+     */
     @Override
     public void windowClosed(WindowEvent e) {
         player.stop(stream);
@@ -125,12 +148,12 @@ public class FunctionalityController implements ActionListener, KeyListener, Win
 
     @Override
     public void keyTyped(KeyEvent e) {
-        System.out.println("Came here 2");
+
     }
 
     @Override
     public void keyReleased(KeyEvent e) {
-        System.out.println("Came here 3");
+
     }
 
     @Override

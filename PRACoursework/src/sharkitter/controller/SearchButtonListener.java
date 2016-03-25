@@ -21,6 +21,12 @@ public class SearchButtonListener implements ActionListener{
     private PingCollection pingCollection;
     private Jaws jawsApi;
 
+    /**
+     * Instantiates a new SearchButtonListener (controller of type ActionListener) from a search frame and a ping
+     * collection
+     * @param searchframe
+     * @param pingCollection
+     */
     public SearchButtonListener(SearchFrame searchframe, PingCollection pingCollection){
         jawsApi = new Jaws("EkZ8ZqX11ozMamO9","E7gdkwWePBYT75KE", true);
         this.searchframe = searchframe;
@@ -28,6 +34,11 @@ public class SearchButtonListener implements ActionListener{
         listOfSharks = new ArrayList<>();
     }
 
+    /**
+     * void method inherited from the ActionListener interface. Updates the Pingcollection and the list of shark data
+     * by the combobox selection as soon as an action is performed
+     * @param e, an action event
+     */
     public void actionPerformed(ActionEvent e){
         pingCollection.update();
         listOfSharks= updatefromTagLocation(updatefromStageOfLife(updatefromGender(updatefromTrackingRange())));
