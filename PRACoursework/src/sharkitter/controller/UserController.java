@@ -1,6 +1,7 @@
 package sharkitter.controller;
 
 import api.jaws.Jaws;
+import sharkitter.api.JawsApi;
 import sharkitter.model.FavouriteSharks;
 import sharkitter.view.*;
 import sharkitter.view.alert.ExistingUserAlert;
@@ -40,13 +41,13 @@ public class UserController implements ActionListener, KeyListener {
      * @param menuFrame   Frame used by user to connect
      * @param favouriteSharks   Model of favourite sharks
      */
-    public UserController(MenuFrame menuFrame, FavouriteSharks favouriteSharks, Jaws jaws) throws IOException {
+    public UserController(MenuFrame menuFrame, FavouriteSharks favouriteSharks) throws IOException {
         this.menuFrame = menuFrame;
         this.menuFrame.addUserController(this);
 
         this.favouriteSharks = favouriteSharks;
 
-        api = jaws;
+        api = JawsApi.getInstance();
 
         readProfiles();
         loadDefaultProfile();

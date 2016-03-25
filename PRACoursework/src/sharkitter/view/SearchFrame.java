@@ -7,6 +7,7 @@ import java.awt.event.ActionListener;
 import java.util.List;
 
 import api.jaws.Jaws;
+import sharkitter.api.JawsApi;
 import sharkitter.controller.SearchButtonListener;
 import sharkitter.model.FavouriteSharks;
 import sharkitter.model.PingCollection;
@@ -41,7 +42,7 @@ public class SearchFrame extends JFrame {
     public SearchFrame(ActionListener functionalityController, FavouriteSharks favouriteSharks, PingCollection pingCollection) {
         super("Search");
 
-        jawsApi = new Jaws("EkZ8ZqX11ozMamO9", "E7gdkwWePBYT75KE", true);
+        jawsApi = JawsApi.getInstance();
         System.out.println(jawsApi.getLastUpdated());
 
         //create borders for later use

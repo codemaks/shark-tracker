@@ -12,7 +12,6 @@ public class Konami {
         enteredSequence = new ArrayList<Integer>();
     }
 
-
     public void registerPressedKey(int keyCode) {
         enteredSequence.add(keyCode);
     }

@@ -24,15 +24,10 @@ public class Main {
         FavouriteSharks favouriteSharks = new FavouriteSharks();
 
         MenuFrame frame = new MenuFrame();
-        frame.setVisible(true);
 
-        Jaws api = new Jaws("EkZ8ZqX11ozMamO9", "E7gdkwWePBYT75KE", true);
+        UserController controller = new UserController(frame, favouriteSharks);
 
-        frame.setJaws(api);
-
-        UserController controller = new UserController(frame, favouriteSharks, api);
-
-        FunctionalityController functionalityController = new FunctionalityController(frame, favouriteSharks ,pingCollection);
+        FunctionalityController functionalityController = new FunctionalityController(frame, favouriteSharks, pingCollection);
         frame.addFunctionalityController(functionalityController);
         frame.setFocusable(true);
         frame.setVisible(true);

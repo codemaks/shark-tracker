@@ -2,6 +2,7 @@ package sharkitter.model;
 
 import api.jaws.Jaws;
 import api.jaws.Ping;
+import sharkitter.api.JawsApi;
 
 import java.util.*;
 
@@ -11,9 +12,8 @@ public class PingCollection {
     private Map<String,Ping> pastMonth;
     private Jaws jawsApi;
 
-
     public PingCollection() {
-        jawsApi = new Jaws("EkZ8ZqX11ozMamO9","E7gdkwWePBYT75KE", true);
+        jawsApi = JawsApi.getInstance();
         past24hours = sortPings(jawsApi.past24Hours());
         pastWeek = sortPings(jawsApi.pastWeek());
         pastMonth = sortPings(jawsApi.pastMonth());
