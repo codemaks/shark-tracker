@@ -85,7 +85,6 @@ public class SearchFrame extends JFrame {
 		JMenuItem menu = new JMenuItem("Menu");
 		menu.addActionListener(functionalityController);
 		menu.setToolTipText("Go back to the main menu");
-        JMenuItem menu = new JMenuItem("Menu");
         menu.setName("SearchFrame");
         menu.addActionListener(functionalityController);
         menu.setToolTipText("Go back to the main menu");
@@ -193,16 +192,16 @@ public class SearchFrame extends JFrame {
     public JPanel addSeveralSharkContainersToView (ArrayList<SharkData> listofsharks) {
         int counter = listofsharks.size();
 
-        supercentralpanel.removeAll();
+	    superCentralPanel.removeAll();
 
         if (!listofsharks.isEmpty()) {
             for (SharkData sharkdata : listofsharks) {
 
-                supercentralpanel.setLayout(new GridLayout(counter,1));
-                supercentralpanel.add(new SharkContainer(sharkdata,favouriteSharks));
+                superCentralPanel.setLayout(new GridLayout(counter,1));
+                superCentralPanel.add(new SharkContainer(sharkdata,favouriteSharks));
                // supercentralpanel.add(new JSeparator(SwingConstants.HORIZONTAL));
-                centralPane.setViewportView(supercentralpanel);
-                supercentralpanel.paintComponents(supercentralpanel.getGraphics());
+                centralPane.setViewportView(superCentralPanel);
+                superCentralPanel.paintComponents(superCentralPanel.getGraphics());
 
 				revalidate();
 				repaint();
