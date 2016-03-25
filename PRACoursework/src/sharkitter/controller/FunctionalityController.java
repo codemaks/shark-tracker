@@ -18,7 +18,6 @@ public class FunctionalityController implements ActionListener, KeyListener, Win
     private StatisticsFrame statisticsFrame;
     private FavouritesFrame favouritesFrame;
     private EasterEggFrame easterEggFrame;
-    private PingCollection pingCollection;
 
     private FavouriteSharks favouriteSharks;
 
@@ -32,7 +31,6 @@ public class FunctionalityController implements ActionListener, KeyListener, Win
     public FunctionalityController(MenuFrame menuFrame, FavouriteSharks favouriteSharks, PingCollection pingCollection) throws IOException {
         this.menuFrame = menuFrame;
         this.favouriteSharks = favouriteSharks;
-        this.pingCollection = pingCollection;
 
         searchFrame = new SearchFrame(this, favouriteSharks,pingCollection);
 
@@ -107,8 +105,10 @@ public class FunctionalityController implements ActionListener, KeyListener, Win
 
     @Override
     public void keyPressed(KeyEvent e) {
+        System.out.println("Came here");
         konami.registerPressedKey(e.getKeyCode());
         if(konami.checkKonamiCode()) {
+            System.out.println("Konami Code was typed... Unleashing shark power.");
             konami.reset();
             easterEggFrame = new EasterEggFrame(this);
             easterEggFrame.addWindowListener(this);
@@ -125,12 +125,12 @@ public class FunctionalityController implements ActionListener, KeyListener, Win
 
     @Override
     public void keyTyped(KeyEvent e) {
-
+        System.out.println("Came here 2");
     }
 
     @Override
     public void keyReleased(KeyEvent e) {
-
+        System.out.println("Came here 3");
     }
 
     @Override

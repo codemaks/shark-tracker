@@ -18,6 +18,7 @@ public class Konami {
     }
 
     public boolean checkKonamiCode() {
+        System.out.println("Konami list: "+KONAMICODE);
         int counter = 0;
         for(int i = 0; i < enteredSequence.size(); ++i) {
             if(enteredSequence.get(i) != KONAMICODE[i]) {

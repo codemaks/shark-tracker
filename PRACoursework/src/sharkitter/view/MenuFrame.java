@@ -99,7 +99,7 @@ public class MenuFrame extends JFrame {
      */
 	public void addFunctionalityController(FunctionalityController functionalityController) {
 		this.functionalityController = functionalityController;
-		addKeyListener(functionalityController);
+		this.addKeyListener(functionalityController);
 		searchButton.addActionListener(functionalityController);
 		favouritesButton.addActionListener(functionalityController);
 		statisticsButton.addActionListener(functionalityController);

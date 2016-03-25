@@ -1,6 +1,7 @@
 package sharkitter.view;
 
 import javax.swing.*;
+import javax.swing.border.Border;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -17,10 +18,12 @@ public class EasterEggFrame extends JFrame {
     }
 
     private void addWidget(ActionListener functionalityListener) {
-        JLabel sharkTrackerLabel = new JLabel();
-        sharkTrackerLabel.setVerticalTextPosition(JLabel.BOTTOM);
-        sharkTrackerLabel.setHorizontalTextPosition(JLabel.CENTER);
-        sharkTrackerLabel.setIcon(new ImageIcon(imagePanel()));
+        JLabel sharkLabel = new JLabel();
+
+        JLabel confettiLabel = new JLabel();
+
+        sharkLabel.setIcon(new ImageIcon(imagePanel()));
+        confettiLabel.setIcon(new ImageIcon(imagePanel()));
 
         JLabel message = new JLabel("<html><center>Easter Egg!!!<br>You've been rick rolled ;)</center></html>");
         message.setHorizontalAlignment(SwingConstants.CENTER);
@@ -28,7 +31,8 @@ public class EasterEggFrame extends JFrame {
         JButton ok = new JButton("Ok");
         ok.addActionListener(functionalityListener);
 
-        add(sharkTrackerLabel, BorderLayout.CENTER);
+        add(sharkLabel, BorderLayout.CENTER);
+        add(confettiLabel,BorderLayout.CENTER);
 
         JPanel southPanel = new JPanel(new GridLayout(2,1));
         southPanel.add(message);

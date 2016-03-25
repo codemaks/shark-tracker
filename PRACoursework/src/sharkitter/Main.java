@@ -24,7 +24,6 @@ public class Main {
         FavouriteSharks favouriteSharks = new FavouriteSharks();
 
         MenuFrame frame = new MenuFrame();
-        frame.setVisible(true);
 
         Jaws api = new Jaws("EkZ8ZqX11ozMamO9", "E7gdkwWePBYT75KE", true);
 
