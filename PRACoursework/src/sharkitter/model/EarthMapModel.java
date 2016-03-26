@@ -37,8 +37,31 @@ public class EarthMapModel {
 		this.borderPixles = borderPixles;
 	}
 
+    /**
+     * Calculates the distances in kilometers between two Locations
+     * @param loc1 First location in longitude and latitude
+     * @param loc2 Second location in longitude and latitude
+    * @return The distance between locations in kilometers
+    */
+    public static double findDistanceBetween(Location loc1, Location loc2)
+    {
+        double R = 6371; // kilometers
+        double latRadians1 = Math.toRadians(loc1.getLatitude());
+        double latRadians2 = Math.toRadians(loc2.getLatitude());
+        double latRadiansDifference = Math.toRadians(loc2.getLatitude()-loc1.getLatitude());
+        double longRadiansDifference = Math.toRadians(loc2.getLongitude()-loc2.getLongitude());
 
-	/**
+        // uses the ‘haversine’ formula to calculate the great-circle distance between two points, over a sphere
+        Double a = Math.sin(latRadiansDifference) * Math.sin(latRadiansDifference) +
+                Math.cos(latRadians1) * Math.cos(latRadians2) *
+                        Math.sin(longRadiansDifference/2) * Math.sin(longRadiansDifference/2);
+        double c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
+
+        return R * c; // Multiplied by R, which scales up unit sphere distance to kilometers on Earth
+    }
+
+
+    /**
 	 * Adds a map coordinate into the model
 	 * @param infoLocation A pair of Location and String information
 	 * @return Returns a point representing where the mapPoint is added
