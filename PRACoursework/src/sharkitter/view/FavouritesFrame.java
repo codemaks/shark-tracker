@@ -17,7 +17,7 @@ import api.jaws.Location;
 import sharkitter.api.JawsApi;
 import sharkitter.controller.SharknadoTracker;
 import sharkitter.model.FavouriteSharks;
-import sharkitter.view.map.InfoLocation;
+import sharkitter.model.InfoLocation;
 import sharkitter.view.map.MapFrame;
 
 /**

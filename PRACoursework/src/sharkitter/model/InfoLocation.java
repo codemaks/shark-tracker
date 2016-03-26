@@ -1,4 +1,4 @@
-package sharkitter.view.map;
+package sharkitter.model;
 
 import api.jaws.Location;
 

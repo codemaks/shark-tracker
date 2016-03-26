@@ -1,7 +1,8 @@
-package sharkitter.view.map;
+package sharkitter.model;
 
 
 import api.jaws.Location;
+import sharkitter.view.map.MapPoint;
 
 import java.awt.Point;
 import java.util.ArrayList;

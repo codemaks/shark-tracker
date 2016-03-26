@@ -5,17 +5,14 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.Image;
-import java.awt.image.BufferedImage;
-import java.io.File;
-import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
 //import java.util.Random;
 
-import javax.imageio.ImageIO;
 import javax.swing.*;
 
-import api.jaws.Location;
+import sharkitter.model.EarthMapModel;
+import sharkitter.model.InfoLocation;
+
 /**
  * 
  * @author Maks Gajowniczek
