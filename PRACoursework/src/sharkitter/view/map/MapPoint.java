@@ -1,8 +1,6 @@
 package sharkitter.view.map;
 
-import java.awt.Color;
-import java.awt.Dimension;
-import java.awt.Graphics;
+import java.awt.*;
 
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
@@ -71,11 +69,15 @@ public class MapPoint extends JComponent implements MouseListener{
 		g.setColor(Color.RED);
 		g.fillRect(0, 0, SIZE, SIZE);
 	}
-	
+
 	@Override
 	public void mouseClicked(MouseEvent e) {
 		System.out.println(x + ", " + y); //not needed here
-		JOptionPane.showMessageDialog(this, information, "Shark Details:", 0, new ImageIcon("shark-icon.png"));
+
+		ImageIcon shark = new ImageIcon(getClass().getClassLoader().getResource("resources/SharkTracker.png"));
+		Image img = shark.getImage();
+		Image newImg = img.getScaledInstance(50, 50, Image.SCALE_SMOOTH);
+		shark = new ImageIcon(newImg);
 		EarthMap parent = (EarthMap)getParent();
 		//parent.remove(this);
 		parent.revalidate();

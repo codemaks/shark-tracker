@@ -30,7 +30,7 @@ public class MapFrame extends JFrame {
 	
 	
 	@SuppressWarnings("unused") // change SCALE_DOWN, in code to 1,2,3,4 to see
-	public MapFrame(List<Location> locations)
+	public MapFrame(List<Location> locations) // TODO: make a constructor that takes a list of map points to add.
 	{
 		final int IMG_HEIGHT = 1036;
 		final int IMG_WIDTH = 2058;
