@@ -10,6 +10,7 @@ import java.util.List;
 
 import api.jaws.Jaws;
 import sharkitter.api.JawsApi;
+import sharkitter.controller.FunctionalityController;
 import sharkitter.controller.RandomSharkRetriever;
 import sharkitter.controller.SearchButtonListener;
 import sharkitter.model.FavouriteSharks;
@@ -36,10 +37,10 @@ public class SearchFrame extends JFrame {
     private Border blackLineBorder;
 
     private FavouriteSharks favouriteSharks;
-    private ActionListener functionalityController;
+    private FunctionalityController functionalityController;
     private PingCollection pingCollection;
 
-    public SearchFrame(ActionListener functionalityController, FavouriteSharks favouriteSharks, PingCollection pingCollection) {
+    public SearchFrame(FunctionalityController functionalityController, FavouriteSharks favouriteSharks, PingCollection pingCollection) {
         super("Search");
 
         jawsApi = JawsApi.getInstance();
@@ -114,9 +115,21 @@ public class SearchFrame extends JFrame {
 
         tagLocation = new JComboBox();
         tagLocation.addItem("All");
-        for(String tagLoc: jawsApi.getTagLocations()){
-            tagLocation.addItem(tagLoc);
+        for(String sharkname: pingCollection.getPastMonth().keySet()){
+            functionalityController.getListOfTagLocations();
         }
+
+    }
+
+    public void updateTagLocation(){
+        if(pingCollection.update()){
+            tagLocation = new JComboBox();
+            tagLocation.addItem("All");
+            for (String sharkname : functionalityController.getListOfTagLocations()) {
+                tagLocation.addItem(jawsApi.getShark(sharkname).getTagLocation());
+            }
+        }
+
     }
 
     public JComboBox<String> getStageOfLife(){
@@ -163,13 +176,13 @@ public class SearchFrame extends JFrame {
     }
 
     public JPanel addSeveralSharkContainersToView (List<SharkData> sharkDataList) {
-        int counter = sharkDataList.size();
-
         superCentralPanel.removeAll();
+        updateTagLocation();
 
         if (!sharkDataList.isEmpty()) {
-            for (SharkData sharkdata : sharkDataList) {
+            int counter = sharkDataList.size();
 
+            for (SharkData sharkdata : sharkDataList) {
                 superCentralPanel.setLayout(new GridLayout(counter,1));
                 superCentralPanel.add(new SharkContainer(sharkdata,favouriteSharks));
                 centralPane.setViewportView(superCentralPanel);
@@ -181,7 +194,10 @@ public class SearchFrame extends JFrame {
             }
 
         } else {
-            centralPanel.add(new JLabel("Nothing to show here :)"));
+            superCentralPanel.add(new JLabel("Nothing to show here :)"));
+            revalidate();
+            repaint();
+            pack();
         }
         return centralPanel;
     }

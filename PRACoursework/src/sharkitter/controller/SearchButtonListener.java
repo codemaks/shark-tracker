@@ -1,7 +1,6 @@
 package sharkitter.controller;
 
 import api.jaws.Jaws;
-import api.jaws.Ping;
 import sharkitter.api.JawsApi;
 import sharkitter.model.PingCollection;
 import sharkitter.model.SharkData;
@@ -17,49 +16,20 @@ public class SearchButtonListener implements ActionListener{
     private List<SharkData> listOfSharks;
     private PingCollection pingCollection;
     private Jaws jawsApi;
+    private TrackingRangeUpdater comboBoxListener;
 
     public SearchButtonListener(SearchFrame searchframe, PingCollection pingCollection){
         jawsApi = JawsApi.getInstance();
         this.searchframe = searchframe;
         this.pingCollection = pingCollection;
         listOfSharks = new ArrayList<>();
+        comboBoxListener = new TrackingRangeUpdater(pingCollection);
     }
 
     public void actionPerformed(ActionEvent e){
         pingCollection.update();
-        listOfSharks = updateFromTagLocation(updateFromStageOfLife(updateFromGender(updateFromTrackingRange())));
+        listOfSharks = updateFromTagLocation(updateFromStageOfLife(updateFromGender(comboBoxListener.updateFromTrackingRange(searchframe.getTrackingRange()))));
         searchframe.addSeveralSharkContainersToView(listOfSharks);
-    }
-
-    private List<SharkData> updateFromTrackingRange(){
-        //1. read selected constraint from combo box
-
-        String trackingRange = (String) searchframe.getTrackingRange().getSelectedItem();
-
-        //TODO Duplicated code inside StatisticsItemListener
-        //2. get all shark components by tracking range
-        if (trackingRange.equals("Last 24 Hours")) {
-            for(Ping ping: pingCollection.getPast24hours().values()){
-
-               listOfSharks.add(new SharkData(jawsApi.getShark(ping.getName()), ping));
-            }
-
-        } else if (trackingRange.equals("Last Week")) {
-            for(Ping ping: pingCollection.getPastWeek().values()){
-
-                listOfSharks.add(new SharkData(jawsApi.getShark(ping.getName()),ping));
-            }
-
-        } else if (trackingRange.equals("Last Month")) {
-            for(Ping ping: pingCollection.getPastMonth().values()){
-
-                listOfSharks.add(new SharkData(jawsApi.getShark(ping.getName()),ping));
-            }
-
-        } else {
-           throw new IllegalArgumentException("SearchButtonListener Error 1 : Invalid ComboBox input");
-        }
-        return listOfSharks;
     }
 
     private List<SharkData> updateFromStageOfLife(List<SharkData> listOfSharks){
@@ -116,7 +86,7 @@ public class SearchButtonListener implements ActionListener{
 
     }
 
-    private List<SharkData>  selectSharksByTagLocation(List<SharkData>  listOfPings, String selectionElement){
+    private List<SharkData> selectSharksByTagLocation(List<SharkData>  listOfPings, String selectionElement){
         List<SharkData>  newListOfPings = new ArrayList<> ();
         for (SharkData SharkData: listOfPings){
             if( jawsApi.getShark(SharkData.getName()).getTagLocation().equals(selectionElement)){

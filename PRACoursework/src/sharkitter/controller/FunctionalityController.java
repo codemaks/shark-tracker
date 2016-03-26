@@ -1,5 +1,7 @@
 package sharkitter.controller;
 
+import api.jaws.Jaws;
+import sharkitter.api.JawsApi;
 import sharkitter.model.FavouriteSharks;
 import sharkitter.model.Konami;
 import sharkitter.model.PingCollection;
@@ -10,6 +12,8 @@ import sun.audio.AudioStream;
 import javax.swing.*;
 import java.awt.event.*;
 import java.io.*;
+import java.util.HashSet;
+import java.util.Set;
 
 public class FunctionalityController implements ActionListener, KeyListener, WindowListener {
 
@@ -19,7 +23,11 @@ public class FunctionalityController implements ActionListener, KeyListener, Win
     private FavouritesFrame favouritesFrame;
     private EasterEggFrame easterEggFrame;
 
+    private Jaws jawsApi;
     private FavouriteSharks favouriteSharks;
+    private PingCollection pingCollection;
+
+    private Set<String> listoftaglocations;
 
     private Konami konami;
 
@@ -29,12 +37,14 @@ public class FunctionalityController implements ActionListener, KeyListener, Win
     private static final String SONG = "resources/Never Give Up On Sharks.wav";
 
     public FunctionalityController(MenuFrame menuFrame, FavouriteSharks favouriteSharks, PingCollection pingCollection) throws IOException {
+        jawsApi = JawsApi.getInstance();
         this.menuFrame = menuFrame;
         this.favouriteSharks = favouriteSharks;
+        this.pingCollection = pingCollection;
+        this.listoftaglocations = new HashSet<String>();
 
         searchFrame = new SearchFrame(this, favouriteSharks, pingCollection);
 
-        favouritesFrame = new FavouritesFrame(favouriteSharks);
         statisticsFrame = new StatisticsFrame(this, pingCollection);
 
         konami = new Konami();
@@ -57,6 +67,7 @@ public class FunctionalityController implements ActionListener, KeyListener, Win
                     break;
 
                 case "Favourites":
+                    favouritesFrame = new FavouritesFrame(favouriteSharks);
                     favouritesFrame.setVisible(true);
                     break;
 
@@ -100,6 +111,15 @@ public class FunctionalityController implements ActionListener, KeyListener, Win
                     break;
             }
         }
+    }
+
+    public Set<String> getListOfTagLocations(){
+        listoftaglocations = new HashSet<String>();
+        for (String sharkname : pingCollection.getPastMonth().keySet()) {
+            String tagloc = jawsApi.getShark(sharkname).getTagLocation();
+            listoftaglocations.add(tagloc);
+        }
+        return listoftaglocations;
     }
 
     @Override
