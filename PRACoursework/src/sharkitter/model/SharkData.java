@@ -3,51 +3,19 @@ package sharkitter.model;
 import api.jaws.Ping;
 import api.jaws.Shark;
 
+/**
+ * An object representation of a shark and all associated information, including the date of the last ping.
+ */
 public class SharkData implements Comparable<SharkData>{
 
-	/**
-	 * The name of the shark.
-	 */
 	private String name;
-
-	/**
-	 * The gender of the shark.
-	 */
     private String gender;
-
-	/**
-	 * The stage of life the shark is in.
-	 */
     private String stageOfLife;
-
-	/**
-	 * The location the shark was tagged at.
-	 */
     private String tagLocation;
-
-	/**
-	 * A description of the shark.
-	 */
     private String description;
-
-	/**
-	 * The weight of the shark.
-	 */
     private String weight;
-
-	/**
-	 * The length of the shark.
-	 */
     private String length;
-
-	/**
-	 * The species of the shark.
-	 */
     private String species;
-
-	/**
-	 * The time of the shark's last ping.
-	 */
     private String date;
 
 	/**

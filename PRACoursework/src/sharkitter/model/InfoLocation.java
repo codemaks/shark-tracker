@@ -3,33 +3,35 @@ package sharkitter.model;
 import api.jaws.Location;
 
 /**
- * Class that holds a Location, with it's corresponding information
- * @author Maks
+ * A class that holds a location, with its corresponding information.
  */
 public class InfoLocation {
     private String information;
     private Location location;
 
     /**
-     * Creates a new InfoLocation
-     * @param information
-     * @param location
+     * Creates a new InfoLocation.
+     * @param information the information to store.
+     * @param location the location to store.
      */
-    public InfoLocation(String information, Location location)
-    {
+    public InfoLocation(String information, Location location) {
         this.location = location;
         this.information = information;
     }
 
     /**
-     * Gets the infomation String store in infolocation
-     * @return The information stored
+     * Gets the stored infomation String.
+     * @return the information stored.
      */
-    public String getInformation(){ return information;}
+    public String getInformation() {
+        return information;
+    }
 
     /**
-     * Get the location stored in infolocation
-     * @return The location stored
+     * Gets the stored location.
+     * @return the location stored.
      */
-    public Location getLocation(){return location;}
+    public Location getLocation() {
+        return location;
+    }
 }

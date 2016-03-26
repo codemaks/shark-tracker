@@ -5,11 +5,14 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+/**
+ * A superclass for the alert frames.
+ */
 public abstract class AlertFrame extends JFrame implements ActionListener {
 
     /**
-     * Constructor of a frame of type "Alert"
-     * @param title Title given to the frame
+     * Constructor of a frame of type "Alert".
+     * @param title the title given to the frame.
      */
     protected AlertFrame(String title) {
         super(title);
@@ -18,7 +21,7 @@ public abstract class AlertFrame extends JFrame implements ActionListener {
     }
 
     /**
-     * Adds an "Ok" button to the frame
+     * Adds an "Ok" button to the frame.
      */
     protected void addButton() {
         JButton ok = new JButton("Ok");
@@ -28,7 +31,7 @@ public abstract class AlertFrame extends JFrame implements ActionListener {
 
     @Override
     /**
-     * Disposes the frame when "Ok" button is pressed
+     * Disposes of the frame when "Ok" button is pressed.
      */
     public void actionPerformed(ActionEvent e) {
         dispose();
