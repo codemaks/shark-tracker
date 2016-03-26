@@ -1,6 +1,7 @@
 package sharkitter.controller;
 
 import api.jaws.Jaws;
+
 import sharkitter.api.JawsApi;
 import sharkitter.model.FavouriteSharks;
 import sharkitter.view.*;
@@ -8,17 +9,21 @@ import sharkitter.view.alert.ExistingUserAlert;
 import sharkitter.view.alert.UserNotFoundAlert;
 
 import javax.swing.*;
+
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardOpenOption;
+
 import java.util.*;
 import java.util.regex.Pattern;
 
@@ -41,9 +46,9 @@ public class UserController implements ActionListener, KeyListener {
     private static final Pattern DELIMITER = Pattern.compile("\\r\\n|\\n");
 
     /**
-     * Constructor of UserController
-     * @param menuFrame   Frame used by user to connect
-     * @param favouriteSharks   Model of favourite sharks
+     * Constructor of UserController.
+     * @param menuFrame the menu frame.
+     * @param favouriteSharks model of favourite sharks.
      */
     public UserController(MenuFrame menuFrame, FavouriteSharks favouriteSharks) throws IOException {
         this.menuFrame = menuFrame;
@@ -60,8 +65,8 @@ public class UserController implements ActionListener, KeyListener {
     }
 
     /**
-     * Action performed if event is triggered
-     * @param e ActionEvent, in this case, pressed buttons
+     * Actions performed if event is triggered
+     * @param e an ActionEvent, in this case, pressed buttons or menu selection.
      */
     @Override
     public void actionPerformed(ActionEvent e) {
@@ -87,9 +92,9 @@ public class UserController implements ActionListener, KeyListener {
     }
 
     /**
-     * Creates the "data/" folder if it does not exist
-     * Creates also the list of profiles if it does not exist
-     * @throws IOException
+     * Creates the "data/" folder if it does not exist.
+     * Also creates the list of profiles if it does not exist.
+     * @throws IOException if the file or folder is not found.
      */
     private void createDataFolder() throws IOException {
         File dataFolder = Paths.get("data/").toFile();
@@ -103,8 +108,8 @@ public class UserController implements ActionListener, KeyListener {
     }
 
     /**
-     * Read existing profiles and update the view in consequence
-     * @throws IOException
+     * Reads existing profiles and updates the view accordingly.
+     * @throws IOException if profiles are not found.
      */
     private void readProfiles() throws IOException {
         Scanner reader = createScanner(PATH_TO_PROFILES);
@@ -116,7 +121,7 @@ public class UserController implements ActionListener, KeyListener {
     }
 
     /**
-     * Load the default profile and any data associated
+     * Loads the default profile and any data associated with it.
      */
     private void loadDefaultProfile() {
         try {
@@ -149,8 +154,8 @@ public class UserController implements ActionListener, KeyListener {
     }
 
     /**
-     * Load specific user
-     * @param user  String representation of a user
+     * Loads specific user.
+     * @param user a String representation of a user.
      */
     private void loadUser(String user) {
         UserNotFoundAlert userNotFound = new UserNotFoundAlert();
@@ -180,7 +185,7 @@ public class UserController implements ActionListener, KeyListener {
     }
 
     /**
-     * Register entered user and update the model and the view in consequence
+     * Registers entered user and updates the model and the view accordingly.
      */
     private void registerUser() {
         username = accountCreation.getUsername();
@@ -208,10 +213,10 @@ public class UserController implements ActionListener, KeyListener {
     }
 
     /**
-     * Creates a Scanner to read the specify path
-     * @param pathToFile    Path to the file to be read
-     * @return  Created Scanner
-     * @throws IOException  If the file was not found
+     * Creates a Scanner to read the specified path.
+     * @param pathToFile the path to the file to be read.
+     * @return  the created Scanner.
+     * @throws IOException if the file was not found.
      */
     private Scanner createScanner(Path pathToFile) throws IOException {
         Scanner reader = new Scanner(pathToFile);
@@ -220,8 +225,8 @@ public class UserController implements ActionListener, KeyListener {
     }
 
     /**
-     * React to "Enter" key
-     * @param e Key pressed
+     * Reacts to the "Enter" key being pressed.
+     * @param e the "Enter" key being pressed.
      */
     @Override
     public void keyPressed(KeyEvent e) {
