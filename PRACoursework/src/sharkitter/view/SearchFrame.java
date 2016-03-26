@@ -117,10 +117,9 @@ public class SearchFrame extends JFrame {
 
         tagLocation = new JComboBox();
         tagLocation.addItem("All");
-        for(String sharkname: pingCollection.getPastMonth().keySet()){
-            functionalityController.getListOfTagLocations();
+        for(String sharktaglocation : functionalityController.getListOfTagLocations()){
+            tagLocation.addItem(sharktaglocation);
         }
-
     }
 
     public void updateTagLocation(){

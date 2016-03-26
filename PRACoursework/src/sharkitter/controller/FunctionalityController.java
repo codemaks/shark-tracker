@@ -120,6 +120,7 @@ public class FunctionalityController implements ActionListener, KeyListener, Win
             listoftaglocations.add(tagloc);
         }
         return listoftaglocations;
+
     }
 
     @Override
