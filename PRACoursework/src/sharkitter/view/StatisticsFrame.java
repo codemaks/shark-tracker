@@ -7,6 +7,7 @@ import org.jfree.data.general.DefaultPieDataset;
 import org.jfree.data.general.PieDataset;
 import sharkitter.controller.FunctionalityController;
 import sharkitter.controller.StatisticsItemListener;
+import sharkitter.model.PingCollection;
 import sharkitter.model.SharkData;
 import javax.swing.JPanel;
 
@@ -14,6 +15,8 @@ import javax.swing.*;
 import java.awt.*;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 public class StatisticsFrame extends JFrame {
 
@@ -22,17 +25,18 @@ public class StatisticsFrame extends JFrame {
     private JComboBox<String> stage_of_life;
     private FunctionalityController functionalityController;
     private StatisticsItemListener statisticsItemListener;
+    private PingCollection pingCollection;
     private JPanel stage_of_lifepanel;
     private JPanel genderpanel;
     private JPanel taglocpanel;
 
-    public StatisticsFrame(FunctionalityController functionalityController){
+    public StatisticsFrame(FunctionalityController functionalityController, PingCollection pingCollection){
 
         super("Shark Statistics");
         this.functionalityController = functionalityController;
-        this.statisticsItemListener = new StatisticsItemListener(this);
+        this.statisticsItemListener = new StatisticsItemListener(this, pingCollection);
+        this.pingCollection = pingCollection;
         setPreferredSize(new Dimension(400, 600));
-        centreWindow(this);
         setDefaultCloseOperation(EXIT_ON_CLOSE);
 
         createUI(this.functionalityController);
@@ -54,6 +58,7 @@ public class StatisticsFrame extends JFrame {
         add(underPanel);
 
         pack();
+        setLocationRelativeTo(null);
     }
 
     private JPanel createStageOfLifePanel(){
@@ -67,6 +72,7 @@ public class StatisticsFrame extends JFrame {
         stage_of_life.addItemListener(statisticsItemListener);
         stage_of_lifepanel.add(stage_of_life,BorderLayout.NORTH);
         stage_of_lifepanel.add(createStageOfLifeSubPanel(new ArrayList<>(),"Stage of Life:"));
+
         return stage_of_lifepanel;
     }
 
@@ -81,6 +87,7 @@ public class StatisticsFrame extends JFrame {
         gender.addItemListener(statisticsItemListener);
         genderpanel.add(gender,BorderLayout.NORTH);
         genderpanel.add(createGenderSubPanel(new ArrayList<>(),"Gender:"));
+
         return genderpanel;
     }
 
@@ -95,30 +102,27 @@ public class StatisticsFrame extends JFrame {
         tag_location.addItem("Last Month");
         tag_location.addItemListener(statisticsItemListener);
         taglocpanel.add(tag_location,BorderLayout.NORTH);
-        taglocpanel.add(createTagLocationSubPanel(new ArrayList<>(),"Tag Location:"));
+        taglocpanel.add(createTagLocationSubPanel(new ArrayList<>(), "Tag Location:"));
+
         return taglocpanel;
     }
-    public JPanel createTagLocationSubPanel(ArrayList<SharkData> sharkData,String titleofchart )
+
+    private JPanel createTagLocationSubPanel(List<SharkData> sharkData, String titleofchart)
     {
         JFreeChart chart = createChart(createSharkDatasetByTagLocation(sharkData),titleofchart);
         return new ChartPanel( chart );
     }
-    public JPanel createGenderSubPanel(ArrayList<SharkData> sharkData,String titleofchart )
+
+    private JPanel createGenderSubPanel(List<SharkData> sharkData, String titleofchart)
     {
-        JFreeChart chart = createChart(createSharkDatasetByGender(sharkData),titleofchart);
-        return new ChartPanel( chart );
-    }
-    public JPanel createStageOfLifeSubPanel(ArrayList<SharkData> sharkData,String titleofchart )
-    {
-        JFreeChart chart = createChart(createSharkDatasetByStageOfLife(sharkData),titleofchart);
+        JFreeChart chart = createChart(createSharkDatasetByGender(sharkData), titleofchart);
         return new ChartPanel( chart );
     }
 
-    private static void centreWindow(Window frame) {
-        Dimension dimension = Toolkit.getDefaultToolkit().getScreenSize();
-        int x = (int) ((dimension.getWidth() - frame.getWidth()) /3);
-        int y = (int) ((dimension.getHeight() - frame.getHeight())/4 );
-        frame.setLocation(x, y);
+    private JPanel createStageOfLifeSubPanel(List<SharkData> sharkData, String titleofchart)
+    {
+        JFreeChart chart = createChart(createSharkDatasetByStageOfLife(sharkData), titleofchart);
+        return new ChartPanel( chart );
     }
 
     private JMenuBar createjMenuBar(FunctionalityController functionalityController) {
@@ -144,12 +148,13 @@ public class StatisticsFrame extends JFrame {
         return menuBar;
     }
 
-    private PieDataset createSharkDatasetByGender(ArrayList<SharkData> listofsharks)
+    private PieDataset createSharkDatasetByGender(List<SharkData> listofsharks)
     {
         DefaultPieDataset dataset = new DefaultPieDataset();
 
-        ArrayList<SharkData> maleSharks = new ArrayList<>();
-        ArrayList<SharkData> femaleSharks = new ArrayList<>();
+        //TODO This part (separate gender in different lists) should by done by the controller
+        List<SharkData> maleSharks = new ArrayList<>();
+        List<SharkData> femaleSharks = new ArrayList<>();
 
         for(SharkData sharkdata: listofsharks){
             if(sharkdata.getGender().equals("Male")){
@@ -164,13 +169,14 @@ public class StatisticsFrame extends JFrame {
         return dataset;
     }
 
-    private PieDataset createSharkDatasetByStageOfLife(ArrayList<SharkData> listofsharks)
+    private PieDataset createSharkDatasetByStageOfLife(List<SharkData> listofsharks)
     {
         DefaultPieDataset dataset = new DefaultPieDataset();
 
-        ArrayList<SharkData> matureSharks = new ArrayList<>();
-        ArrayList<SharkData> immatureSharks = new ArrayList<>();
-        ArrayList<SharkData> undeterminedSharks = new ArrayList<>();
+        //TODO This part (separate stage of life in different lists) should by done by the controller
+        List<SharkData> matureSharks = new ArrayList<>();
+        List<SharkData> immatureSharks = new ArrayList<>();
+        List<SharkData> undeterminedSharks = new ArrayList<>();
 
         for(SharkData sharkdata:listofsharks){
 
@@ -197,17 +203,18 @@ public class StatisticsFrame extends JFrame {
         return dataset;
     }
 
-    private PieDataset createSharkDatasetByTagLocation(ArrayList<SharkData> listofsharks)
+    private PieDataset createSharkDatasetByTagLocation(List<SharkData> listofsharks)
     {
         DefaultPieDataset dataset = new DefaultPieDataset();
 
-        HashMap<String,Integer> mapofsharks =new HashMap<>();
+        //TODO This part (whatever that is, with the map) should by done by the controller
+        Map<String,Integer> mapofsharks = new HashMap<>();
 
         for(SharkData sharkdata: listofsharks){
-            if(mapofsharks.containsKey(sharkdata.getTaglocation())){
-                mapofsharks.put(sharkdata.getTaglocation(),mapofsharks.get(sharkdata.getTaglocation())+1);
+            if(mapofsharks.containsKey(sharkdata.getTagLocation())){
+                mapofsharks.put(sharkdata.getTagLocation(),mapofsharks.get(sharkdata.getTagLocation())+1);
             }
-            mapofsharks.putIfAbsent(sharkdata.getTaglocation(),1);
+            mapofsharks.putIfAbsent(sharkdata.getTagLocation(),1);
         }
         for(String key : mapofsharks.keySet()){
            dataset.setValue(key,mapofsharks.get(key));
@@ -223,7 +230,7 @@ public class StatisticsFrame extends JFrame {
         return chart;
     }
 
-    public void updateShark(ArrayList<SharkData> sharkData,JComboBox source){
+    public void updateShark(List<SharkData> sharkData, JComboBox source){
         if(source.equals(gender)){
             genderpanel.removeAll();
             genderpanel.add(gender,BorderLayout.NORTH);
@@ -243,6 +250,7 @@ public class StatisticsFrame extends JFrame {
             revalidate();
             repaint();
         }else{
+            //TODO remove println
             System.out.println("StatisticsFrameError 1: Could not find original combobox");
         }
     }

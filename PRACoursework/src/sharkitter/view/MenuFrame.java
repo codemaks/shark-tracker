@@ -1,6 +1,5 @@
 package sharkitter.view;
 
-import api.jaws.Jaws;
 import sharkitter.controller.FunctionalityController;
 import sharkitter.controller.UserController;
 
@@ -21,26 +20,17 @@ public class MenuFrame extends JFrame {
 
 	private ActionListener userController, functionalityController;
 
-	private Jaws jaws;
-
 	public MenuFrame() throws IOException {
 		super("Amnity Police");
 
-		centreWindow(this);
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
 
 		addWidgets();
-	}
-
-	private static void centreWindow(Window frame) {
-		Dimension dimension = Toolkit.getDefaultToolkit().getScreenSize();
-		int x = (int) ((dimension.getWidth() - frame.getWidth()) /3);
-		int y = (int) ((dimension.getHeight() - frame.getHeight())/4 );
-		frame.setLocation(x, y);
+		setLocationRelativeTo(null);
 	}
 
 	public void addWidgets() {
-		JMenuBar menuBar = createjMenuBar();
+		JMenuBar menuBar = createJMenuBar();
 
 		JPanel southPanel = new JPanel();
 		southPanel.setLayout(new GridLayout(3, 1));
@@ -62,7 +52,7 @@ public class MenuFrame extends JFrame {
 		Image newImg = img.getScaledInstance(300, 300, Image.SCALE_SMOOTH);
 		shark = new ImageIcon(newImg);
 
-		JLabel sharkTrackerLabel = new JLabel("", shark, 0);
+		JLabel sharkTrackerLabel = new JLabel("", shark, SwingConstants.CENTER);
 		sharkTrackerLabel.setVerticalTextPosition(JLabel.BOTTOM);
 		sharkTrackerLabel.setHorizontalTextPosition(JLabel.CENTER);
 
@@ -77,14 +67,18 @@ public class MenuFrame extends JFrame {
 	 * Create a JMenuBar for choosing between different profiles
 	 * @return	Created JMenuBar
      */
-	private JMenuBar createjMenuBar() {
+	private JMenuBar createJMenuBar() {
 		JMenuBar menuBar = new JMenuBar();
 		JMenu profiles = new JMenu("Profiles");
-		JMenu tip = new JMenu("?");
+
+		JMenu knowMore = new JMenu("?");
+		JMenuItem tip = new JMenuItem("Special tip");
 		tip.setToolTipText("Try a Konami Code =p");
 
+		knowMore.add(tip);
+
 		menuBar.add(profiles);
-		menuBar.add(tip);
+		menuBar.add(knowMore);
 
 		loadProfiles = new JMenu("Load Profiles");
 		createProfile = new JMenuItem("Create Profile");
@@ -134,8 +128,4 @@ public class MenuFrame extends JFrame {
 		revalidate();
 		repaint();
 	}
-	public void setJaws(Jaws jaws){this.jaws = jaws;}
-	public Jaws getJaws(){return jaws;}
-
-
 }

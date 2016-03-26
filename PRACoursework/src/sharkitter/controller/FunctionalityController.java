@@ -2,15 +2,16 @@ package sharkitter.controller;
 
 import sharkitter.model.FavouriteSharks;
 import sharkitter.model.Konami;
+import sharkitter.model.PingCollection;
 import sharkitter.view.*;
+import sun.audio.AudioPlayer;
+import sun.audio.AudioStream;
 
 import javax.swing.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
+import java.awt.event.*;
+import java.io.*;
 
-public class FunctionalityController implements ActionListener, KeyListener {
+public class FunctionalityController implements ActionListener, KeyListener, WindowListener {
 
     private MenuFrame menuFrame;
     private SearchFrame searchFrame;
@@ -22,15 +23,24 @@ public class FunctionalityController implements ActionListener, KeyListener {
 
     private Konami konami;
 
-    public FunctionalityController(MenuFrame menuFrame, FavouriteSharks favouriteSharks) {
+    private AudioPlayer player;
+    private AudioStream stream;
+
+    private static final String SONG = "resources/Never Give Up On Sharks.wav";
+
+    public FunctionalityController(MenuFrame menuFrame, FavouriteSharks favouriteSharks, PingCollection pingCollection) throws IOException {
         this.menuFrame = menuFrame;
         this.favouriteSharks = favouriteSharks;
 
-        searchFrame = new SearchFrame(this, favouriteSharks);
-        favouritesFrame = new FavouritesFrame(favouriteSharks, menuFrame.getJaws());
-        statisticsFrame = new StatisticsFrame(this);
+        searchFrame = new SearchFrame(this, favouriteSharks, pingCollection);
+
+        favouritesFrame = new FavouritesFrame(favouriteSharks);
+        statisticsFrame = new StatisticsFrame(this, pingCollection);
 
         konami = new Konami();
+
+        player = AudioPlayer.player;
+        stream = new AudioStream(getClass().getClassLoader().getResourceAsStream(SONG));
     }
 
     @Override
@@ -43,6 +53,7 @@ public class FunctionalityController implements ActionListener, KeyListener {
                 case "Search":
                     menuFrame.setVisible(false);
                     searchFrame.setVisible(true);
+                    konami.reset();
                     break;
 
                 case "Favourites":
@@ -52,6 +63,10 @@ public class FunctionalityController implements ActionListener, KeyListener {
                 case "Statistics":
                     menuFrame.setVisible(false);
                     statisticsFrame.setVisible(true);
+                    break;
+
+                case "Ok":
+                    easterEggFrame.dispose();
                     break;
             }
         }
@@ -70,6 +85,7 @@ public class FunctionalityController implements ActionListener, KeyListener {
                             break;
                     }
                     break;
+
                 case "StatisticsFrame":
                     switch (menuName) {
                         case "Menu":
@@ -79,9 +95,29 @@ public class FunctionalityController implements ActionListener, KeyListener {
                         case "Search":
                             statisticsFrame.setVisible(false);
                             searchFrame.setVisible(true);
+                            break;
                     }
+                    break;
             }
         }
+    }
+
+    @Override
+    public void keyPressed(KeyEvent e) {
+        konami.registerPressedKey(e.getKeyCode());
+        if(konami.checkKonamiCode()) {
+            konami.reset();
+            easterEggFrame = new EasterEggFrame(this);
+            easterEggFrame.addWindowListener(this);
+            easterEggFrame.setVisible(true);
+            player.start(stream);
+        }
+    }
+
+    @Override
+    public void windowClosed(WindowEvent e) {
+        player.stop(stream);
+        konami.reset();
     }
 
     @Override
@@ -90,17 +126,37 @@ public class FunctionalityController implements ActionListener, KeyListener {
     }
 
     @Override
-    public void keyPressed(KeyEvent e) {
-        konami.registerPressedKey(e.getKeyCode());
-        if(konami.checkKonamiCode()) {
-            konami.reset();
-            easterEggFrame = new EasterEggFrame();
-            easterEggFrame.setVisible(true);
-        }
+    public void keyReleased(KeyEvent e) {
+
     }
 
     @Override
-    public void keyReleased(KeyEvent e) {
+    public void windowOpened(WindowEvent e) {
+
+    }
+
+    @Override
+    public void windowClosing(WindowEvent e) {
+
+    }
+
+    @Override
+    public void windowIconified(WindowEvent e) {
+
+    }
+
+    @Override
+    public void windowDeiconified(WindowEvent e) {
+
+    }
+
+    @Override
+    public void windowActivated(WindowEvent e) {
+
+    }
+
+    @Override
+    public void windowDeactivated(WindowEvent e) {
 
     }
 }

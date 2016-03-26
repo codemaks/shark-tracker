@@ -15,7 +15,7 @@ public class UserNotFoundAlert extends JFrame implements ActionListener {
         setLayout(new GridLayout(3, 1));
         addWidgets();
 
-        setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 
     }
 

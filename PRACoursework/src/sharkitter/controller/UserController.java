@@ -1,6 +1,7 @@
 package sharkitter.controller;
 
 import api.jaws.Jaws;
+import sharkitter.api.JawsApi;
 import sharkitter.model.FavouriteSharks;
 import sharkitter.view.*;
 import sharkitter.view.alert.ExistingUserAlert;
@@ -33,20 +34,20 @@ public class UserController implements ActionListener, KeyListener {
     private String username;
 
     private static final Path PATH_TO_PROFILES = Paths.get("data/list_of_profiles.txt");
-    private static final Pattern delimeterPattern = Pattern.compile("\\r\\n|\\n");
+    private static final Pattern DELIMITER = Pattern.compile("\\r\\n|\\n");
 
     /**
      * Constructor of UserController
      * @param menuFrame   Frame used by user to connect
      * @param favouriteSharks   Model of favourite sharks
      */
-    public UserController(MenuFrame menuFrame, FavouriteSharks favouriteSharks, Jaws jaws) throws IOException {
+    public UserController(MenuFrame menuFrame, FavouriteSharks favouriteSharks) throws IOException {
         this.menuFrame = menuFrame;
         this.menuFrame.addUserController(this);
 
         this.favouriteSharks = favouriteSharks;
 
-        api = jaws;
+        api = JawsApi.getInstance();
 
         readProfiles();
         loadDefaultProfile();
@@ -60,21 +61,21 @@ public class UserController implements ActionListener, KeyListener {
     public void actionPerformed(ActionEvent e) {
 
         if (e.getSource().getClass().equals(JMenuItem.class)) {
+            String text = ((JMenuItem) e.getSource()).getText();
 
-            if (((JMenuItem) e.getSource()).getText().equals("Create Profile")) {
+            if (text.equals("Create Profile")) {
                 accountCreation = new ProfileCreationFrame(this);
                 accountCreation.setVisible(true);
             } else {
-                username = ((JMenuItem) e.getSource()).getText();
+                username = text;
                 loadUser(username);
             }
 
         } else if (e.getSource().getClass().equals(JButton.class)) {
+            String text = ((JButton) e.getSource()).getText();
 
-            if (((JButton) e.getSource()).getText().equals("Register")) {
-
+            if (text.equals("Register")) {
                 registerUser();
-
             }
         }
     }
@@ -84,8 +85,7 @@ public class UserController implements ActionListener, KeyListener {
      * @throws IOException
      */
     private void readProfiles() throws IOException {
-        Scanner reader = new Scanner(PATH_TO_PROFILES);
-        reader.useDelimiter("\n");
+        Scanner reader = createScanner(PATH_TO_PROFILES);
 
         while (reader.hasNext()) {
             String profileName = reader.next();
@@ -102,9 +102,7 @@ public class UserController implements ActionListener, KeyListener {
             favouriteSharks.clearData();
 
             Path pathToFile = Paths.get("data/default.txt");
-            Scanner reader = new Scanner(pathToFile);
-            //Pattern delimeterPattern = Pattern.compile("\\r\\n|\\n");
-            reader.useDelimiter(delimeterPattern);
+            Scanner reader = createScanner(pathToFile);
 
             if(!reader.hasNext()) {
                 menuFrame.toggleFavourites(false);
@@ -138,8 +136,7 @@ public class UserController implements ActionListener, KeyListener {
                 favouriteSharks.setUser(user);
 
                 Path pathToFile = Paths.get("data/" + user + ".txt");
-                Scanner reader = new Scanner(pathToFile);
-                reader.useDelimiter("\n");
+                Scanner reader = createScanner(pathToFile);
 
                 if(!reader.hasNext()) {
                     menuFrame.toggleFavourites(false);
@@ -178,6 +175,7 @@ public class UserController implements ActionListener, KeyListener {
                     menuFrame.addProfile(username);
                     accountCreation.dispose();
                 } else {
+//                    JOptionPane.showMessageDialog(null, "User already exists", JOptionPane.WARNING_MESSAGE);
                     ExistingUserAlert existingUser = new ExistingUserAlert();
                     existingUser.setVisible(true);
                 }
@@ -187,9 +185,10 @@ public class UserController implements ActionListener, KeyListener {
         }
     }
 
-    @Override
-    public void keyTyped(KeyEvent e) {
-
+    private Scanner createScanner(Path pathToFile) throws IOException {
+        Scanner reader = new Scanner(pathToFile);
+        reader.useDelimiter(DELIMITER);
+        return reader;
     }
 
     /**
@@ -200,6 +199,11 @@ public class UserController implements ActionListener, KeyListener {
     public void keyPressed(KeyEvent e) {
         if(e.getKeyCode() == 10)
             registerUser();
+    }
+
+    @Override
+    public void keyTyped(KeyEvent e) {
+
     }
 
     @Override

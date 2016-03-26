@@ -5,6 +5,7 @@ import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Set;
 
 import javax.swing.JButton;
@@ -15,23 +16,27 @@ import javax.swing.JTextArea;
 import api.jaws.Jaws;
 import api.jaws.Location;
 import api.jaws.Shark;
+import sharkitter.api.JawsApi;
+import sharkitter.controller.SharknadoTracker;
 import sharkitter.model.FavouriteSharks;
 import sharkitter.view.map.MapFrame;
 
-@SuppressWarnings("serial")
-public class FavouritesFrame extends JFrame{
+public class FavouritesFrame extends JFrame {
 	
-	private ArrayList<Location> locations;
+	private List<Location> locations;
+
 	// Kings longitude, and latitude
 	private static final double KINGS_LONGITUDE = 51.510;
 	private static final double KINGS_LATITUDE = -0.117;
 
-	public FavouritesFrame(FavouriteSharks favs, Jaws jawsApi) {
+	public FavouritesFrame(FavouriteSharks favs) {
 		super();
 		setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 		setLayout(new BorderLayout());
 		setPreferredSize(new Dimension(300,300));
 		add(new JLabel("Your favourite sharks are this far away from you right now:") , BorderLayout.NORTH);
+
+		SharknadoTracker sharknadoTracker = new SharknadoTracker();
 		String distanceToKingsInfo = "";
 
 		Location kclLocation = new Location(KINGS_LONGITUDE, KINGS_LATITUDE);
@@ -46,15 +51,22 @@ public class FavouritesFrame extends JFrame{
 			//need to fix before map will work
 			System.out.println("**" + shark + "**");
 
-			Location l = jawsApi.getLastLocation(shark); //debugging location
+			Location l = JawsApi.getInstance().getLastLocation(shark); //debugging location
 			locations.add(l);
-			distanceToKingsInfo += " : " + findDistanceBetween(kclLocation, l);  // haven't tested yet */
+			distanceToKingsInfo += " : " + findDistanceBetween(kclLocation, l);  // haven't tested yet
+
+			//checks whether a Sharknado is occurring for this shark
+			if(sharknadoTracker.isOverLand(shark)) {
+				distanceToKingsInfo += "Sharknado - this shark is over land right now!";
+			}
+
 			distanceToKingsInfo += "\n";
 		}
 		
 		
 		
 		JTextArea ta = new JTextArea(distanceToKingsInfo);
+		ta.setEditable(false);
 		add(ta, BorderLayout.CENTER);
 		
 		JButton button = new JButton("Map");

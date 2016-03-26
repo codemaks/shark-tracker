@@ -1,35 +1,29 @@
 package sharkitter.view;
 
-import api.jaws.Ping;
-import api.jaws.Shark;
 import sharkitter.controller.FavouriteController;
 import sharkitter.model.FavouriteSharks;
 import sharkitter.model.SharkData;
 
 import java.awt.*;
-import java.util.Collection;
-import java.util.HashMap;
 import javax.swing.*;
 import javax.swing.border.Border;
-import javax.swing.border.TitledBorder;
 
 public class SharkContainer extends JPanel {
 
     private FavouriteController favouriteController;
     private JButton followButton;
-    private FavouriteSharks favouriteSharks;
     private SharkData shark;
 
     /**
      * Class constructor: provides a JPanel containing all the details of a Shark when the following parameters
      * are given:
      * Display all information concerning the Sharks that fit the chosen fields for the search.
-     * @param shark	A SharkData containing the Shark matching the chosen criteria.
+     * @param sharkData	A SharkData containing the Shark matching the chosen criteria.
      * @param favouriteSharks	A list of sharks to which the corresponding shark could belong to.
      */
-    public SharkContainer(SharkData shark, FavouriteSharks favouriteSharks){
+    public SharkContainer(SharkData sharkData, FavouriteSharks favouriteSharks){
         setLayout(new BorderLayout());
-        this.shark = shark;
+        this.shark = sharkData;
         setName(shark.getName());
 
         favouriteController = new FavouriteController(this, favouriteSharks);
@@ -38,7 +32,7 @@ public class SharkContainer extends JPanel {
 
         add(createSharkDescriptionText(shark), BorderLayout.CENTER);
 
-        add(createSharkTrackOptions(shark.getDate()), BorderLayout.SOUTH);
+        add(createSharkTrackOptions(sharkData.getDate()), BorderLayout.SOUTH);
 
         setPreferredSize(new Dimension(800,300));
 
@@ -57,8 +51,8 @@ public class SharkContainer extends JPanel {
         JPanel descriptionPanel = new JPanel();
         descriptionPanel.setLayout(new BorderLayout());
 
-        JLabel descriptionlabel = new JLabel("<html> Description: <br><br>"+foundShark.getDescription()+"</html?>");
-        descriptionPanel.add(descriptionlabel,BorderLayout.CENTER);
+        JLabel descriptionLabel = new JLabel("<html> Description: <br><br>" + foundShark.getDescription() + "</html?>");
+        descriptionPanel.add(descriptionLabel,BorderLayout.CENTER);
 
         return descriptionPanel;
     }
@@ -85,8 +79,8 @@ public class SharkContainer extends JPanel {
 
     /**
      * Create a table to display specific information about a Shark (name, gender, stage of life, species, length and weight).
-     * @param foundShark	A Shark matching the chosen criteria.
-     * @return	a JPanel containing all relevant information (name, gender, satge of life, species, length and weight).
+     * @param foundShark    A Shark matching the chosen criteria.
+     * @return	a JPanel containing all relevant information (name, gender, stage of life, species, length and weight).
      */
     private JPanel createSharkFeaturesTable(SharkData foundShark) {
         JPanel sharkFeatures = new JPanel(new GridLayout(6, 2));
@@ -126,8 +120,8 @@ public class SharkContainer extends JPanel {
      * Getter of the corresponding shark
      * @return  The Shark object displayed by this container
      */
-    public Shark getShark() {
-        return shark.getShark();
+    public SharkData getShark() {
+        return shark;
     }
 
     /**

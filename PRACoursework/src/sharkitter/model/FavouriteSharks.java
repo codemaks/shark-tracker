@@ -23,7 +23,7 @@ public class FavouriteSharks {
      * Add a shark to the list of favourites
      * @param shark Shark to be added to the list
      */
-    public void addShark(Shark shark) {
+    public void addShark(SharkData shark) {
         favouriteSharks.add(shark.getName());
         List<String> sharkName = Arrays.asList(shark.getName());
         try {
@@ -38,7 +38,7 @@ public class FavouriteSharks {
      * @param shark Shark to be removed from the list
      * @throws FileNotFoundException
      */
-    public void removeShark(Shark shark) throws IOException {
+    public void removeShark(SharkData shark) throws IOException {
         favouriteSharks.remove(shark.getName());
 
         Files.write(filePath, favouriteSharks);
