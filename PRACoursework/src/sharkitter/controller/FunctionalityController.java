@@ -1,5 +1,7 @@
 package sharkitter.controller;
 
+import api.jaws.Jaws;
+import sharkitter.api.JawsApi;
 import sharkitter.model.FavouriteSharks;
 import sharkitter.model.Konami;
 import sharkitter.model.PingCollection;
@@ -10,6 +12,8 @@ import sun.audio.AudioStream;
 import javax.swing.*;
 import java.awt.event.*;
 import java.io.*;
+import java.util.HashSet;
+import java.util.Set;
 
 /**
  * Class to control the different functionalities of the application
@@ -25,7 +29,11 @@ public class FunctionalityController implements ActionListener, KeyListener, Win
     private FavouritesFrame favouritesFrame;
     private EasterEggFrame easterEggFrame;
 
+    private Jaws jawsApi;
     private FavouriteSharks favouriteSharks;
+    private PingCollection pingCollection;
+
+    private Set<String> listoftaglocations;
 
     private Konami konami;
 
@@ -42,8 +50,11 @@ public class FunctionalityController implements ActionListener, KeyListener, Win
      * @throws IOException  If the song for the Easter Egg was not properly found
      */
     public FunctionalityController(MenuFrame menuFrame, FavouriteSharks favouriteSharks, PingCollection pingCollection) throws IOException {
+        jawsApi = JawsApi.getInstance();
         this.menuFrame = menuFrame;
         this.favouriteSharks = favouriteSharks;
+        this.pingCollection = pingCollection;
+        this.listoftaglocations = new HashSet<String>();
 
         searchFrame = new SearchFrame(this, favouriteSharks, pingCollection);
 
@@ -118,6 +129,16 @@ public class FunctionalityController implements ActionListener, KeyListener, Win
                     break;
             }
         }
+    }
+
+    public Set<String> getListOfTagLocations(){
+        listoftaglocations = new HashSet<String>();
+        for (String sharkname : pingCollection.getPastMonth().keySet()) {
+            String tagloc = jawsApi.getShark(sharkname).getTagLocation();
+            listoftaglocations.add(tagloc);
+        }
+        return listoftaglocations;
+
     }
 
     @Override

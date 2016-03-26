@@ -39,13 +39,17 @@ public class PingCollection {
         return MapOfPings;
     }
 
-    public void update(){
+    public boolean update(){
         if(!jawsApi.getLastUpdated().equals(lastUpdated)) {
             lastUpdated = jawsApi.getLastUpdated();
             past24hours = sortPings(jawsApi.past24Hours());
             past24hours = sortPings(jawsApi.pastWeek());
             past24hours = sortPings(jawsApi.pastMonth());
+            return true;
+        }else{
+            return false;
         }
+
     }
 
     public Map<String,Ping> getPast24hours(){
