@@ -26,14 +26,13 @@ public class MapFrame extends JFrame {
 	private final String MAP_IMAGE = "resources/Equirectangular_projection_SW.jpg";
 	private final int MAP_IMAGE_BORDER_PIXLES = 6; 
 	//specific to map "Equirectangular_projection_SW.jpg"
-	public static final int SCALE_DOWN = 2;
-	
-	
-	@SuppressWarnings("unused") // change SCALE_DOWN, in code to 1,2,3,4 to see
+
+	public static final int SCALE_DOWN = 2; // How much to scale down the image
+
 	public MapFrame(List<Location> locations) // TODO: make a constructor that takes a list of map points to add.
 	{
-		final int IMG_HEIGHT = 1036;
-		final int IMG_WIDTH = 2058;
+		final int IMG_HEIGHT = 1036; //specific to map "Equirectangular_projection_SW.jpg"
+		final int IMG_WIDTH = 2058; //specific to map "Equirectangular_projection_SW.jpg"
 		
 		
 		// Making an earth map, based on image
@@ -42,22 +41,19 @@ public class MapFrame extends JFrame {
 
 
 		ImageIcon mapIcon = new ImageIcon(getClass().getClassLoader().getResource(MAP_IMAGE));//"resources/SharkTracker.png"));
-		Image oldimg = mapIcon.getImage();
+		Image oldimg = mapIcon.getImage(); //get's the image from the map icon
 		Image img = oldimg.getScaledInstance(width, height, Image.SCALE_SMOOTH);
 		
-		
+		//Creates a new earthMapModel based on image properites, and how much to scale down
 		EarthMapModel model = new EarthMapModel(
 				IMG_WIDTH, IMG_HEIGHT, SCALE_DOWN, MAP_IMAGE_BORDER_PIXLES);
 		
-		
+		//Parses the list of locations, into an arraylist of longitude, latitude pairs.
 		ArrayList<double[]> list2 = new ArrayList<double[]>();
 		for(Location l :locations)
 		{
 			list2.add(new double[]{ l.getLongitude(), l.getLatitude()});
 		}
-		
-		// get longitude, latidude coords : to set the model
-		//model.addMapCoords(testCoords()); //here just a test
 		
 		model.addMapCoords(list2);
 		
@@ -70,29 +66,12 @@ public class MapFrame extends JFrame {
 		add(info, BorderLayout.SOUTH);
 		
 		// setting dimensions based on image
-		if (SCALE_DOWN > 1)setMinimumSize(new Dimension( width+20 , height +40 ));
+		if (SCALE_DOWN > 1)setMinimumSize(new Dimension( width+20 , height +50 ));
 		else setMinimumSize(new Dimension( width/2, height/2));
 	
 		setTitle("Sharkitter Map (Test Version)");
 		setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 		pack();
 	}
-	
-	/*
-	// Just to test the model of the map
-	public static ArrayList<double[]> testCoords()
-	{
-		ArrayList<double[]> list = new ArrayList<double[]>();
-		Random r = new Random();
-		for(int i = 0; i < 10 ; i ++){
-			list.add( new double[]{r.nextDouble()*360 - 180, r.nextDouble()*180 - 90} );
-		}
-		return list;
-	}
-	
-	public static void main(String args[]){
-		JFrame mapFrame = new MapFrame();
-		mapFrame.setVisible(true);
 
-	}*/
 }
