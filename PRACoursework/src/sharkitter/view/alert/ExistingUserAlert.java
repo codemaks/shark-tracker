@@ -18,9 +18,11 @@ public class ExistingUserAlert extends JFrame implements ActionListener {
         addWidgets();
 
         setDefaultCloseOperation(DISPOSE_ON_CLOSE);
-
     }
 
+    /**
+     * Adds widget to the frame
+     */
     private void addWidgets() {
         JLabel message1 = new JLabel("Sorry but your username already exists.");
         JLabel message2 = new JLabel("Please choose another username.");
@@ -36,6 +38,9 @@ public class ExistingUserAlert extends JFrame implements ActionListener {
     }
 
     @Override
+    /**
+     * Disposes the frame if "Ok" button is pressed
+     */
     public void actionPerformed(ActionEvent e) {
         dispose();
     }
