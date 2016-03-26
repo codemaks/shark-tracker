@@ -49,13 +49,6 @@ public class SearchFrame extends JFrame {
 	 */
 	private JButton search;
 
-	private int counter;
-
-	/**
-	 * The action listener for the search button.
-	 */
-	private SearchButtonListener sbl;
-
 	/**
 	 * A black line border.
 	 */
