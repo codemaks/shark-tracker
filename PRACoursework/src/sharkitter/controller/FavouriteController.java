@@ -9,6 +9,9 @@ import java.awt.event.ActionListener;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 
+/**
+ * CLass controlling the addition and removal of sharks in the favourite lists from the search panel.
+ */
 public class FavouriteController implements ActionListener {
 
     private SharkContainer sharkContainer;
@@ -57,15 +60,10 @@ public class FavouriteController implements ActionListener {
             case "Following":
                 try {
                     favouriteSharks.removeShark(sharkContainer.getShark());
-                } catch (FileNotFoundException e1) {
-                    e1.printStackTrace();
                 } catch (IOException e1) {
                     e1.printStackTrace();
                 }
                 sharkContainer.updateFollowButton("Follow");
         }
-
-//        For debugging purposes:
-//        System.out.println("Pressed");
     }
 }

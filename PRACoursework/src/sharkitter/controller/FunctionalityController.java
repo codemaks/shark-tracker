@@ -15,6 +15,12 @@ import java.io.*;
 import java.util.HashSet;
 import java.util.Set;
 
+/**
+ * Class to control the different functionalities of the application
+ * - Searching
+ * - Displaying the favourites
+ * - Displaying the statistics
+ */
 public class FunctionalityController implements ActionListener, KeyListener, WindowListener {
 
     private MenuFrame menuFrame;
@@ -27,7 +33,7 @@ public class FunctionalityController implements ActionListener, KeyListener, Win
     private FavouriteSharks favouriteSharks;
     private PingCollection pingCollection;
 
-    private Set<String> listoftaglocations;
+    private Set<String> listOfTagLocations;
 
     private Konami konami;
 
@@ -36,12 +42,19 @@ public class FunctionalityController implements ActionListener, KeyListener, Win
 
     private static final String SONG = "resources/Never Give Up On Sharks.wav";
 
+    /**
+     * Constructor of FunctionalityController
+     * @param menuFrame Instance of the menu frame
+     * @param favouriteSharks   Instance of FavouriteSharks
+     * @param pingCollection    Instance of PingCollection
+     * @throws IOException  If the song for the Easter Egg was not properly found
+     */
     public FunctionalityController(MenuFrame menuFrame, FavouriteSharks favouriteSharks, PingCollection pingCollection) throws IOException {
         jawsApi = JawsApi.getInstance();
         this.menuFrame = menuFrame;
         this.favouriteSharks = favouriteSharks;
         this.pingCollection = pingCollection;
-        this.listoftaglocations = new HashSet<String>();
+        this.listOfTagLocations = new HashSet<String>();
 
         searchFrame = new SearchFrame(this, favouriteSharks, pingCollection);
 
@@ -54,6 +67,11 @@ public class FunctionalityController implements ActionListener, KeyListener, Win
     }
 
     @Override
+    /**
+     * Performs the appropriate action depending on the event
+     * Deals with opening the different frames from the Menu frame
+     * Deals with going back to the Menu frame from the different frames
+     */
     public void actionPerformed(ActionEvent e) {
 
         if(e.getSource().getClass() == JButton.class) {
@@ -114,16 +132,19 @@ public class FunctionalityController implements ActionListener, KeyListener, Win
     }
 
     public Set<String> getListOfTagLocations(){
-        listoftaglocations = new HashSet<String>();
-        for (String sharkname : pingCollection.getPastMonth().keySet()) {
-            String tagloc = jawsApi.getShark(sharkname).getTagLocation();
-            listoftaglocations.add(tagloc);
+        listOfTagLocations = new HashSet<String>();
+        for (String sharkName : pingCollection.getPastMonth().keySet()) {
+            String tagLoc = jawsApi.getShark(sharkName).getTagLocation();
+            listOfTagLocations.add(tagLoc);
         }
-        return listoftaglocations;
+        return listOfTagLocations;
 
     }
 
     @Override
+    /**
+     * Reacts to the pressed keys to trigger an Easter Egg
+     */
     public void keyPressed(KeyEvent e) {
         konami.registerPressedKey(e.getKeyCode());
         if(konami.checkKonamiCode()) {
@@ -136,6 +157,9 @@ public class FunctionalityController implements ActionListener, KeyListener, Win
     }
 
     @Override
+    /**
+     * Stops the music once the EasterEggFrame is closed
+     */
     public void windowClosed(WindowEvent e) {
         player.stop(stream);
         konami.reset();

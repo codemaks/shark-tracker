@@ -4,6 +4,7 @@ import api.jaws.Jaws;
 import api.jaws.Shark;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
 
 public class RandomSharkRetriever {
@@ -18,7 +19,7 @@ public class RandomSharkRetriever {
 	}
 
 	public void retrieveNewShark() {
-		ArrayList<String> sharkList = jawsApi.getSharkNames();
+		List<String> sharkList = jawsApi.getSharkNames();
 
 		Random random = new Random();
 		int randomInt = random.nextInt(sharkList.size() + 1);

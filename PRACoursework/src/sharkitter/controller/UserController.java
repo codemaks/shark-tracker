@@ -15,7 +15,6 @@ import java.awt.event.KeyListener;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.io.UnsupportedEncodingException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -49,9 +48,7 @@ public class UserController implements ActionListener, KeyListener {
 
         api = JawsApi.getInstance();
 
-        if(!PATH_TO_PROFILES.toFile().createNewFile()) {
-            new File(PATH_TO_PROFILES.toString());
-        }
+        createDataFolder();
 
         readProfiles();
         loadDefaultProfile();
@@ -81,6 +78,22 @@ public class UserController implements ActionListener, KeyListener {
             if (text.equals("Register")) {
                 registerUser();
             }
+        }
+    }
+
+    /**
+     * Creates the "data/" folder if it does not exist
+     * Creates also the list of profiles if it does not exist
+     * @throws IOException
+     */
+    private void createDataFolder() throws IOException {
+        File dataFolder = Paths.get("data/").toFile();
+        if(!dataFolder.exists()) {
+            dataFolder.mkdir();
+        }
+
+        if(!PATH_TO_PROFILES.toFile().createNewFile()) {
+            new File(PATH_TO_PROFILES.toString());
         }
     }
 
@@ -180,7 +193,6 @@ public class UserController implements ActionListener, KeyListener {
                     menuFrame.addProfile(username);
                     accountCreation.dispose();
                 } else {
-//                    JOptionPane.showMessageDialog(null, "User already exists", JOptionPane.WARNING_MESSAGE);
                     ExistingUserAlert existingUser = new ExistingUserAlert();
                     existingUser.setVisible(true);
                 }
@@ -190,6 +202,12 @@ public class UserController implements ActionListener, KeyListener {
         }
     }
 
+    /**
+     * Creates a Scanner to read the specify path
+     * @param pathToFile    Path to the file to be read
+     * @return  Created Scanner
+     * @throws IOException  If the file was not found
+     */
     private Scanner createScanner(Path pathToFile) throws IOException {
         Scanner reader = new Scanner(pathToFile);
         reader.useDelimiter(DELIMITER);
@@ -198,7 +216,7 @@ public class UserController implements ActionListener, KeyListener {
 
     /**
      * React to "Enter" key
-     * @param e
+     * @param e Key pressed
      */
     @Override
     public void keyPressed(KeyEvent e) {
