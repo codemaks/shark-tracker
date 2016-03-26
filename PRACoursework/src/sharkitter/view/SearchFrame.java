@@ -43,6 +43,8 @@ public class SearchFrame extends JFrame {
         super("Search");
 
         jawsApi = JawsApi.getInstance();
+
+        //TODO remove println
         System.out.println(jawsApi.getLastUpdated());
 
         //create borders for later use

@@ -18,7 +18,7 @@ public class MenuFrame extends JFrame {
 	private JMenu loadProfiles;
 	private JMenuItem createProfile;
 
-	private ActionListener userController, functionalityController;
+	private ActionListener userController;
 
 	public MenuFrame() throws IOException {
 		super("Amnity Police");
@@ -94,7 +94,6 @@ public class MenuFrame extends JFrame {
 	 * @param functionalityController	Controller responsible for the different functionalities of this programme
      */
 	public void addFunctionalityController(FunctionalityController functionalityController) {
-		this.functionalityController = functionalityController;
 		addKeyListener(functionalityController);
 		searchButton.addActionListener(functionalityController);
 		favouritesButton.addActionListener(functionalityController);
