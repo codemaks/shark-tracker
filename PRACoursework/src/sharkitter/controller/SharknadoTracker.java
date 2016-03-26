@@ -2,7 +2,6 @@ package sharkitter.controller;
 
 import api.jaws.Jaws;
 import api.jaws.Location;
-import api.jaws.Shark;
 import com.google.maps.ElevationApi;
 import com.google.maps.GeoApiContext;
 import com.google.maps.model.ElevationResult;
@@ -40,7 +39,7 @@ public class SharknadoTracker {
 		try {
 			ElevationResult result = ElevationApi.getByPoint(context, latLngLocation).await();
 
-			//if the elevation is bigger than 0, ie if shark location is over land
+			//if the elevation is bigger than 0 (if shark location is over land)
 			if(result.elevation > 0) {
 				return true;
 			}
