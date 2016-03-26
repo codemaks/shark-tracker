@@ -124,8 +124,6 @@ public class UserController implements ActionListener, KeyListener {
         } catch (FileNotFoundException e1) {
             UserNotFoundAlert userNotFound = new UserNotFoundAlert();
             userNotFound.setVisible(true);
-        } catch (UnsupportedEncodingException e1) {
-            e1.printStackTrace();
         } catch (IOException e1) {
             e1.printStackTrace();
         }
@@ -157,8 +155,6 @@ public class UserController implements ActionListener, KeyListener {
                 }
             } catch (FileNotFoundException e1) {
                 userNotFound.setVisible(true);
-            } catch (UnsupportedEncodingException e1) {
-                e1.printStackTrace();
             } catch (IOException e1) {
                 e1.printStackTrace();
             }
