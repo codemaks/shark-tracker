@@ -131,6 +131,11 @@ public class FunctionalityController implements ActionListener, KeyListener, Win
         }
     }
 
+    /**
+     * Getter of the list of tag locations
+     * Takes the recorded pings from the past month, get the given locations and add them to a set
+     * @return  A Set containing String representation of tag locations
+     */
     public Set<String> getListOfTagLocations(){
         listOfTagLocations = new HashSet<String>();
         for (String sharkName : pingCollection.getPastMonth().keySet()) {

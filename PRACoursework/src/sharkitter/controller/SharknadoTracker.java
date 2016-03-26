@@ -8,6 +8,9 @@ import com.google.maps.model.ElevationResult;
 import com.google.maps.model.LatLng;
 import sharkitter.api.JawsApi;
 
+/**
+ * Class tracking the Sharknado anomaly
+ */
 public class SharknadoTracker {
 
 	/**

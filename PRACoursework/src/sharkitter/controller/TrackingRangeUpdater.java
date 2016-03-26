@@ -13,9 +13,7 @@ import java.awt.event.ItemListener;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Created by Evou on 26/03/2016.
- */
+
 public class TrackingRangeUpdater {
 
     private Jaws jawsApi;

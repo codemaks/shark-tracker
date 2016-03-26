@@ -11,6 +11,11 @@ import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Class controlling the search:
+ * - listens to the "Search" button
+ * - updates the view according to the result of the search
+ */
 public class SearchButtonListener implements ActionListener{
     private SearchFrame searchframe;
     private List<SharkData> listOfSharks;
@@ -21,8 +26,8 @@ public class SearchButtonListener implements ActionListener{
     /**
      * Instantiates a new SearchButtonListener (controller of type ActionListener) from a search frame and a ping
      * collection
-     * @param searchframe
-     * @param pingCollection
+     * @param searchframe   Object representation of the Search frame
+     * @param pingCollection    Collection of pings
      */
     public SearchButtonListener(SearchFrame searchframe, PingCollection pingCollection){
         jawsApi = JawsApi.getInstance();
@@ -43,6 +48,11 @@ public class SearchButtonListener implements ActionListener{
         searchframe.addSeveralSharkContainersToView(listOfSharks);
     }
 
+    /**
+     * Retrieves sharks according to their stage of life
+     * @param listOfSharks  List of shark to be analysed
+     * @return  Sorted list of shark by stage of life
+     */
     private List<SharkData> updateFromStageOfLife(List<SharkData> listOfSharks){
         String stageOfLife = (String) searchframe.getStageOfLife().getSelectedItem();
 
@@ -52,6 +62,12 @@ public class SearchButtonListener implements ActionListener{
         return(listOfSharks);
     }
 
+    /**
+     * Selects sharks by stage of life
+     * @param sharkDataList List of sharks to be analysed
+     * @param selectionElement  String representation of the wanted stage of life
+     * @return  A list of SharkData selected by the given stage of life
+     */
     private List<SharkData> selectSharksByStageOfLife(List<SharkData> sharkDataList, String selectionElement){
 
         List<SharkData> newSharkDataList = new ArrayList<> ();
@@ -65,7 +81,11 @@ public class SearchButtonListener implements ActionListener{
         return newSharkDataList;
     }
 
-
+    /**
+     * Retrieves sharks according to their gender
+     * @param sharkDataList List of shark to be analysed
+     * @return  Sorted list of shark by gender
+     */
     private List<SharkData> updateFromGender(List<SharkData> sharkDataList){
         String gender = (String) searchframe.getGender().getSelectedItem();
 
@@ -75,6 +95,12 @@ public class SearchButtonListener implements ActionListener{
         return sharkDataList;
     }
 
+    /**
+     * Selects sharks by gender
+     * @param sharkDataList List of sharks to be analysed
+     * @param selectionElement  String representation of the wanted gender
+     * @return  A list of SharkData selected by gender
+     */
     private List<SharkData> selectSharksByGender(List<SharkData> sharkDataList, String selectionElement){
 
         List<SharkData> newSharkDataList = new ArrayList<> ();
@@ -86,7 +112,11 @@ public class SearchButtonListener implements ActionListener{
         return newSharkDataList;
     }
 
-
+    /**
+     * Retrieves sharks according to their tag location
+     * @param sharkDataList List of shark to be analysed
+     * @return  Sorted list of shark by tag location
+     */
     private List<SharkData> updateFromTagLocation(List<SharkData> sharkDataList){
         String tagLocation = (String) searchframe.getTagLocation().getSelectedItem();
 
@@ -97,7 +127,13 @@ public class SearchButtonListener implements ActionListener{
 
     }
 
-    private List<SharkData> selectSharksByTagLocation(List<SharkData>  listOfPings, String selectionElement){
+    /**
+     * Selects sharks by tag location
+     * @param listOfPings List of sharks to be analysed
+     * @param selectionElement  String representation of the wanted tag location
+     * @return  A list of SharkData selected by tag location
+     */
+    private List<SharkData> selectSharksByTagLocation(List<SharkData> listOfPings, String selectionElement){
         List<SharkData>  newListOfPings = new ArrayList<> ();
         for (SharkData SharkData: listOfPings){
             if( jawsApi.getShark(SharkData.getName()).getTagLocation().equals(selectionElement)){

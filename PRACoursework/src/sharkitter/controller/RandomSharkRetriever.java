@@ -3,11 +3,13 @@ package sharkitter.controller;
 import api.jaws.Jaws;
 
 import java.io.*;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Calendar;
 import java.util.Random;
 
+/**
+ * Class used to retrieve a random shark for the "Shark of the day" feature
+ */
 public class RandomSharkRetriever {
 
 	/**
