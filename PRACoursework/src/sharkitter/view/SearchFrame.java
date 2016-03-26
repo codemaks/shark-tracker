@@ -58,7 +58,7 @@ public class SearchFrame extends JFrame {
         setPreferredSize(new Dimension(1200, 700));
         createPanels();
         setLocationRelativeTo(null);
-        setDefaultCloseOperation(EXIT_ON_CLOSE);
+        setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
     }
 
 	/**
@@ -99,35 +99,35 @@ public class SearchFrame extends JFrame {
      * Creates the combo boxes.
      */
     private void createComboBoxes() {
-        stageOfLife = new JComboBox();
+        stageOfLife = new JComboBox<>();
         stageOfLife.addItem("All");
         stageOfLife.addItem("Mature");
         stageOfLife.addItem("Immature");
         stageOfLife.addItem("Undetermined");
 
-        trackingRange = new JComboBox();
+        trackingRange = new JComboBox<>();
         trackingRange.addItem("Last 24 Hours");
         trackingRange.addItem("Last Week");
         trackingRange.addItem("Last Month");
 
-        gender = new JComboBox();
+        gender = new JComboBox<>();
         gender.addItem("All");
         gender.addItem("Male");
         gender.addItem("Female");
 
-        tagLocation = new JComboBox();
+        tagLocation = new JComboBox<>();
         tagLocation.addItem("All");
-        for(String sharktaglocation : functionalityController.getListOfTagLocations()){
-            tagLocation.addItem(sharktaglocation);
+        for(String sharkTagLocation : functionalityController.getListOfTagLocations()){
+            tagLocation.addItem(sharkTagLocation);
         }
     }
 
     public void updateTagLocation(){
         if(pingCollection.update()){
-            tagLocation = new JComboBox();
+            tagLocation = new JComboBox<>();
             tagLocation.addItem("All");
-            for (String sharkname : functionalityController.getListOfTagLocations()) {
-                tagLocation.addItem(jawsApi.getShark(sharkname).getTagLocation());
+            for (String sharkName : functionalityController.getListOfTagLocations()) {
+                tagLocation.addItem(jawsApi.getShark(sharkName).getTagLocation());
             }
         }
 
