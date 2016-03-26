@@ -15,7 +15,6 @@ import java.awt.event.KeyListener;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.io.UnsupportedEncodingException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -49,9 +48,7 @@ public class UserController implements ActionListener, KeyListener {
 
         api = JawsApi.getInstance();
 
-        if(!PATH_TO_PROFILES.toFile().createNewFile()) {
-            new File(PATH_TO_PROFILES.toString());
-        }
+        createDataFolder();
 
         readProfiles();
         loadDefaultProfile();
@@ -81,6 +78,22 @@ public class UserController implements ActionListener, KeyListener {
             if (text.equals("Register")) {
                 registerUser();
             }
+        }
+    }
+
+    /**
+     * Creates the "data/" folder if it does not exist
+     * Creates also the list of profiles if it does not exist
+     * @throws IOException
+     */
+    private void createDataFolder() throws IOException {
+        File dataFolder = Paths.get("data/").toFile();
+        if(!dataFolder.exists()) {
+            dataFolder.mkdir();
+        }
+
+        if(!PATH_TO_PROFILES.toFile().createNewFile()) {
+            new File(PATH_TO_PROFILES.toString());
         }
     }
 

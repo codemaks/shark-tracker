@@ -19,6 +19,9 @@ public class UserNotFoundAlert extends JFrame implements ActionListener {
 
     }
 
+    /**
+     * Adds widget to the frame
+     */
     private void addWidgets() {
         JLabel message1 = new JLabel("Sorry but your username already exists.");
         JLabel message2 = new JLabel("Please choose another username.");
@@ -34,6 +37,9 @@ public class UserNotFoundAlert extends JFrame implements ActionListener {
     }
 
     @Override
+    /**
+     * Disposes the frame when "Ok" button is pressed
+     */
     public void actionPerformed(ActionEvent e) {
         dispose();
     }
