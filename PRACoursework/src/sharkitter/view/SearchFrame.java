@@ -7,6 +7,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.*;
 import java.util.*;
+import java.util.List;
+
 import api.jaws.Jaws;
 import sharkitter.controller.RandomSharkRetriever;
 import sharkitter.controller.SearchButtonListener;
@@ -175,23 +177,23 @@ public class SearchFrame extends JFrame {
 
     public JPanel addSharkContainerToView(SharkContainer sharkcontainer){
 
-        centralpanel.setLayout(new BorderLayout());
-        supercentralpanel.add(sharkcontainer);
-        supercentralpanel.add(new JSeparator(SwingConstants.HORIZONTAL));
-        supercentralpanel.paintComponents(supercentralpanel.getGraphics());
+        centralPanel.setLayout(new BorderLayout());
+        superCentralPanel.add(sharkcontainer);
+        superCentralPanel.add(new JSeparator(SwingConstants.HORIZONTAL));
+        superCentralPanel.paintComponents(superCentralPanel.getGraphics());
 
-        centralpanel.remove(centralPane);
-        centralPane.setViewportView(supercentralpanel);
-        centralpanel.add(centralPane);
+        centralPanel.remove(centralPane);
+        centralPane.setViewportView(superCentralPanel);
+        centralPanel.add(centralPane);
 
         revalidate();
         repaint();
         pack();
 
-        return centralpanel;
+        return centralPanel;
     }
 
-    public JPanel addSeveralSharkContainersToView (ArrayList<SharkData> listofsharks) {
+    public JPanel addSeveralSharkContainersToView (List<SharkData> listofsharks) {
         int counter = listofsharks.size();
 
         superCentralPanel.removeAll();

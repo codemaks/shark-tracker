@@ -52,7 +52,7 @@ public class FavouritesFrame extends JFrame{
 
 			Location l = jawsApi.getLastLocation(shark); //debugging location
 			locations.add(l);
-			distanceToKingsInfo += " : " + findDistanceBetween(kclLocation, l); */ // haven't tested yet
+			distanceToKingsInfo += " : " + findDistanceBetween(kclLocation, l);  // haven't tested yet
 
 			//checks whether a Sharknado is occurring for this shark
 			if(sharknadoTracker.isOverLand(shark)) {
