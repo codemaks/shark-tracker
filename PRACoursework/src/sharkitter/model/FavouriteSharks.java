@@ -6,6 +6,9 @@ import java.io.*;
 import java.nio.file.*;
 import java.util.*;
 
+/**
+ * Object representation of user's favourite sharks
+ */
 public class FavouriteSharks {
 
     private Set<String> favouriteSharks;
@@ -79,6 +82,9 @@ public class FavouriteSharks {
         return user;
     }
 
+    /**
+     * Clears all favourite sharks
+     */
     public void clearData() {
         favouriteSharks.clear();
     }
