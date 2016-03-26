@@ -12,7 +12,6 @@ import java.util.*;
 public class FavouriteSharks {
 
     private Set<String> favouriteSharks;
-    private String user;
     private Path filePath;
 
     /**
@@ -62,7 +61,6 @@ public class FavouriteSharks {
      * @throws UnsupportedEncodingException
      */
     public void setUser(String user) throws FileNotFoundException, UnsupportedEncodingException {
-        this.user = user;
         filePath = Paths.get("data/" + user + ".txt");
     }
 
@@ -72,14 +70,6 @@ public class FavouriteSharks {
      */
     public Set<String> getFavouriteSharks() {
         return favouriteSharks;
-    }
-
-    /**
-     * Get of current user
-     * @return  String representation of current user's username
-     */
-    public String getUser() {
-        return user;
     }
 
     /**
