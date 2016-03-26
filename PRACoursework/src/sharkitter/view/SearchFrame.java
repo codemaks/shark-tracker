@@ -74,7 +74,7 @@ public class SearchFrame extends JFrame {
 	 * @param favouriteSharks data about favourite sharks.
 	 * @param pingCollection all pings from the Jaws API.
 	 */
-    public SearchFrame(ActionListener functionalityController, FavouriteSharks favouriteSharks, PingCollection pingCollection) {
+    public SearchFrame(FunctionalityController functionalityController, FavouriteSharks favouriteSharks, PingCollection pingCollection) {
         super("Search");
 
         jawsApi = JawsApi.getInstance();
