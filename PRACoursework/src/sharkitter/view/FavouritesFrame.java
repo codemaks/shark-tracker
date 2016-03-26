@@ -49,7 +49,7 @@ public class FavouritesFrame extends JFrame{
 
 			//checks whether a Sharknado is occurring for this shark
 			if(sharknadoTracker.isOverLand(shark)) {
-				distanceToKingsInfo += "  Sharknado - this shark is over land right now!";
+				distanceToKingsInfo += "  <Sharknado - this shark is over land right now!>";
 			}
 
 			distanceToKingsInfo += "\n";
