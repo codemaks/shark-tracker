@@ -17,6 +17,7 @@ import api.jaws.Location;
 import sharkitter.api.JawsApi;
 import sharkitter.controller.SharknadoTracker;
 import sharkitter.model.FavouriteSharks;
+import sharkitter.view.map.InfoLocation;
 import sharkitter.view.map.MapFrame;
 
 /**
@@ -50,7 +51,7 @@ public class FavouritesFrame extends JFrame {
 		Location kclLocation = new Location(KINGS_LONGITUDE, KINGS_LATITUDE);
 
         // A list to add all the shark locations from our favourites
-		List<Location> sharkLocations = new ArrayList<Location>();
+		List<InfoLocation> sharkLocations = new ArrayList<InfoLocation>();
 
 		// Loads up the favourite shark names from the model.
 		Set<String> favouriteNames = favs.getFavouriteSharks();
@@ -61,7 +62,7 @@ public class FavouritesFrame extends JFrame {
 
 			//Uses the shark name with the 'Jaws' api to find a shark's last location
 			Location l = JawsApi.getInstance().getLastLocation(shark);
-            sharkLocations.add(l);
+            sharkLocations.add(new InfoLocation(shark, l));
 			double distance = findDistanceBetween(kclLocation, l); // the distance from kings
 			distanceToKingsInfo += " : " + String.format("%5.2fkm ", distance);
 

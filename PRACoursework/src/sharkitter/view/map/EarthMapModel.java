@@ -1,6 +1,8 @@
 package sharkitter.view.map;
 
 
+import api.jaws.Location;
+
 import java.awt.Point;
 import java.util.ArrayList;
 import java.util.List;
@@ -13,7 +15,6 @@ import java.util.List;
  */
 public class EarthMapModel {
 	private List<Point> points;
-	private List<MapCoordWithInfo> mapPoints;
 
 	private int scaleDown;
 	private int originalHeight;
@@ -23,46 +24,27 @@ public class EarthMapModel {
 	public EarthMapModel(int originalWidth, int originalHeight, int scaleDown, int borderPixles)
 	{
 		points = new ArrayList<>();
-		mapPoints = new ArrayList<MapCoordWithInfo>(); // added new thing
 		this.scaleDown = scaleDown;
 		this.originalHeight = originalHeight;
 		this.originalWidth = originalWidth;
 		this.borderPixles = borderPixles;
 	}
-	//NEW......
-	public void addMapPoints(List<MapCoordWithInfo> mapPoints)
-	{
-		this.mapPoints.addAll(mapPoints);
-	}
-	public void addMapCoordWithInfo(MapCoordWithInfo p)
-	{
-		mapPoints.add(p);
-	}
-	public List<MapCoordWithInfo> getMapCoordsWithInfo()
-	{
-		return mapPoints;
-	} //new
 
 
-	public Point addMapCoord(double longitude, double latitude)
+	public Point addMapCoord(InfoLocation infoLocation)
 	{
-		Point p = convertToMapCoord(longitude, -latitude); //PLEASE CHANGE , JUST DONE A HACK FOR NOW with minus
-		points.add(p);
+		Location l = infoLocation.getLocation();
+		Point p = convertToMapCoord(l.getLongitude(), -l.getLatitude()); //PLEASE CHANGE , JUST DONE A HACK FOR NOW with minus
+		points.add(p); // Need to convert to infoLocations.......... or something else? MapPoints..
 		return p;
 	}
-	
-	public void addMapCoords(List<double[]> longLatPoints) throws IllegalArgumentException
+
+	// Need to convert to use Info Locations ......................................................................
+	public void addMapCoords(List<InfoLocation> infoLocations) throws IllegalArgumentException
 	{
-		try{
-			for (double[] longLat: longLatPoints)
-			{
-				addMapCoord(longLat[0], longLat[1]);
-			}
-		}
-		catch(ArrayIndexOutOfBoundsException e)
+		for (InfoLocation infoLoc: infoLocations)
 		{
-			e.printStackTrace();
-			System.out.println("Some coordinates in double[] are less then size 2!");
+			addMapCoord(infoLoc);
 		}
 	}
 
@@ -107,27 +89,5 @@ public class EarthMapModel {
 		double latitude = -(pixY / mapHeight * 180) + 90;
 		
 		return new double[]{longitude, latitude};
-	}
-
-	public static class MapCoordWithInfo{
-		private double x;
-		private double y;
-		private String info;
-		public MapCoordWithInfo(double x, double y, String info)
-		{
-			this.x = x;
-			this.y = y;
-			this.info = info;
-		}
-
-		public double getX() {
-			return x;
-		}
-		public double getY(){
-			return y;
-		}
-		public String getInfo() {
-			return info;
-		}
 	}
 }

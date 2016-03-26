@@ -29,7 +29,7 @@ public class MapFrame extends JFrame {
 
 	public static final int SCALE_DOWN = 2; // How much to scale down the image
 
-	public MapFrame(List<Location> locations) // TODO: make a constructor that takes a list of map points to add.
+	public MapFrame(List<InfoLocation> locations) // TODO: make a constructor that takes a list of map points to add.
 	{
 		final int IMG_HEIGHT = 1036; //specific to map "Equirectangular_projection_SW.jpg"
 		final int IMG_WIDTH = 2058; //specific to map "Equirectangular_projection_SW.jpg"
@@ -47,15 +47,9 @@ public class MapFrame extends JFrame {
 		//Creates a new earthMapModel based on image properites, and how much to scale down
 		EarthMapModel model = new EarthMapModel(
 				IMG_WIDTH, IMG_HEIGHT, SCALE_DOWN, MAP_IMAGE_BORDER_PIXLES);
+
 		
-		//Parses the list of locations, into an arraylist of longitude, latitude pairs.
-		ArrayList<double[]> list2 = new ArrayList<double[]>();
-		for(Location l :locations)
-		{
-			list2.add(new double[]{ l.getLongitude(), l.getLatitude()});
-		}
-		
-		model.addMapCoords(list2);
+		model.addMapCoords(locations);
 		
 		EarthMap map = new EarthMap(img, model);
 		JLabel info = new JLabel();
