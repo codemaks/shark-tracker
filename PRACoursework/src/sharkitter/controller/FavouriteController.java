@@ -9,7 +9,7 @@ import java.awt.event.ActionListener;
 import java.io.IOException;
 
 /**
- * CLass controlling the addition and removal of sharks in the favourite lists from the search panel.
+ * Class controlling the addition and removal of sharks in the favourite lists from the search panel.
  */
 public class FavouriteController implements ActionListener {
 
@@ -17,8 +17,9 @@ public class FavouriteController implements ActionListener {
     private FavouriteSharks favouriteSharks;
 
     /**
-     * Constructor for FavouriteController
-     * @param sharkContainer    The tracked SharkContainer view
+     * Constructor for FavouriteController.
+     * @param sharkContainer the tracked SharkContainer view.
+     * @param favouriteSharks an object containing a set of favourite sharks.
      */
     public FavouriteController(SharkContainer sharkContainer, FavouriteSharks favouriteSharks) {
         this.sharkContainer = sharkContainer;
@@ -28,7 +29,7 @@ public class FavouriteController implements ActionListener {
     }
 
     /**
-     * Update the favourite button to "Following" if the shark is already in the favourites
+     * Update the favourite button to "Following" if the shark is already in the favourites.
      */
     private void updateFavouriteButton() {
         if(favouriteSharks.getFavouriteSharks().isEmpty())
@@ -40,10 +41,9 @@ public class FavouriteController implements ActionListener {
         }
     }
 
-
     /**
-     * Actions to perform to handle the event when "Follow" button is pressed
-     * @param e The action triggered by pressing the button
+     * Actions that are triggered by the "Follow" button being pressed.
+     * @param e The event triggered by pressing the button.
      */
     @Override
     public void actionPerformed(ActionEvent e) {
