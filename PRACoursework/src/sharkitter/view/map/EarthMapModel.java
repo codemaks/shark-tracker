@@ -13,7 +13,7 @@ import java.util.List;
  */
 public class EarthMapModel {
 	private List<Point> points;
-	private List<MapPoint> mapPoints;
+	private List<MapCoordWithInfo> mapPoints;
 
 	private int scaleDown;
 	private int originalHeight;
@@ -23,22 +23,22 @@ public class EarthMapModel {
 	public EarthMapModel(int originalWidth, int originalHeight, int scaleDown, int borderPixles)
 	{
 		points = new ArrayList<>();
-		mapPoints = new ArrayList<MapPoint>(); // added new thing
+		mapPoints = new ArrayList<MapCoordWithInfo>(); // added new thing
 		this.scaleDown = scaleDown;
 		this.originalHeight = originalHeight;
 		this.originalWidth = originalWidth;
 		this.borderPixles = borderPixles;
 	}
 	//NEW......
-	public void addMapPoints(List<MapPoint> mapPoints)
+	public void addMapPoints(List<MapCoordWithInfo> mapPoints)
 	{
 		this.mapPoints.addAll(mapPoints);
 	}
-	public void addMapPoint(MapPoint p)
+	public void addMapCoordWithInfo(MapCoordWithInfo p)
 	{
 		mapPoints.add(p);
 	}
-	public List<MapPoint> getMapPoints()
+	public List<MapCoordWithInfo> getMapCoordsWithInfo()
 	{
 		return mapPoints;
 	} //new
@@ -107,5 +107,27 @@ public class EarthMapModel {
 		double latitude = -(pixY / mapHeight * 180) + 90;
 		
 		return new double[]{longitude, latitude};
+	}
+
+	public static class MapCoordWithInfo{
+		private double x;
+		private double y;
+		private String info;
+		public MapCoordWithInfo(double x, double y, String info)
+		{
+			this.x = x;
+			this.y = y;
+			this.info = info;
+		}
+
+		public double getX() {
+			return x;
+		}
+		public double getY(){
+			return y;
+		}
+		public String getInfo() {
+			return info;
+		}
 	}
 }
