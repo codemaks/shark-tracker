@@ -6,10 +6,12 @@ import java.io.*;
 import java.nio.file.*;
 import java.util.*;
 
+/**
+ * Object representation of user's favourite sharks
+ */
 public class FavouriteSharks {
 
     private Set<String> favouriteSharks;
-    private String user;
     private Path filePath;
 
     /**
@@ -59,7 +61,6 @@ public class FavouriteSharks {
      * @throws UnsupportedEncodingException
      */
     public void setUser(String user) throws FileNotFoundException, UnsupportedEncodingException {
-        this.user = user;
         filePath = Paths.get("data/" + user + ".txt");
     }
 
@@ -72,13 +73,8 @@ public class FavouriteSharks {
     }
 
     /**
-     * Get of current user
-     * @return  String representation of current user's username
+     * Clears all favourite sharks
      */
-    public String getUser() {
-        return user;
-    }
-
     public void clearData() {
         favouriteSharks.clear();
     }

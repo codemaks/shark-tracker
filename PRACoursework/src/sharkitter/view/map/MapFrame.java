@@ -5,21 +5,18 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.Image;
-import java.awt.image.BufferedImage;
-import java.io.File;
-import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
 //import java.util.Random;
 
-import javax.imageio.ImageIO;
 import javax.swing.*;
 
-import api.jaws.Location;
+import sharkitter.model.EarthMapModel;
+import sharkitter.model.InfoLocation;
+
 /**
  * 
  * @author Maks Gajowniczek
- *
+ * A Frame used to hold the interactive map, used in the Sharkitter application
  */
 @SuppressWarnings("serial")
 public class MapFrame extends JFrame {
@@ -29,7 +26,7 @@ public class MapFrame extends JFrame {
 
 	public static final int SCALE_DOWN = 2; // How much to scale down the image
 
-	public MapFrame(List<InfoLocation> locations) // TODO: make a constructor that takes a list of map points to add.
+	public MapFrame(List<InfoLocation> locations)
 	{
 		final int IMG_HEIGHT = 1036; //specific to map "Equirectangular_projection_SW.jpg"
 		final int IMG_WIDTH = 2058; //specific to map "Equirectangular_projection_SW.jpg"
@@ -63,7 +60,7 @@ public class MapFrame extends JFrame {
 		if (SCALE_DOWN > 1)setMinimumSize(new Dimension( width+20 , height +50 ));
 		else setMinimumSize(new Dimension( width/2, height/2));
 	
-		setTitle("Sharkitter Map (Test Version)");
+		setTitle("Sharkitter Map - Click on a red point to see name of shark");
 		setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 		pack();
 	}
