@@ -1,5 +1,7 @@
 package sharkitter.controller;
 
+import api.jaws.Jaws;
+import sharkitter.api.JawsApi;
 import sharkitter.model.FavouriteSharks;
 import sharkitter.model.Konami;
 import sharkitter.model.PingCollection;
@@ -10,10 +12,14 @@ import sun.audio.AudioStream;
 import javax.swing.*;
 import java.awt.event.*;
 import java.io.*;
-
+import java.util.HashSet;
+import java.util.Set;
 
 /**
- * A controller public class which implements ActionListener, Keylistener and WindowListener
+ * Class to control the different functionalities of the application
+ * - Searching
+ * - Displaying the favourites
+ * - Displaying the statistics
  */
 public class FunctionalityController implements ActionListener, KeyListener, WindowListener {
 
@@ -23,7 +29,11 @@ public class FunctionalityController implements ActionListener, KeyListener, Win
     private FavouritesFrame favouritesFrame;
     private EasterEggFrame easterEggFrame;
 
+    private Jaws jawsApi;
     private FavouriteSharks favouriteSharks;
+    private PingCollection pingCollection;
+
+    private Set<String> listOfTagLocations;
 
     private Konami konami;
 
@@ -33,21 +43,22 @@ public class FunctionalityController implements ActionListener, KeyListener, Win
     private static final String SONG = "resources/Never Give Up On Sharks.wav";
 
     /**
-     * Instantiates a FunctionalityController from a given MenuFrame, FavoriteSharks and PingCollection.
-     * @param menuFrame
-     * @param favouriteSharks
-     * @param pingCollection
-     * @throws IOException if the audio file isn't found
+     * Constructor of FunctionalityController
+     * @param menuFrame Instance of the menu frame
+     * @param favouriteSharks   Instance of FavouriteSharks
+     * @param pingCollection    Instance of PingCollection
+     * @throws IOException  If the song for the Easter Egg was not properly found
      */
     public FunctionalityController(MenuFrame menuFrame, FavouriteSharks favouriteSharks, PingCollection pingCollection) throws IOException {
+        jawsApi = JawsApi.getInstance();
         this.menuFrame = menuFrame;
         this.favouriteSharks = favouriteSharks;
+        this.pingCollection = pingCollection;
+        this.listOfTagLocations = new HashSet<String>();
 
-        searchFrame = new SearchFrame(this, favouriteSharks,pingCollection);
+        searchFrame = new SearchFrame(this, favouriteSharks, pingCollection);
 
-        //TODO MenuFrame doesn't use api, put it in other class?
-        favouritesFrame = new FavouritesFrame(favouriteSharks, menuFrame.getJaws());
-        statisticsFrame = new StatisticsFrame(this,pingCollection);
+        statisticsFrame = new StatisticsFrame(this, pingCollection);
 
         konami = new Konami();
 
@@ -55,11 +66,12 @@ public class FunctionalityController implements ActionListener, KeyListener, Win
         stream = new AudioStream(getClass().getClassLoader().getResourceAsStream(SONG));
     }
 
-    /**
-     * Void method from the ActionListener interface
-     * @param e, an action event
-     */
     @Override
+    /**
+     * Performs the appropriate action depending on the event
+     * Deals with opening the different frames from the Menu frame
+     * Deals with going back to the Menu frame from the different frames
+     */
     public void actionPerformed(ActionEvent e) {
 
         if(e.getSource().getClass() == JButton.class) {
@@ -73,6 +85,7 @@ public class FunctionalityController implements ActionListener, KeyListener, Win
                     break;
 
                 case "Favourites":
+                    favouritesFrame = new FavouritesFrame(favouriteSharks);
                     favouritesFrame.setVisible(true);
                     break;
 
@@ -118,15 +131,23 @@ public class FunctionalityController implements ActionListener, KeyListener, Win
         }
     }
 
-    /**
-     * void method inherited from the KeyListener interface which instantiates a new EasterEggFrame
-     * @param e, a key event
-     */
+    public Set<String> getListOfTagLocations(){
+        listOfTagLocations = new HashSet<String>();
+        for (String sharkName : pingCollection.getPastMonth().keySet()) {
+            String tagLoc = jawsApi.getShark(sharkName).getTagLocation();
+            listOfTagLocations.add(tagLoc);
+        }
+        return listOfTagLocations;
+
+    }
+
     @Override
+    /**
+     * Reacts to the pressed keys to trigger an Easter Egg
+     */
     public void keyPressed(KeyEvent e) {
         konami.registerPressedKey(e.getKeyCode());
         if(konami.checkKonamiCode()) {
-            System.out.println("Konami Code was typed... Unleashing shark power.");
             konami.reset();
             easterEggFrame = new EasterEggFrame(this);
             easterEggFrame.addWindowListener(this);
@@ -135,12 +156,10 @@ public class FunctionalityController implements ActionListener, KeyListener, Win
         }
     }
 
-    /**
-     * void method which stops the music and resets the list of keys pressed in the konami object when the window is*
-     * closed. Inherited from the WindowListener interface.
-     * @param e, a window event
-     */
     @Override
+    /**
+     * Stops the music once the EasterEggFrame is closed
+     */
     public void windowClosed(WindowEvent e) {
         player.stop(stream);
         konami.reset();

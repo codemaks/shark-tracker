@@ -1,7 +1,6 @@
 package sharkitter.view;
 
 import javax.swing.*;
-import javax.swing.border.Border;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -9,8 +8,8 @@ import java.awt.event.ActionListener;
 public class EasterEggFrame extends JFrame {
 
     /**
-     * Instianties an EasterEgg frame from an action listener
-     * @param functionalityListener an action listener
+     * Constructor of EasterEggFrame
+     * @param functionalityListener ActionListener and WindowListener observing the frame
      */
     public EasterEggFrame(ActionListener functionalityListener) {
         super("Easter Egg");
@@ -22,16 +21,14 @@ public class EasterEggFrame extends JFrame {
     }
 
     /**
-     * void method which sets all visual components of the Easter Egg inside the EasterEggFrame
-     * @param functionalityListener, an action listener fr the ok button
+     * Adds widget to the frame
+     * @param functionalityListener ActionListener for the "Ok" button
      */
     private void addWidget(ActionListener functionalityListener) {
-        JLabel sharkLabel = new JLabel();
-
-        JLabel confettiLabel = new JLabel();
-
-        sharkLabel.setIcon(new ImageIcon(imagePanel()));
-        confettiLabel.setIcon(new ImageIcon(imagePanel()));
+        JLabel sharkTrackerLabel = new JLabel();
+        sharkTrackerLabel.setVerticalTextPosition(JLabel.BOTTOM);
+        sharkTrackerLabel.setHorizontalTextPosition(JLabel.CENTER);
+        sharkTrackerLabel.setIcon(new ImageIcon(imagePanel()));
 
         JLabel message = new JLabel("<html><center>Easter Egg!!!<br>You've been rick rolled ;)</center></html>");
         message.setHorizontalAlignment(SwingConstants.CENTER);
@@ -39,8 +36,7 @@ public class EasterEggFrame extends JFrame {
         JButton ok = new JButton("Ok");
         ok.addActionListener(functionalityListener);
 
-        add(sharkLabel, BorderLayout.CENTER);
-        add(confettiLabel,BorderLayout.CENTER);
+        add(sharkTrackerLabel, BorderLayout.CENTER);
 
         JPanel southPanel = new JPanel(new GridLayout(2,1));
         southPanel.add(message);
@@ -52,8 +48,8 @@ public class EasterEggFrame extends JFrame {
     }
 
     /**
-     * method which returns the animated gif of the left shark
-     * @return left shark animated gif image
+     * Creates the image to be added to the frame
+     * @return  IMage to be added to the frame
      */
     private Image imagePanel() {
         return Toolkit.getDefaultToolkit().createImage(getClass().getClassLoader().getResource("resources/Left Shark.gif"));

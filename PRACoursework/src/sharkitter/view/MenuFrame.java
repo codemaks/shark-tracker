@@ -1,6 +1,5 @@
 package sharkitter.view;
 
-import api.jaws.Jaws;
 import sharkitter.controller.FunctionalityController;
 import sharkitter.controller.UserController;
 
@@ -8,12 +7,8 @@ import java.awt.*;
 import java.awt.event.ActionListener;
 import java.io.IOException;
 
-import javax.management.JMException;
 import javax.swing.*;
 
-/**
- * Menuframe class, a JFrame which belongs to the view. It is the first frame shown to the user.
- */
 public class MenuFrame extends JFrame {
 
 	private JButton searchButton;
@@ -23,14 +18,8 @@ public class MenuFrame extends JFrame {
 	private JMenu loadProfiles;
 	private JMenuItem createProfile;
 
-	private ActionListener userController, functionalityController;
+	private ActionListener userController;
 
-	private Jaws jaws;
-
-	/**
-	 * Instantiates a new MenuFrame object with the title "Amnity Police", three buttons and an ImageIcon
-	 * @throws IOException if the resource file is not found
-     */
 	public MenuFrame() throws IOException {
 		super("Amnity Police");
 
@@ -40,11 +29,8 @@ public class MenuFrame extends JFrame {
 		setLocationRelativeTo(null);
 	}
 
-	/**
-	 * void method which creates and places all visual components of the frame inside it
-	 */
 	public void addWidgets() {
-		JMenuBar menuBar = createjMenuBar();
+		JMenuBar menuBar = createJMenuBar();
 
 		JPanel southPanel = new JPanel();
 		southPanel.setLayout(new GridLayout(3, 1));
@@ -66,7 +52,7 @@ public class MenuFrame extends JFrame {
 		Image newImg = img.getScaledInstance(300, 300, Image.SCALE_SMOOTH);
 		shark = new ImageIcon(newImg);
 
-		JLabel sharkTrackerLabel = new JLabel("", shark, 0);
+		JLabel sharkTrackerLabel = new JLabel("", shark, SwingConstants.CENTER);
 		sharkTrackerLabel.setVerticalTextPosition(JLabel.BOTTOM);
 		sharkTrackerLabel.setHorizontalTextPosition(JLabel.CENTER);
 
@@ -81,7 +67,7 @@ public class MenuFrame extends JFrame {
 	 * Create a JMenuBar for choosing between different profiles
 	 * @return	Created JMenuBar
      */
-	private JMenuBar createjMenuBar() {
+	private JMenuBar createJMenuBar() {
 		JMenuBar menuBar = new JMenuBar();
 		JMenu profiles = new JMenu("Profiles");
 
@@ -108,8 +94,7 @@ public class MenuFrame extends JFrame {
 	 * @param functionalityController	Controller responsible for the different functionalities of this programme
      */
 	public void addFunctionalityController(FunctionalityController functionalityController) {
-		this.functionalityController = functionalityController;
-		this.addKeyListener(functionalityController);
+		addKeyListener(functionalityController);
 		searchButton.addActionListener(functionalityController);
 		favouritesButton.addActionListener(functionalityController);
 		statisticsButton.addActionListener(functionalityController);
@@ -142,8 +127,4 @@ public class MenuFrame extends JFrame {
 		revalidate();
 		repaint();
 	}
-	public void setJaws(Jaws jaws){this.jaws = jaws;}
-	public Jaws getJaws(){return jaws;}
-
-
 }

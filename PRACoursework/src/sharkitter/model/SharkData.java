@@ -3,42 +3,32 @@ package sharkitter.model;
 import api.jaws.Ping;
 import api.jaws.Shark;
 
-import java.util.HashMap;
-
 public class SharkData implements Comparable<SharkData>{
 
     private String name;
     private String gender;
-    private String stageoflife;
-    private String taglocation;
+    private String stageOfLife;
+    private String tagLocation;
     private String description;
     private String weight;
     private String length;
     private String species;
     private String date;
-    private Shark  shark;
 
-
-    public SharkData(Shark foundShark,Ping lastPing){
-        populateSharkDetails(foundShark,lastPing);
+    public SharkData(Shark foundShark, Ping lastPing){
+        populateSharkDetails(foundShark, lastPing);
     }
 
     private void populateSharkDetails(Shark foundShark, Ping ping){
-        name=foundShark.getName();
-        gender=foundShark.getGender();
-        stageoflife=foundShark.getStageOfLife();
-        taglocation=foundShark.getTagLocation();
-        description=foundShark.getDescription();
-        weight= foundShark.getWeight();
-        length=foundShark.getLength();
-        species=foundShark.getSpecies();
-        date=ping.getTime();
-        shark=foundShark;
-
-    }
-
-    public Shark getShark(){
-        return shark;
+        name = foundShark.getName();
+        gender = foundShark.getGender();
+        stageOfLife = foundShark.getStageOfLife();
+        tagLocation = foundShark.getTagLocation();
+        description = foundShark.getDescription();
+        weight = foundShark.getWeight();
+        length = foundShark.getLength();
+        species = foundShark.getSpecies();
+        date = ping.getTime();
     }
 
     public String getName(){
@@ -49,8 +39,8 @@ public class SharkData implements Comparable<SharkData>{
         return date;
     }
 
-    public String getTaglocation(){
-        return taglocation;
+    public String getTagLocation(){
+        return tagLocation;
     }
 
     public String getWeight(){
@@ -70,7 +60,7 @@ public class SharkData implements Comparable<SharkData>{
     }
 
     public String getStageOfLife(){
-        return stageoflife;
+        return stageOfLife;
     }
 
     public String getDescription(){
