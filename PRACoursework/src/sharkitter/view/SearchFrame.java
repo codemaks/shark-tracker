@@ -49,13 +49,6 @@ public class SearchFrame extends JFrame {
 	 */
 	private JButton search;
 
-	private int counter;
-
-	/**
-	 * The action listener for the search button.
-	 */
-	private SearchButtonListener sbl;
-
 	/**
 	 * A black line border.
 	 */
@@ -214,7 +207,7 @@ public class SearchFrame extends JFrame {
 	 */
 	private void createCentralPanel() {
 		centralPanel = new JPanel();
-		centralPanel.setLayout(new BorderLayout());;
+		centralPanel.setLayout(new BorderLayout());
 
 		Border emptyBorder = BorderFactory.createEmptyBorder(5, 0, 5, 5);
 		centralPanel.setBorder(BorderFactory.createCompoundBorder(emptyBorder, blackLineBorder));
@@ -228,7 +221,7 @@ public class SearchFrame extends JFrame {
 
 	/**
 	 * Adds search results to the frame.
-	 * @param listOfSharks the data of the sharks to be added.
+	 * @param sharkDataList the data of the sharks to be added.
 	 * @return the panel with the search results.
 	 */
     public JPanel addSeveralSharkContainersToView (List<SharkData> sharkDataList) {
