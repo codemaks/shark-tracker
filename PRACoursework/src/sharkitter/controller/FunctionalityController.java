@@ -11,6 +11,12 @@ import javax.swing.*;
 import java.awt.event.*;
 import java.io.*;
 
+/**
+ * Class to control the different functionalities of the application
+ * - Searching
+ * - Displaying the favourites
+ * - Displaying the statistics
+ */
 public class FunctionalityController implements ActionListener, KeyListener, WindowListener {
 
     private MenuFrame menuFrame;
@@ -28,6 +34,13 @@ public class FunctionalityController implements ActionListener, KeyListener, Win
 
     private static final String SONG = "resources/Never Give Up On Sharks.wav";
 
+    /**
+     * Constructor of FunctionalityConntroller
+     * @param menuFrame Instance of the menu frame
+     * @param favouriteSharks   Instance of FavouriteSharks
+     * @param pingCollection    Instance of PingCollection
+     * @throws IOException  If the song for the Easter Egg was not properly found
+     */
     public FunctionalityController(MenuFrame menuFrame, FavouriteSharks favouriteSharks, PingCollection pingCollection) throws IOException {
         this.menuFrame = menuFrame;
         this.favouriteSharks = favouriteSharks;
@@ -43,6 +56,11 @@ public class FunctionalityController implements ActionListener, KeyListener, Win
     }
 
     @Override
+    /**
+     * Performs the appropriate action depending on the event
+     * Deals with opening the different frames from the Menu frame
+     * Deals with going back to the Menu frame from the different frames
+     */
     public void actionPerformed(ActionEvent e) {
 
         if(e.getSource().getClass() == JButton.class) {
@@ -103,6 +121,9 @@ public class FunctionalityController implements ActionListener, KeyListener, Win
     }
 
     @Override
+    /**
+     * Reacts to the pressed keys to trigger an Easter Egg
+     */
     public void keyPressed(KeyEvent e) {
         konami.registerPressedKey(e.getKeyCode());
         if(konami.checkKonamiCode()) {
@@ -115,6 +136,9 @@ public class FunctionalityController implements ActionListener, KeyListener, Win
     }
 
     @Override
+    /**
+     * Stops the music once the EasterEggFrame is closed
+     */
     public void windowClosed(WindowEvent e) {
         player.stop(stream);
         konami.reset();
