@@ -203,7 +203,7 @@ public class UserController implements ActionListener, KeyListener {
 
     /**
      * React to "Enter" key
-     * @param e
+     * @param e Key pressed
      */
     @Override
     public void keyPressed(KeyEvent e) {
