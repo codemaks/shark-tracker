@@ -49,6 +49,10 @@ public class UserController implements ActionListener, KeyListener {
 
         api = JawsApi.getInstance();
 
+        if(!PATH_TO_PROFILES.toFile().createNewFile()) {
+            new File(PATH_TO_PROFILES.toString());
+        }
+
         readProfiles();
         loadDefaultProfile();
     }
@@ -102,6 +106,11 @@ public class UserController implements ActionListener, KeyListener {
             favouriteSharks.clearData();
 
             Path pathToFile = Paths.get("data/default.txt");
+
+            if(!pathToFile.toFile().createNewFile()) {
+                new File(pathToFile.toString());
+            }
+
             Scanner reader = createScanner(pathToFile);
 
             if(!reader.hasNext()) {
@@ -115,8 +124,6 @@ public class UserController implements ActionListener, KeyListener {
         } catch (FileNotFoundException e1) {
             UserNotFoundAlert userNotFound = new UserNotFoundAlert();
             userNotFound.setVisible(true);
-        } catch (UnsupportedEncodingException e1) {
-            e1.printStackTrace();
         } catch (IOException e1) {
             e1.printStackTrace();
         }
@@ -148,8 +155,6 @@ public class UserController implements ActionListener, KeyListener {
                 }
             } catch (FileNotFoundException e1) {
                 userNotFound.setVisible(true);
-            } catch (UnsupportedEncodingException e1) {
-                e1.printStackTrace();
             } catch (IOException e1) {
                 e1.printStackTrace();
             }
