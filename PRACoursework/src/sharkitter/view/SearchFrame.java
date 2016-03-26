@@ -295,8 +295,7 @@ public class SearchFrame extends JFrame {
     }
 
     /**
-     * Schedules "Shark of the day" so that it changes every day at midnight, creates a panel to hold it,
-     * and adds it to the west panel.
+     * Creates a panel to hold the "Shark of the day" feature, and adds it to the west panel.
      */
     private void createWSouthPanel() {
         JPanel mwSouthPanel = new JPanel(new GridLayout(3, 1));
