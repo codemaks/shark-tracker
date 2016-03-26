@@ -305,82 +305,11 @@ public class SearchFrame extends JFrame {
         JLabel sharkOfTheDayName = new JLabel();
         JLabel sharkOfTheDayVideo = new JLabel();
 
-        File f = new File("timestamp.txt");
+	    RandomSharkRetriever randomSharkRetriever = new RandomSharkRetriever(jawsApi);
+	    randomSharkRetriever.showRandomShark();
 
-        //get current date
-        Calendar timeNow = Calendar.getInstance();
-        String currentDay = (new Integer(timeNow.get(Calendar.DAY_OF_MONTH))).toString();
-
-        RandomSharkRetriever randomSharkRetriever = new RandomSharkRetriever(jawsApi);
-
-        String[] infoToWrite = new String[3];
-        infoToWrite[0] = currentDay;
-
-        try {
-            //if file doesn't exist
-            if(f.createNewFile()) {
-                randomSharkRetriever.retrieveNewShark();
-
-                infoToWrite[1] = randomSharkRetriever.getSharkName();
-                infoToWrite[2] = randomSharkRetriever.getSharkVideo();
-
-                //write current day and new shark name/video to file
-                BufferedWriter writer = new BufferedWriter(new FileWriter(f, true));
-
-                for(int i = 0; i < 3; i++) {
-                    writer.write(infoToWrite[i]);
-                    writer.newLine();
-                }
-
-                writer.close();
-
-                sharkOfTheDayName.setText(infoToWrite[1]);
-                sharkOfTheDayVideo.setText(infoToWrite[2]);
-            }
-            //if file exists
-            else {
-                FileReader fr = new FileReader(f);
-                BufferedReader br = new BufferedReader(fr);
-
-                String dayLastLoaded = br.readLine();
-
-                String sharkName;
-                String sharkVideo;
-
-                //if the day has changed, retrieve new shark and write info to file
-                if(!dayLastLoaded.equals(currentDay)) {
-                    randomSharkRetriever.retrieveNewShark();
-                    sharkName = randomSharkRetriever.getSharkName();
-                    sharkVideo = randomSharkRetriever.getSharkVideo();
-
-                    infoToWrite[1] = sharkName;
-                    infoToWrite[2] = sharkVideo;
-
-                    //write current day and new shark name/video to file
-                    BufferedWriter writer = new BufferedWriter(new FileWriter(f, false));
-
-                    for(int i = 0; i < 3; i++) {
-                        writer.write(infoToWrite[i]);
-                        writer.newLine();
-                    }
-
-                    writer.close();
-                }
-                //if the day has not changed, just retrieve shark and video from text file
-                else {
-                    sharkName = br.readLine();
-                    sharkVideo = br.readLine();
-                }
-
-                br.close();
-
-                sharkOfTheDayName.setText(sharkName);
-                sharkOfTheDayVideo.setText(sharkVideo);
-            }
-        }
-        catch (IOException e) {
-            e.printStackTrace();
-        }
+	    sharkOfTheDayName.setText(randomSharkRetriever.getSharkName());
+	    sharkOfTheDayVideo.setText(randomSharkRetriever.getSharkVideo());
 
         //add labels to panel
         mwSouthPanel.add(sharkOfTheDayLabel);
