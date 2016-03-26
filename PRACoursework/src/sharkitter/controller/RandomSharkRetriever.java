@@ -9,15 +9,29 @@ import java.util.Random;
 
 public class RandomSharkRetriever {
 
+	/**
+	 * The Jaws API.
+	 */
 	private Jaws jawsApi;
+
+	/**
+	 * The name and video of the random shark retrieved from the database.
+	 */
 	private String randomSharkName;
 	private String randomSharkVideo;
 
 
+	/**
+	 * Constructs a new random shark retriever.
+	 * @param jawsApi the Jaws API.
+	 */
 	public RandomSharkRetriever(Jaws jawsApi) {
 		this.jawsApi = jawsApi;
 	}
 
+	/**
+	 * Retrieves a new random shark from the database.
+	 */
 	private void retrieveNewShark() {
 		ArrayList<String> sharkList = jawsApi.getSharkNames();
 
@@ -28,8 +42,12 @@ public class RandomSharkRetriever {
 		randomSharkVideo = jawsApi.getVideo(randomSharkName);
 	}
 
+	/**
+	 * Schedules "Shark of the day" feature so that it is updated every day.
+	 */
 	public void showRandomShark() {
-		File f = new File("timestamp.txt");
+		//file to store the time the application was last loaded, and the random shark name/video
+		File f = new File("data/timestamp.txt");
 
 		//get current date
 		Calendar timeNow = Calendar.getInstance();
@@ -101,10 +119,18 @@ public class RandomSharkRetriever {
 		}
 	}
 
+	/**
+	 * Returns the name of the randomly chosen shark.
+	 * @return the name of the randomly chosen shark.
+	 */
 	public String getSharkName() {
 		return randomSharkName;
 	}
 
+	/**
+	 * Returns the URL for video footage of the randomly chosen shark, if there is one.
+	 * @return the URL for video footage of the randomly chosen shark, if there is one.
+	 */
 	public String getSharkVideo() {
 		return randomSharkVideo;
 	}
