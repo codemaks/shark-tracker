@@ -1,10 +1,10 @@
 package sharkitter.view.alert;
 
 import javax.swing.*;
-import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 
+/**
+ * Class to alert the user that the username entered already exists
+ */
 public class ExistingUserAlert extends AlertFrame {
 
     /**

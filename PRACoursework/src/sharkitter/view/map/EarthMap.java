@@ -15,10 +15,8 @@ import javax.swing.JPanel;
 
 /**
  * A JPanel with a background, which you can add 'mapPoints' either directly or from model
- * @author Maks Gajowniczek
  *
  */
-@SuppressWarnings("serial")
 public class EarthMap extends JPanel{
 	private Image img;
 	private EarthMapModel earthMapModel;
@@ -44,7 +42,7 @@ public class EarthMap extends JPanel{
 
 	/**
 	 * Sets the information label with some text
-	 * @param infoLabel
+	 * @param infoLabel	JLabel representation of shark information
      */
 	public void setInfoLabel(JLabel infoLabel)
 	{
@@ -53,7 +51,7 @@ public class EarthMap extends JPanel{
 
 	/**
 	 * Populates the earthMap Panel with the list of mapPoints from the model.
-	 * @param model
+	 * @param model	EarthMapModel
      */
 	private void populateMapPoints(EarthMapModel model)
 	{
@@ -78,7 +76,7 @@ public class EarthMap extends JPanel{
 
 	/**
 	 * Paints the Panel with the image of a map
-	 * @param g
+	 * @param g	Component to be updated
      */
 	@Override
 	public void paintComponent(Graphics g)

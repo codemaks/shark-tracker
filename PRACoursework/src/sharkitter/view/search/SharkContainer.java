@@ -8,6 +8,9 @@ import java.awt.*;
 import javax.swing.*;
 import javax.swing.border.Border;
 
+/**
+ * Class representation of the panels displayed in the Searh frame containing shark information
+ */
 public class SharkContainer extends JPanel {
 
     private FavouriteController favouriteController;
@@ -17,7 +20,7 @@ public class SharkContainer extends JPanel {
     /**
      * Class constructor: provides a JPanel containing all the details of a Shark when the following parameters
      * are given:
-     * Display all information concerning the Sharks that fit the chosen fields for the search.
+     * Displays all information concerning the Sharks that fit the chosen fields for the search.
      * @param sharkData	A SharkData containing the Shark matching the chosen criteria.
      * @param favouriteSharks	A list of sharks to which the corresponding shark could belong to.
      */
@@ -43,7 +46,7 @@ public class SharkContainer extends JPanel {
     }
 
     /**
-     * Create and display the description of a matching Shark.
+     * Creates and displays the description of a matching Shark.
      * @param foundShark A Shark matching the chosen criteria.
      * @return	A JPanel containing all relevant information (description).
      */
@@ -56,8 +59,9 @@ public class SharkContainer extends JPanel {
 
         return descriptionPanel;
     }
+
     /**
-     * Create and display the last ping of a given Shark and the option to follow it.
+     * Creates and displays the last ping of a given Shark and the option to follow it.
      * @param date String object containing information about the last point of contact with a given shark.
      * @return	A JPanel containing all relevant information and a follow button.
      */
@@ -78,7 +82,7 @@ public class SharkContainer extends JPanel {
     }
 
     /**
-     * Create a table to display specific information about a Shark (name, gender, stage of life, species, length and weight).
+     * Creates a table to display specific information about a Shark (name, gender, stage of life, species, length and weight).
      * @param foundShark    A Shark matching the chosen criteria.
      * @return	a JPanel containing all relevant information (name, gender, stage of life, species, length and weight).
      */

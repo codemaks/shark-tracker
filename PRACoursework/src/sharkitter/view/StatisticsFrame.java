@@ -18,6 +18,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * Class representation of the Statistics Frame
+ */
 public class StatisticsFrame extends JFrame {
 
     private JComboBox<String> tagLocation;
@@ -29,6 +32,11 @@ public class StatisticsFrame extends JFrame {
     private JPanel genderPanel;
     private JPanel tagLocPanel;
 
+    /**
+     * Constructor for the StatisticsFrame
+     * @param functionalityController   Controller for the StatisticsFrame
+     * @param pingCollection    Collection of pings
+     */
     public StatisticsFrame(FunctionalityController functionalityController, PingCollection pingCollection){
 
         super("Shark Statistics");
@@ -40,6 +48,10 @@ public class StatisticsFrame extends JFrame {
         createUI(this.functionalityController);
     }
 
+    /**
+     * Creates the interface for the StatisticsFrame
+     * @param functionalityController   Controller of the MenuBar
+     */
     private void createUI(FunctionalityController functionalityController){
         setLayout(new BorderLayout());
 
@@ -59,6 +71,10 @@ public class StatisticsFrame extends JFrame {
         setLocationRelativeTo(null);
     }
 
+    /**
+     * Creates the panel for the "Stage of life" part
+     * @return  The created panel
+     */
     private JPanel createStageOfLifePanel(){
         stageOfLifePanel = new JPanel();
         stageOfLifePanel.setLayout(new BorderLayout());
@@ -74,6 +90,10 @@ public class StatisticsFrame extends JFrame {
         return stageOfLifePanel;
     }
 
+    /**
+     * Creates the panel for the "Gender" part
+     * @return   Created panel
+     */
     private JPanel createGenderPanel(){
         genderPanel = new JPanel();
         genderPanel.setLayout(new BorderLayout());
@@ -89,6 +109,10 @@ public class StatisticsFrame extends JFrame {
         return genderPanel;
     }
 
+    /**
+     * Craetes the panel for the "Tag location" part
+     * @return  Created panel
+     */
     private JPanel createTagLocationPanel(){
         tagLocPanel = new JPanel();
         tagLocPanel.setLayout(new BorderLayout());
@@ -105,24 +129,47 @@ public class StatisticsFrame extends JFrame {
         return tagLocPanel;
     }
 
+    /**
+     * Creates the subpanel of the Tag location panel
+     * @param sharkData List of SharkData
+     * @param titleOfChart  Title given to the chart
+     * @return  Created panel
+     */
     private JPanel createTagLocationSubPanel(List<SharkData> sharkData, String titleOfChart)
     {
         JFreeChart chart = createChart(createSharkDatasetByTagLocation(sharkData),titleOfChart);
         return new ChartPanel( chart );
     }
 
+    /**
+     * Creates subpanel of the Gender panel
+     * @param sharkData List of SharkData
+     * @param titleOfChart  Title given to the chart
+     * @return  Created panel
+     */
     private JPanel createGenderSubPanel(List<SharkData> sharkData, String titleOfChart)
     {
         JFreeChart chart = createChart(createSharkDatasetByGender(sharkData), titleOfChart);
         return new ChartPanel( chart );
     }
 
+    /**
+     * Creates subpanel of the Stage of Life panel
+     * @param sharkData List of SharkData
+     * @param titleOfChart  Title given to the chart
+     * @return  Created panel
+     */
     private JPanel createStageOfLifeSubPanel(List<SharkData> sharkData, String titleOfChart)
     {
         JFreeChart chart = createChart(createSharkDatasetByStageOfLife(sharkData), titleOfChart);
         return new ChartPanel( chart );
     }
 
+    /**
+     * Creates a JMenuBar
+     * @param functionalityController   Controller of the JMenuBar
+     * @return  Created JMenuBar
+     */
     private JMenuBar createJMenuBar(FunctionalityController functionalityController) {
         JMenuBar menuBar = new JMenuBar();
 
@@ -146,11 +193,15 @@ public class StatisticsFrame extends JFrame {
         return menuBar;
     }
 
+    /**
+     * Creates a PieDataset by gender
+     * @param listOfSharks  List of SharkData
+     * @return  Cerated PieDataset
+     */
     private PieDataset createSharkDatasetByGender(List<SharkData> listOfSharks)
     {
         DefaultPieDataset dataset = new DefaultPieDataset();
 
-        //TODO This part (separate gender in different lists) should by done by the controller
         List<SharkData> maleSharks = new ArrayList<>();
         List<SharkData> femaleSharks = new ArrayList<>();
 
@@ -167,11 +218,15 @@ public class StatisticsFrame extends JFrame {
         return dataset;
     }
 
+    /**
+     * Creates a PieDataset by stage of life
+     * @param listOfSharks  List of SharkData
+     * @return  Cerated PieDataset
+     */
     private PieDataset createSharkDatasetByStageOfLife(List<SharkData> listOfSharks)
     {
         DefaultPieDataset dataset = new DefaultPieDataset();
 
-        //TODO This part (separate stage of life in different lists) should by done by the controller
         List<SharkData> matureSharks = new ArrayList<>();
         List<SharkData> immatureSharks = new ArrayList<>();
         List<SharkData> undeterminedSharks = new ArrayList<>();
@@ -205,11 +260,15 @@ public class StatisticsFrame extends JFrame {
         return dataset;
     }
 
+    /**
+     * Creates a PieDataset by tag location
+     * @param listOfSharks  List of SharkData
+     * @return  Cerated PieDataset
+     */
     private PieDataset createSharkDatasetByTagLocation(List<SharkData> listOfSharks)
     {
         DefaultPieDataset dataset = new DefaultPieDataset();
 
-        //TODO This part (whatever that is, with the map) should by done by the controller
         Map<String,Integer> mapOfSharks = new HashMap<>();
 
         for(SharkData sharkData: listOfSharks){
@@ -224,6 +283,12 @@ public class StatisticsFrame extends JFrame {
         return dataset;
     }
 
+    /**
+     * Creates a JFreeChart of the given PieDataset
+     * @param dataset   PieDataset used to create the JFreeChart
+     * @param titleOfChart Title given to the chart
+     * @return  Created JFreeChart
+     */
     private JFreeChart createChart(PieDataset dataset, String titleOfChart)
     {
         // chart title, then data then legend
@@ -231,6 +296,11 @@ public class StatisticsFrame extends JFrame {
                 titleOfChart, dataset,true, true, false);
     }
 
+    /**
+     * Updates the different panels given the data
+     * @param sharkData List of SharkData
+     * @param source    Source needed to know which panel should be updated
+     */
     public void updateShark(List<SharkData> sharkData, JComboBox source){
         if(source.equals(gender)) {
             genderPanel.removeAll();
@@ -251,8 +321,7 @@ public class StatisticsFrame extends JFrame {
             revalidate();
             repaint();
         } else {
-            //TODO remove println
-            System.out.println("StatisticsFrameError 1: Could not find original combobox");
+            throw new IllegalArgumentException("StatisticsFrameError 1: Could not find original combobox");
         }
     }
 }
