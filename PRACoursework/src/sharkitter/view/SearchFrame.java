@@ -3,7 +3,6 @@ package sharkitter.view;
 import javax.swing.*;
 import javax.swing.border.Border;
 import java.awt.*;
-import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.*;
 import java.util.*;
@@ -151,7 +150,7 @@ public class SearchFrame extends JFrame {
      */
     private void createCentralPanel() {
         centralPanel = new JPanel();
-        centralPanel.setLayout(new BorderLayout());;
+        centralPanel.setLayout(new BorderLayout());
 
         Border emptyBorder = BorderFactory.createEmptyBorder(5, 0, 5, 5);
         centralPanel.setBorder(BorderFactory.createCompoundBorder(emptyBorder, blackLineBorder));
@@ -233,7 +232,7 @@ public class SearchFrame extends JFrame {
 
         ImageIcon shark = new ImageIcon(getClass().getClassLoader().getResource("resources/SharkTracker.png"));
         Image img = shark.getImage();
-        Image newImg = img.getScaledInstance(300, 300, Image.SCALE_SMOOTH);
+        Image newImg = img.getScaledInstance(200, 200, Image.SCALE_SMOOTH);
         shark = new ImageIcon(newImg);
 
         JLabel sharkIcon = new JLabel("", shark, SwingConstants.CENTER);
@@ -249,7 +248,8 @@ public class SearchFrame extends JFrame {
 
         JLabel sharkOfTheDayLabel = new JLabel("<HTML><U>Shark of the day: </U></HTML>");
         JLabel sharkOfTheDayName = new JLabel();
-        JLabel sharkOfTheDayVideo = new JLabel();
+        JTextField sharkOfTheDayVideo = new JTextField();
+        sharkOfTheDayVideo.setEditable(false);
 
         File f = new File("timestamp.txt");
 

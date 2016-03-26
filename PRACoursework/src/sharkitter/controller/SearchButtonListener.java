@@ -57,8 +57,7 @@ public class SearchButtonListener implements ActionListener{
             }
 
         } else {
-            //TODO remove Println
-            System.out.println("SearchButtonListener Error 1 : Invalid ComboBox input");
+           throw new IllegalArgumentException("SearchButtonListener Error 1 : Invalid ComboBox input");
         }
         return listOfSharks;
     }
@@ -73,18 +72,15 @@ public class SearchButtonListener implements ActionListener{
     }
 
     private List<SharkData> selectSharksByStageOfLife(List<SharkData> sharkDataList, String selectionElement){
-        //TODO remove println
-        System.out.println("selectionElement: "+selectionElement);
-        List<SharkData> newSharkDataList = new ArrayList<SharkData> ();
+
+        List<SharkData> newSharkDataList = new ArrayList<> ();
         for (SharkData sharkData: sharkDataList){
            if( jawsApi.getShark(sharkData.getName()).getStageOfLife().equals(selectionElement)){
-               //TODO remove println
-               System.out.println("got there! selectionelement: " + selectionElement + " :");
+
                newSharkDataList.add(sharkData);
            }
         }
-        //TODO remove println
-        System.out.println("stageoflife_newlistofPings: "+ newSharkDataList);
+
         return newSharkDataList;
     }
 
@@ -99,18 +95,13 @@ public class SearchButtonListener implements ActionListener{
     }
 
     private List<SharkData> selectSharksByGender(List<SharkData> sharkDataList, String selectionElement){
-        //TODO remove println
-        System.out.println("gender: " +selectionElement);
-        List<SharkData> newSharkDataList = new ArrayList<SharkData> ();
+
+        List<SharkData> newSharkDataList = new ArrayList<> ();
         for (SharkData SharkData: sharkDataList){
             if( jawsApi.getShark(SharkData.getName()).getGender().equals(selectionElement)){
-                //TODO remove println
-                System.out.println("got there! selectionelement: " + selectionElement + " :");
                 newSharkDataList.add(SharkData);
             }
         }
-        //TODO remove println
-        System.out.println("gender_newlistofPings: "+newSharkDataList);
         return newSharkDataList;
     }
 
@@ -121,25 +112,17 @@ public class SearchButtonListener implements ActionListener{
         if (!tagLocation.equals("All")){
             sharkDataList = selectSharksByTagLocation(sharkDataList, tagLocation);
         }
-        //TODO remove println
-        System.out.println(sharkDataList);
         return sharkDataList;
 
     }
 
     private List<SharkData>  selectSharksByTagLocation(List<SharkData>  listOfPings, String selectionElement){
-        //TODO remove println
-        System.out.println("tag location: "+ selectionElement);
-        List<SharkData>  newListOfPings = new ArrayList<SharkData> ();
+        List<SharkData>  newListOfPings = new ArrayList<> ();
         for (SharkData SharkData: listOfPings){
             if( jawsApi.getShark(SharkData.getName()).getTagLocation().equals(selectionElement)){
-                //TODO remove println
-                System.out.println("got there! selectionelement: " + selectionElement + " :");
                 newListOfPings.add(SharkData);
             }
         }
-        //TODO remove println
-        System.out.println("tagloc_newlistofPings: "+newListOfPings);
         return newListOfPings;
     }
 }

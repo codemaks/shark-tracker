@@ -11,12 +11,14 @@ public class PingCollection {
     private Map<String,Ping> pastWeek;
     private Map<String,Ping> pastMonth;
     private Jaws jawsApi;
+    private String lastUpdated;
 
     public PingCollection() {
         jawsApi = JawsApi.getInstance();
         past24hours = sortPings(jawsApi.past24Hours());
         pastWeek = sortPings(jawsApi.pastWeek());
         pastMonth = sortPings(jawsApi.pastMonth());
+        lastUpdated = jawsApi.getLastUpdated();
     }
 
     private Map<String,Ping> sortPings(List<Ping> listOfPings){
@@ -38,9 +40,8 @@ public class PingCollection {
     }
 
     public void update(){
-        if(Calendar.HOUR_OF_DAY == 7) {
-            //When taking a look at GetLastUpdated, we realised that the API was updated once a day at regular intervals,
-            // around 6am.
+        if(!jawsApi.getLastUpdated().equals(lastUpdated)) {
+            lastUpdated = jawsApi.getLastUpdated();
             past24hours = sortPings(jawsApi.past24Hours());
             past24hours = sortPings(jawsApi.pastWeek());
             past24hours = sortPings(jawsApi.pastMonth());
