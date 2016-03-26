@@ -21,19 +21,16 @@ import javax.swing.JPanel;
 public class EarthMap extends JPanel{
 	private Image img;
 	private EarthMapModel earthMapModel;
-	
 	private JLabel infoLabel;
-	
-	
+
 	public EarthMap(Image img, EarthMapModel earthMapModel)
 	{
 		this.img = img; 
 		this.earthMapModel = earthMapModel;
 		infoLabel = null;
-		//setPreferredSize(getSize());
 		setLayout(null);
 		
-		MouseListener mp = new EarthMap.ClickHandler(); //Can have it listen to itself?
+		MouseListener mp = new EarthMap.ClickHandler();
 		addMouseListener(mp) ;
 		addMouseMotionListener((MouseMotionListener)mp);
 		populateMapPoints(earthMapModel);
@@ -46,27 +43,19 @@ public class EarthMap extends JPanel{
 	
 	public void populateMapPoints(EarthMapModel model)
 	{
-		List<Point> points = model.getPoints();
-		for (Point p : points)
+		List<MapPoint> points = model.getPoints();
+		for (MapPoint p : points)
 		{
-			addMapPoint(p.x, p.y, "info: use getters, from shark obj");
+			addMapPoint(p);
 		}
 		
 	}
-	
-	// Adds a singular, benign info, long lat to map and model
-//	public void addLongLat(double longitude, double latitude)
-//	{
-//		Point p = earthMapModel.addMapCoord(longitude, latitude);
-//		addMapPoint(p.x, p.y, "Random info");
-//	}
-	
-	private void addMapPoint(int x, int y, String info)
+
+	private void addMapPoint(MapPoint p)
 	{
-		MapPoint p1 = new MapPoint(x, y, info);
-		p1.setLocation();
-		add(p1);
-		p1.addMouseListener(p1);
+		p.setLocation();
+		add(p);
+		p.addMouseListener(p);
 	}
 
 	@Override

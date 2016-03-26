@@ -14,8 +14,8 @@ import java.util.List;
  *
  */
 public class EarthMapModel {
-	private List<Point> points;
-
+	//private List<Point> points;
+    private List<MapPoint> points;
 	private int scaleDown;
 	private int originalHeight;
 	private int originalWidth;
@@ -23,7 +23,7 @@ public class EarthMapModel {
 	
 	public EarthMapModel(int originalWidth, int originalHeight, int scaleDown, int borderPixles)
 	{
-		points = new ArrayList<>();
+		points = new ArrayList<MapPoint>();//new ArrayList<>();
 		this.scaleDown = scaleDown;
 		this.originalHeight = originalHeight;
 		this.originalWidth = originalWidth;
@@ -32,15 +32,14 @@ public class EarthMapModel {
 
 
 	public Point addMapCoord(InfoLocation infoLocation)
-	{
+	{//
 		Location l = infoLocation.getLocation();
-		Point p = convertToMapCoord(l.getLongitude(), -l.getLatitude()); //PLEASE CHANGE , JUST DONE A HACK FOR NOW with minus
-		points.add(p); // Need to convert to infoLocations.......... or something else? MapPoints..
+		Point p = convertToMapCoord(l.getLongitude(), -l.getLatitude());
+		points.add(new MapPoint(p.x, p.y, infoLocation.getInformation()));
 		return p;
 	}
 
-	// Need to convert to use Info Locations ......................................................................
-	public void addMapCoords(List<InfoLocation> infoLocations) throws IllegalArgumentException
+	public void addMapCoords(List<InfoLocation> infoLocations)
 	{
 		for (InfoLocation infoLoc: infoLocations)
 		{
@@ -48,7 +47,7 @@ public class EarthMapModel {
 		}
 	}
 
-	public List<Point> getPoints()
+	public List<MapPoint> getPoints()
 	{
 		return points;
 	}
