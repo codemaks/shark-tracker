@@ -1,6 +1,8 @@
 package sharkitter.view.map;
 
 
+import api.jaws.Location;
+
 import java.awt.Point;
 import java.util.ArrayList;
 import java.util.List;
@@ -12,7 +14,8 @@ import java.util.List;
  *
  */
 public class EarthMapModel {
-	private List<Point> points;
+	//private List<Point> points;
+    private List<MapPoint> points;
 	private int scaleDown;
 	private int originalHeight;
 	private int originalWidth;
@@ -20,41 +23,35 @@ public class EarthMapModel {
 	
 	public EarthMapModel(int originalWidth, int originalHeight, int scaleDown, int borderPixles)
 	{
-		points = new ArrayList<>();
-		
+		points = new ArrayList<MapPoint>();//new ArrayList<>();
 		this.scaleDown = scaleDown;
 		this.originalHeight = originalHeight;
 		this.originalWidth = originalWidth;
 		this.borderPixles = borderPixles;
 	}
-	
-	public List<Point> getPoints()
+
+
+	public Point addMapCoord(InfoLocation infoLocation)
+	{//
+		Location l = infoLocation.getLocation();
+		Point p = convertToMapCoord(l.getLongitude(), -l.getLatitude());
+		points.add(new MapPoint(p.x, p.y, infoLocation.getInformation()));
+		return p;
+	}
+
+	public void addMapCoords(List<InfoLocation> infoLocations)
+	{
+		for (InfoLocation infoLoc: infoLocations)
+		{
+			addMapCoord(infoLoc);
+		}
+	}
+
+	public List<MapPoint> getPoints()
 	{
 		return points;
 	}
-	
-	public void addMapCoords(List<double[]> longLatPoints) throws IllegalArgumentException
-	{
-		try{
-			for (double[] longLat: longLatPoints)
-			{
-				addMapCoord(longLat[0], longLat[1]);
-			}
-		}
-		catch(ArrayIndexOutOfBoundsException e)
-		{
-			e.printStackTrace();
-			System.out.println("Some coordinates in double[] are less then size 2!");
-		}
-	}
-	
-	public Point addMapCoord(double longitude, double latitude)
-	{
-		Point p = convertToMapCoord(longitude, -latitude); //PLEASE CHANGE , JUST DONE A HACK FOR NOW with minus
-		points.add(p);
-		return p;
-	}
-	
+
 	// preconditions: -180< longitude <= 180 , -180< latitude <= 180
 	private Point convertToLargeMapCoord(double longitude, double latitude)
 	{
@@ -79,7 +76,7 @@ public class EarthMapModel {
 		return p;
 	}
 	
-	// // preconditions: 0 =< x <= orginalWidth/scaleDown , 0 =< y <= originalHeight/scaleDown
+	// preconditions: 0 =< x <= orginalWidth/scaleDown , 0 =< y <= originalHeight/scaleDown
 	public double[] getLongLatCoord(int x, int y)
 	{
 		// working out from original map
