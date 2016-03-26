@@ -289,7 +289,7 @@ public class SearchFrame extends JFrame {
     private void createWCentralPanel() {
         JPanel mwCentralPanel = new JPanel(new GridLayout(1, 1));
 
-        ImageIcon shark = new ImageIcon(getClass().getClassLoader().getResource("SharkTracker.png"));
+        ImageIcon shark = new ImageIcon(getClass().getClassLoader().getResource("resources/SharkTracker.png"));
         Image img = shark.getImage();
         Image newImg = img.getScaledInstance(200, 200, Image.SCALE_SMOOTH);
         shark = new ImageIcon(newImg);
