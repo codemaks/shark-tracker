@@ -17,6 +17,7 @@ import api.jaws.Jaws;
 import api.jaws.Location;
 import api.jaws.Shark;
 import sharkitter.api.JawsApi;
+import sharkitter.controller.SharknadoTracker;
 import sharkitter.model.FavouriteSharks;
 import sharkitter.view.map.MapFrame;
 
@@ -34,6 +35,8 @@ public class FavouritesFrame extends JFrame {
 		setLayout(new BorderLayout());
 		setPreferredSize(new Dimension(300,300));
 		add(new JLabel("Your favourite sharks are this far away from you right now:") , BorderLayout.NORTH);
+
+		SharknadoTracker sharknadoTracker = new SharknadoTracker();
 		String distanceToKingsInfo = "";
 
 		Location kclLocation = new Location(KINGS_LONGITUDE, KINGS_LATITUDE);
@@ -50,13 +53,20 @@ public class FavouritesFrame extends JFrame {
 
 			Location l = JawsApi.getInstance().getLastLocation(shark); //debugging location
 			locations.add(l);
-			distanceToKingsInfo += " : " + findDistanceBetween(kclLocation, l);  // haven't tested yet */
+			distanceToKingsInfo += " : " + findDistanceBetween(kclLocation, l);  // haven't tested yet
+
+			//checks whether a Sharknado is occurring for this shark
+			if(sharknadoTracker.isOverLand(shark)) {
+				distanceToKingsInfo += "Sharknado - this shark is over land right now!";
+			}
+
 			distanceToKingsInfo += "\n";
 		}
 		
 		
 		
 		JTextArea ta = new JTextArea(distanceToKingsInfo);
+		ta.setEditable(false);
 		add(ta, BorderLayout.CENTER);
 		
 		JButton button = new JButton("Map");

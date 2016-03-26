@@ -3,11 +3,15 @@ package sharkitter.view;
 import javax.swing.*;
 import javax.swing.border.Border;
 import java.awt.*;
+import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.*;
+import java.util.*;
 import java.util.List;
 
 import api.jaws.Jaws;
 import sharkitter.api.JawsApi;
+import sharkitter.controller.RandomSharkRetriever;
 import sharkitter.controller.SearchButtonListener;
 import sharkitter.model.FavouriteSharks;
 import sharkitter.model.PingCollection;
@@ -59,11 +63,11 @@ public class SearchFrame extends JFrame {
 	 * Create and display the widgets on the main Frame
 	 */
 	private void createPanels() {
-        createNorthPanel();
-        createCentralPanel();
-        createWestPanel();
-        createWSouthPanel();
-        createSouthPanel();
+		createNorthPanel();
+		createCentralPanel();
+		createWestPanel();
+		createWCentralPanel();
+		createSouthPanel();
 
         createSearchButton();
         createComboBoxes();
@@ -218,14 +222,14 @@ public class SearchFrame extends JFrame {
         mwNorthPanel.add(search);
         mwNorthPanel.add(new JLabel(jawsApi.getLastUpdated()));
 
-        mWestPanel.add(mwNorthPanel);
+        mWestPanel.add(mwNorthPanel, BorderLayout.NORTH);
     }
 
     /**
      * Creates the south panel within the west panel and adds it to the west panel.
      */
-    private void createWSouthPanel() {
-        JPanel mwSouthPanel = new JPanel(new GridLayout(1, 1));
+    private void createWCentralPanel() {
+        JPanel mwCentralPanel = new JPanel(new GridLayout(1, 1));
 
         ImageIcon shark = new ImageIcon(getClass().getClassLoader().getResource("resources/SharkTracker.png"));
         Image img = shark.getImage();
@@ -233,15 +237,109 @@ public class SearchFrame extends JFrame {
         shark = new ImageIcon(newImg);
 
         JLabel sharkIcon = new JLabel("", shark, SwingConstants.CENTER);
-        mwSouthPanel.add(sharkIcon);
-        mWestPanel.add(mwSouthPanel, BorderLayout.SOUTH);
+        mwCentralPanel.add(sharkIcon);
+        mWestPanel.add(mwCentralPanel, BorderLayout.CENTER);
     }
 
-    private void createWCentralPanel() {
-        JPanel mwCentralPanel = new JPanel();
+    /**
+     * Schedules "Shark of the day" so that it changes every day at midnight.
+     */
+    private void createWSouthPanel() {
+        JPanel mwSouthPanel = new JPanel(new GridLayout(3, 1));
 
-        JLabel sharkOfTheDay = new JLabel("Shark of the day: ");
+        JLabel sharkOfTheDayLabel = new JLabel("<HTML><U>Shark of the day: </U></HTML>");
+        JLabel sharkOfTheDayName = new JLabel();
+        JLabel sharkOfTheDayVideo = new JLabel();
 
+        File f = new File("timestamp.txt");
+
+        //get current date
+        Calendar timeNow = Calendar.getInstance();
+        String currentDay = (new Integer(timeNow.get(Calendar.DAY_OF_MONTH))).toString();
+
+        RandomSharkRetriever randomSharkRetriever = new RandomSharkRetriever(jawsApi);
+
+        String[] infoToWrite = new String[3];
+        infoToWrite[0] = currentDay;
+
+        try {
+            //if file doesn't exist
+            if(f.createNewFile()) {
+                //for debugging purposes
+                System.out.println("File created!");
+                randomSharkRetriever.retrieveNewShark();
+
+                infoToWrite[1] = randomSharkRetriever.getSharkName();
+                infoToWrite[2] = randomSharkRetriever.getSharkVideo();
+
+                //write current day and new shark name/video to file
+                BufferedWriter writer = new BufferedWriter(new FileWriter(f, true));
+
+                for(int i = 0; i < 3; i++) {
+                    writer.write(infoToWrite[i]);
+                    writer.newLine();
+                }
+
+                writer.close();
+
+                sharkOfTheDayName.setText(infoToWrite[1]);
+                sharkOfTheDayVideo.setText(infoToWrite[2]);
+            }
+            //if file exists
+            else {
+                //for debugging purposes
+                System.out.println("File already exists!");
+
+                FileReader fr = new FileReader(f);
+                BufferedReader br = new BufferedReader(fr);
+
+                String dayLastLoaded = br.readLine();
+
+                String sharkName;
+                String sharkVideo;
+
+                //if the day has changed, retrieve new shark and write info to file
+                if(!dayLastLoaded.equals(currentDay)) {
+                    randomSharkRetriever.retrieveNewShark();
+                    sharkName = randomSharkRetriever.getSharkName();
+                    sharkVideo = randomSharkRetriever.getSharkVideo();
+
+                    infoToWrite[1] = sharkName;
+                    infoToWrite[2] = sharkVideo;
+
+                    //write current day and new shark name/video to file
+                    BufferedWriter writer = new BufferedWriter(new FileWriter(f, false));
+
+                    for(int i = 0; i < 3; i++) {
+                        writer.write(infoToWrite[i]);
+                        writer.newLine();
+                    }
+
+                    writer.close();
+                }
+                //if the day has not changed, just retrieve shark and video from text file
+                else {
+                    sharkName = br.readLine();
+                    sharkVideo = br.readLine();
+                }
+
+                br.close();
+
+                sharkOfTheDayName.setText(sharkName);
+                sharkOfTheDayVideo.setText(sharkVideo);
+            }
+        }
+        catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        //add labels to panel
+        mwSouthPanel.add(sharkOfTheDayLabel);
+        mwSouthPanel.add(sharkOfTheDayName);
+        mwSouthPanel.add(sharkOfTheDayVideo);
+
+        //add to bottom of main west panel
+        mWestPanel.add(mwSouthPanel, BorderLayout.SOUTH);
     }
 
     /**
