@@ -170,7 +170,7 @@ public class SearchFrame extends JFrame {
 	 * Returns the "Stage of life" combo box.
 	 * @return the "Stage of life" combo box.
 	 */
-	public JComboBox<String> getStage_of_life(){
+	public JComboBox<String> getStageOfLife(){
 		return stageOfLife;
 	}
 
@@ -178,7 +178,7 @@ public class SearchFrame extends JFrame {
 	 * Returns the "Tracking range" combo box.
 	 * @return the "Tracking range" combo box.
 	 */
-	public JComboBox<String> getTracking_range(){
+	public JComboBox<String> getTrackingRange(){
 		return trackingRange;
 	}
 
@@ -227,7 +227,7 @@ public class SearchFrame extends JFrame {
 
 	/**
 	 * Adds search results to the frame.
-	 * @param listOfSharks the data of the sharks to be added.
+	 * @param sharkDataList the data of the sharks to be added.
 	 * @return the panel with the search results.
 	 */
     public JPanel addSeveralSharkContainersToView (List<SharkData> sharkDataList) {
