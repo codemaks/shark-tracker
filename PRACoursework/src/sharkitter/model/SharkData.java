@@ -74,7 +74,6 @@ public class SharkData implements Comparable<SharkData>{
         length = foundShark.getLength();
         species = foundShark.getSpecies();
         date = ping.getTime();
-        shark = foundShark;
     }
 
 	/**
