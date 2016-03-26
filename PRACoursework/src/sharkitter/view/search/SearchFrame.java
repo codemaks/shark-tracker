@@ -14,6 +14,9 @@ import sharkitter.model.FavouriteSharks;
 import sharkitter.model.PingCollection;
 import sharkitter.model.SharkData;
 
+/**
+ * Class representation of the Search frame
+ */
 public class SearchFrame extends JFrame {
 
 	/**
@@ -101,6 +104,9 @@ public class SearchFrame extends JFrame {
 		pack();
 	}
 
+    /**
+     * Creates the panel to be added to the north of the frame.
+     */
 	private void createNorthPanel() {
 		JMenuBar menuBar = new JMenuBar();
 
@@ -143,6 +149,9 @@ public class SearchFrame extends JFrame {
         }
     }
 
+    /**
+     * Updates the tag location combobox if the ping collection was updated
+     */
     public void updateTagLocation() {
         if(pingCollection.update()) {
             tagLocation = new JComboBox<>();

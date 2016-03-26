@@ -13,11 +13,9 @@ import javax.swing.JOptionPane;
  * Custom JComponent, that acts like a small button
  * To be positioned with setPosition() method, then added to a container
  * with no LayoutManager.
- * @author Maks
  *
  */
-@SuppressWarnings("serial")
-public class MapPoint extends JComponent implements MouseListener{
+public class MapPoint extends JComponent implements MouseListener {
 	public final static int SIZE = 5;
 	public final static int OFFSET = - SIZE/2; // to center the button
 	
@@ -27,8 +25,8 @@ public class MapPoint extends JComponent implements MouseListener{
 
 	/**
 	 * Creates a map point to be placed on a EarthMap Panel
-	 * @param x The x pixle coordinate of the map point
-	 * @param y The y pixle coordinate of the map point
+	 * @param x The x pixel coordinate of the map point
+	 * @param y The y pixel coordinate of the map point
 	 * @param information The information to be displayed when
      */
 	public MapPoint(int x, int y, String information)
@@ -52,7 +50,7 @@ public class MapPoint extends JComponent implements MouseListener{
 
 	/**
 	 * Makes sure the components is the right size
-	 * @return
+	 * @return Dimension object
 	 */
 	@Override 
 	public Dimension getPreferredSize(){
@@ -61,7 +59,7 @@ public class MapPoint extends JComponent implements MouseListener{
 
 	/**
 	 * Makes sure the components is the right size
-	 * @return
+	 * @return	Dimension object
 	 */
 	@Override
 	public Dimension getMinimumSize(){
@@ -70,7 +68,7 @@ public class MapPoint extends JComponent implements MouseListener{
 
 	/**
 	 * Makes sure the components is the right size
-	 * @return
+	 * @return	Dimension object
      */
 	@Override
 	public Dimension getMaximumSize(){
@@ -79,7 +77,7 @@ public class MapPoint extends JComponent implements MouseListener{
 
 	/**
 	 * Draws a red square, the same size as the size of the MapPoint
-	 * @param g
+	 * @param g	Component to be updated
      */
 	@Override
 	public void paintComponent(Graphics g)
@@ -91,7 +89,7 @@ public class MapPoint extends JComponent implements MouseListener{
 
 	/**
 	 * Creates a pop-up to display which shark information
-	 * @param e
+	 * @param e	Event triggered by clicks
      */
 	@Override
 	public void mouseClicked(MouseEvent e) {
@@ -106,28 +104,15 @@ public class MapPoint extends JComponent implements MouseListener{
 
 	}
 
-	/**
-	 * Not used in this application
-	 * @param e
-     */
 	@Override
 	public void mouseEntered(MouseEvent e) {}
-	/**
-	 * Not used in this application
-	 * @param e
-	 */
+
 	@Override
 	public void mouseExited(MouseEvent e) {}
-	/**
-	 * Not used in this application
-	 * @param e
-	 */
+
 	@Override
 	public void mousePressed(MouseEvent e) {}
-	/**
-	 * Not used in this application
-	 * @param e
-	 */
+
 	@Override
 	public void mouseReleased(MouseEvent e) {}
 

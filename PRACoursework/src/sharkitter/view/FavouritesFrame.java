@@ -41,7 +41,7 @@ public class FavouritesFrame extends JFrame {
 		setLayout(new BorderLayout());
 		setPreferredSize(new Dimension(400,300));
 
-        //An inital message, telling you what the information displayed in the frame is about
+        //An initial message, telling you what the information displayed in the frame is about
 		add(new JLabel("Your favourite sharks are this far away from you right now:") , BorderLayout.NORTH);
 
 		// Object that checks if a shark is over land
@@ -75,7 +75,7 @@ public class FavouritesFrame extends JFrame {
 			distanceToKingsInfo += "\n"; //so the next shark distance is on the next line
 		}
 
-        // Adds a non-editable text area showing information about distances & Sharknando events
+        // Adds a non-editable text area showing information about distances & Sharknado events
 		JTextArea ta = new JTextArea(distanceToKingsInfo);
 		ta.setEditable(false);
 		add(ta, BorderLayout.CENTER);
@@ -91,7 +91,5 @@ public class FavouritesFrame extends JFrame {
 		});
 		add(mapButton,BorderLayout.SOUTH);
 		pack();
-		
 	}
-
 }

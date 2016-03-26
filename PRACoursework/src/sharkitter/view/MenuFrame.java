@@ -9,6 +9,10 @@ import java.io.IOException;
 
 import javax.swing.*;
 
+/**
+ * Class representation of the MenuFrame.
+ * First frame loaded by the application where the user can access different functionalities offered by the application.
+ */
 public class MenuFrame extends JFrame {
 
 	private JButton searchButton;
@@ -20,16 +24,23 @@ public class MenuFrame extends JFrame {
 
 	private ActionListener userController;
 
+	/**
+	 * Constructor for MenuFrame
+	 * @throws IOException
+     */
 	public MenuFrame() throws IOException {
 		super("Amnity Police");
 
-		setDefaultCloseOperation(EXIT_ON_CLOSE);
+		setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 
 		addWidgets();
 		setLocationRelativeTo(null);
 	}
 
-	public void addWidgets() {
+	/**
+	 * Adds widgets to the frame
+	 */
+	private void addWidgets() {
 		JMenuBar menuBar = createJMenuBar();
 
 		JPanel southPanel = new JPanel();
@@ -64,7 +75,7 @@ public class MenuFrame extends JFrame {
 	}
 
 	/**
-	 * Create a JMenuBar for choosing between different profiles
+	 * Creates a JMenuBar for choosing between different profiles
 	 * @return	Created JMenuBar
      */
 	private JMenuBar createJMenuBar() {
@@ -90,7 +101,7 @@ public class MenuFrame extends JFrame {
 	}
 
 	/**
-	 * Add the functionality Controller to this frame
+	 * Adds the functionality Controller to this frame
 	 * @param functionalityController	Controller responsible for the different functionalities of this programme
      */
 	public void addFunctionalityController(FunctionalityController functionalityController) {
@@ -101,7 +112,7 @@ public class MenuFrame extends JFrame {
 	}
 
 	/**
-	 * Add the user Controller to this frame
+	 * Adds the user Controller to this frame
 	 * @param userController	Controller responsible to switching between users
      */
 	public void addUserController(UserController userController) {
@@ -110,14 +121,14 @@ public class MenuFrame extends JFrame {
 	}
 
 	/**
-	 * Disable the favourite button
+	 * Disables the favourite button
 	 */
 	public void toggleFavourites(boolean b) {
 		favouritesButton.setEnabled(b);
 	}
 
 	/**
-	 * Load the given profile to the MenuBar
+	 * Loads the given profile to the MenuBar
 	 * @param profile	String representation of a certain username
 	 */
 	public void addProfile(String profile) {

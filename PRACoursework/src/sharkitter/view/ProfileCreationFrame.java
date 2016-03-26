@@ -5,6 +5,9 @@ import sharkitter.controller.UserController;
 import javax.swing.*;
 import java.awt.*;
 
+/**
+ * Class representation of the frame used for profile creation
+ */
 public class ProfileCreationFrame extends JFrame {
 
     private UserController userController;
@@ -26,7 +29,7 @@ public class ProfileCreationFrame extends JFrame {
     }
 
     /**
-     * Create widgets to add to the frame
+     * Creates widgets to add to the frame
      */
     private void addWidgets() {
         JLabel usernameLabel = new JLabel("Username: ");

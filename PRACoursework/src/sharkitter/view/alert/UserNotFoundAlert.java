@@ -1,10 +1,10 @@
 package sharkitter.view.alert;
 
 import javax.swing.*;
-import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 
+/**
+ * Class to alert the user that the username selected was not found
+ */
 public class UserNotFoundAlert extends AlertFrame {
 
     /**

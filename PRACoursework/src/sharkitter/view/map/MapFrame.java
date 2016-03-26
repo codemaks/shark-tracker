@@ -6,7 +6,6 @@ import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.Image;
 import java.util.List;
-//import java.util.Random;
 
 import javax.swing.*;
 
@@ -14,24 +13,18 @@ import sharkitter.model.EarthMapModel;
 import sharkitter.model.InfoLocation;
 
 /**
- * 
- * @author Maks Gajowniczek
  * A Frame used to hold the interactive map, used in the Sharkitter application
  */
-@SuppressWarnings("serial")
 public class MapFrame extends JFrame {
 	private final String MAP_IMAGE = "resources/Equirectangular_projection_SW.jpg";
-	private final int MAP_IMAGE_BORDER_PIXLES = 6; 
-	//specific to map "Equirectangular_projection_SW.jpg"
 
-	public static final int SCALE_DOWN = 2; // How much to scale down the image
+	private static final int SCALE_DOWN = 2; // How much to scale down the image
+	private static final int IMG_HEIGHT = 1036; //specific to map "Equirectangular_projection_SW.jpg"
+	private static final int IMG_WIDTH = 2058; //specific to map "Equirectangular_projection_SW.jpg"
 
 	public MapFrame(List<InfoLocation> locations)
 	{
-		final int IMG_HEIGHT = 1036; //specific to map "Equirectangular_projection_SW.jpg"
-		final int IMG_WIDTH = 2058; //specific to map "Equirectangular_projection_SW.jpg"
-		
-		
+
 		// Making an earth map, based on image
 		int height = IMG_HEIGHT / SCALE_DOWN;
 		int width = IMG_WIDTH / SCALE_DOWN;
@@ -42,8 +35,9 @@ public class MapFrame extends JFrame {
 		Image img = oldimg.getScaledInstance(width, height, Image.SCALE_SMOOTH);
 		
 		//Creates a new earthMapModel based on image properites, and how much to scale down
+		int mapImageBorderPixels = 6; //specific to map "Equirectangular_projection_SW.jpg"
 		EarthMapModel model = new EarthMapModel(
-				IMG_WIDTH, IMG_HEIGHT, SCALE_DOWN, MAP_IMAGE_BORDER_PIXLES);
+				IMG_WIDTH, IMG_HEIGHT, SCALE_DOWN, mapImageBorderPixels);
 
 		
 		model.addMapCoords(locations);

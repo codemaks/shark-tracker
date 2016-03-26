@@ -2,9 +2,11 @@ package sharkitter.view;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+/**
+ * Class representation of the EasterEgg frame for the "Surprise me" feature
+ */
 public class EasterEggFrame extends JFrame {
 
     /**
