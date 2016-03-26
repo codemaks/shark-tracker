@@ -68,16 +68,16 @@ public class SearchFrame extends JFrame {
 
 	/**
 	 * Creates a new search frame.
-	 * @param functionalityController
+	 * @param functionalityController the functionality controller.
 	 * @param favouriteSharks data about favourite sharks.
-	 * @param pingCollection
+	 * @param pingCollection all pings from the Jaws API.
 	 */
     public SearchFrame(ActionListener functionalityController, FavouriteSharks favouriteSharks, PingCollection pingCollection) {
         super("Search");
         jawsApi = new Jaws("EkZ8ZqX11ozMamO9", "E7gdkwWePBYT75KE", true);
         System.out.println(jawsApi.getLastUpdated());
 
-		//create borders for later use
+		//create border for later use
 		blackLineBorder = BorderFactory.createLineBorder(Color.BLACK);
 
         this.pingCollection = pingCollection;

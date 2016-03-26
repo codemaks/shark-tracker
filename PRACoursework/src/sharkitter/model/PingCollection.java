@@ -8,9 +8,6 @@ import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Map;
 
-/**
- * Created by Evou on 24/03/2016.
- */
 public class PingCollection {
     private Map<String,Ping> past24hours;
     private Map<String,Ping> pastWeek;
