@@ -49,6 +49,10 @@ public class UserController implements ActionListener, KeyListener {
 
         api = JawsApi.getInstance();
 
+        if(!PATH_TO_PROFILES.toFile().createNewFile()) {
+            new File(PATH_TO_PROFILES.toString());
+        }
+
         readProfiles();
         loadDefaultProfile();
     }
@@ -102,6 +106,11 @@ public class UserController implements ActionListener, KeyListener {
             favouriteSharks.clearData();
 
             Path pathToFile = Paths.get("data/default.txt");
+
+            if(!pathToFile.toFile().createNewFile()) {
+                new File(pathToFile.toString());
+            }
+
             Scanner reader = createScanner(pathToFile);
 
             if(!reader.hasNext()) {
