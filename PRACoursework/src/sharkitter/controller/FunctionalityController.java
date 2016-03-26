@@ -33,7 +33,7 @@ public class FunctionalityController implements ActionListener, KeyListener, Win
     private FavouriteSharks favouriteSharks;
     private PingCollection pingCollection;
 
-    private Set<String> listoftaglocations;
+    private Set<String> listOfTagLocations;
 
     private Konami konami;
 
@@ -43,7 +43,7 @@ public class FunctionalityController implements ActionListener, KeyListener, Win
     private static final String SONG = "resources/Never Give Up On Sharks.wav";
 
     /**
-     * Constructor of FunctionalityConntroller
+     * Constructor of FunctionalityController
      * @param menuFrame Instance of the menu frame
      * @param favouriteSharks   Instance of FavouriteSharks
      * @param pingCollection    Instance of PingCollection
@@ -54,7 +54,7 @@ public class FunctionalityController implements ActionListener, KeyListener, Win
         this.menuFrame = menuFrame;
         this.favouriteSharks = favouriteSharks;
         this.pingCollection = pingCollection;
-        this.listoftaglocations = new HashSet<String>();
+        this.listOfTagLocations = new HashSet<String>();
 
         searchFrame = new SearchFrame(this, favouriteSharks, pingCollection);
 
@@ -132,12 +132,12 @@ public class FunctionalityController implements ActionListener, KeyListener, Win
     }
 
     public Set<String> getListOfTagLocations(){
-        listoftaglocations = new HashSet<String>();
-        for (String sharkname : pingCollection.getPastMonth().keySet()) {
-            String tagloc = jawsApi.getShark(sharkname).getTagLocation();
-            listoftaglocations.add(tagloc);
+        listOfTagLocations = new HashSet<String>();
+        for (String sharkName : pingCollection.getPastMonth().keySet()) {
+            String tagLoc = jawsApi.getShark(sharkName).getTagLocation();
+            listOfTagLocations.add(tagLoc);
         }
-        return listoftaglocations;
+        return listOfTagLocations;
 
     }
 
