@@ -68,7 +68,7 @@ public class FavouritesFrame extends JFrame {
 
 			//checks whether a Sharknado is occurring for this shark
 			if(sharknadoTracker.isOverLand(shark)) {
-				distanceToKingsInfo += "[Sharknado - this shark is over land right now!]";
+				distanceToKingsInfo += "  <Sharknado - this shark is over land right now!>";
 			}
 
 			distanceToKingsInfo += "\n"; //so the next shark distance is on the next line
@@ -99,7 +99,6 @@ public class FavouritesFrame extends JFrame {
 	 * @param loc2 Second location in longitude and latitude
      * @return The distance between locations in kilometers
      */
-	//TODO move out of frame?
 	private static double findDistanceBetween(Location loc1, Location loc2)
 	{
 		double R = 6371; // kilometers

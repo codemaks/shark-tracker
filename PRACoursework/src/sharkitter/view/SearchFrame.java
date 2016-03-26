@@ -17,30 +17,64 @@ import sharkitter.model.FavouriteSharks;
 import sharkitter.model.PingCollection;
 import sharkitter.model.SharkData;
 
-
 public class SearchFrame extends JFrame {
 
+	/**
+	 * The Jaws API.
+	 */
 	private Jaws jawsApi;
 
+	/**
+	 * The drop-down boxes for searching in the search frame.
+	 */
 	private JComboBox<String> stageOfLife;
 	private JComboBox<String> trackingRange;
 	private JComboBox<String> gender;
 	private JComboBox<String> tagLocation;
 
+	/**
+	 * The panels in the search frame.
+	 */
 	private JPanel centralPanel;
-    private JPanel mWestPanel;
-    private JScrollPane centralPane;
-    private JPanel superCentralPanel;
+	private JPanel mWestPanel;
+	private JPanel superCentralPanel;
 
-    private JButton search;
+	/**
+	 * The scroll pane in the search frame.
+	 */
+	private JScrollPane centralPane;
 
-    private Border blackLineBorder;
+	/**
+	 * The search button.
+	 */
+	private JButton search;
 
+	private int counter;
+
+	/**
+	 * The action listener for the search button.
+	 */
+	private SearchButtonListener sbl;
+
+	/**
+	 * A black line border.
+	 */
+	private Border blackLineBorder;
+
+	/**
+	 * Data about favourite sharks.
+	 */
     private FavouriteSharks favouriteSharks;
     private FunctionalityController functionalityController;
     private PingCollection pingCollection;
 
-    public SearchFrame(FunctionalityController functionalityController, FavouriteSharks favouriteSharks, PingCollection pingCollection) {
+	/**
+	 * Creates a new search frame.
+	 * @param functionalityController the functionality controller.
+	 * @param favouriteSharks data about favourite sharks.
+	 * @param pingCollection all pings from the Jaws API.
+	 */
+    public SearchFrame(ActionListener functionalityController, FavouriteSharks favouriteSharks, PingCollection pingCollection) {
         super("Search");
 
         jawsApi = JawsApi.getInstance();
@@ -48,8 +82,8 @@ public class SearchFrame extends JFrame {
         //TODO remove println
         System.out.println(jawsApi.getLastUpdated());
 
-        //create borders for later use
-        blackLineBorder = BorderFactory.createLineBorder(Color.BLACK);
+		//create border for later use
+		blackLineBorder = BorderFactory.createLineBorder(Color.BLACK);
 
         this.pingCollection = pingCollection;
         this.favouriteSharks = favouriteSharks;
@@ -62,7 +96,7 @@ public class SearchFrame extends JFrame {
     }
 
 	/**
-	 * Create and display the widgets on the main Frame
+	 * Creates and displays the widgets on the search frame.
 	 */
 	private void createPanels() {
 		createNorthPanel();
@@ -71,8 +105,8 @@ public class SearchFrame extends JFrame {
 		createWCentralPanel();
 		createSouthPanel();
 
-        createSearchButton();
-        createComboBoxes();
+		createSearchButton();
+		createComboBoxes();
 
         createWNorthPanel();
         createWSouthPanel();
@@ -80,20 +114,20 @@ public class SearchFrame extends JFrame {
 		pack();
 	}
 
-    private void createNorthPanel() {
-        JMenuBar menuBar = new JMenuBar();
+	private void createNorthPanel() {
+		JMenuBar menuBar = new JMenuBar();
 
-        JMenu view = new JMenu("View");
+		JMenu view = new JMenu("View");
 
-        JMenuItem menu = new JMenuItem("Menu");
+		JMenuItem menu = new JMenuItem("Menu");
+		menu.addActionListener(functionalityController);
+		menu.setToolTipText("Go back to the main menu");
         menu.setName("SearchFrame");
-        menu.addActionListener(functionalityController);
-        menu.setToolTipText("Go back to the main menu");
 
-        view.add(menu);
-        menuBar.add(view);
-        add(menuBar, BorderLayout.NORTH);
-    }
+		view.add(menu);
+		menuBar.add(view);
+		add(menuBar, BorderLayout.NORTH);
+	}
 
     /**
      * Creates the combo boxes.
@@ -122,60 +156,80 @@ public class SearchFrame extends JFrame {
         }
     }
 
-    public void updateTagLocation(){
-        if(pingCollection.update()){
-            tagLocation = new JComboBox();
-            tagLocation.addItem("All");
-            for (String sharkname : functionalityController.getListOfTagLocations()) {
-                tagLocation.addItem(jawsApi.getShark(sharkname).getTagLocation());
-            }
-        }
+	public void updateTagLocation() {
+		if (pingCollection.update()) {
+			tagLocation = new JComboBox();
+			tagLocation.addItem("All");
+			for (String sharkname : functionalityController.getListOfTagLocations()) {
+				tagLocation.addItem(jawsApi.getShark(sharkname).getTagLocation());
+			}
+		}
+	}
 
-    }
+	/**
+	 * Returns the "Stage of life" combo box.
+	 * @return the "Stage of life" combo box.
+	 */
+	public JComboBox<String> getStage_of_life(){
+		return stageOfLife;
+	}
 
-    public JComboBox<String> getStageOfLife(){
-        return stageOfLife;
-    }
+	/**
+	 * Returns the "Tracking range" combo box.
+	 * @return the "Tracking range" combo box.
+	 */
+	public JComboBox<String> getTracking_range(){
+		return trackingRange;
+	}
 
-    public JComboBox<String> getTrackingRange(){
-        return trackingRange;
-    }
+	/**
+	 * Returns the "Gender" combo box.
+	 * @return the "Gender" combo box.
+	 */
+	public JComboBox<String> getGender(){
+		return gender;
+	}
 
-    public JComboBox<String> getGender(){
-        return gender;
-    }
+	/**
+	 * Returns the "Tag location" combo box.
+	 * @return the "Tag location" combo box.
+	 */
+	public JComboBox<String> getTagLocation(){
+		return tagLocation;
+	}
 
-    public JComboBox<String> getTagLocation(){
-        return tagLocation;
-    }
-
-    /**
-     * Creates search button.
-     */
-    private void createSearchButton() {
-        search = new JButton("Search");
+	/**
+	 * Creates search button.
+	 */
+	private void createSearchButton() {
+		search = new JButton("Search");
 
         SearchButtonListener searchButtonListener = new SearchButtonListener(this, pingCollection);
         search.addActionListener(searchButtonListener);
     }
 
 	/**
-	 * Create and display the central element of the SearchFrame i.e. the search results.
-     */
-    private void createCentralPanel() {
-        centralPanel = new JPanel();
-        centralPanel.setLayout(new BorderLayout());
+	 * Creates the panel for the search results.
+	 */
+	private void createCentralPanel() {
+		centralPanel = new JPanel();
+		centralPanel.setLayout(new BorderLayout());;
 
-        Border emptyBorder = BorderFactory.createEmptyBorder(5, 0, 5, 5);
-        centralPanel.setBorder(BorderFactory.createCompoundBorder(emptyBorder, blackLineBorder));
-        superCentralPanel =new JPanel();
-        superCentralPanel.setLayout(new GridLayout(0,1));
-        centralPane = new JScrollPane(superCentralPanel);
-        centralPanel.add(centralPane);
+		Border emptyBorder = BorderFactory.createEmptyBorder(5, 0, 5, 5);
+		centralPanel.setBorder(BorderFactory.createCompoundBorder(emptyBorder, blackLineBorder));
+		superCentralPanel =new JPanel();
+		superCentralPanel.setLayout(new GridLayout(0,1));
+		centralPane = new JScrollPane(superCentralPanel);
+		centralPanel.add(centralPane);
 
-        add(centralPanel, BorderLayout.CENTER);
-    }
+		add(centralPanel, BorderLayout.CENTER);
+	}
 
+	/**
+	 * Adds search results to the frame.
+	 * @param listOfSharks the data of the sharks to be added.
+	 * @return the panel with the search results.
+	 */
     public JPanel addSeveralSharkContainersToView (List<SharkData> sharkDataList) {
         superCentralPanel.removeAll();
         updateTagLocation();
@@ -194,7 +248,8 @@ public class SearchFrame extends JFrame {
                 pack();
             }
 
-        } else {
+        }
+        else {
             superCentralPanel.add(new JLabel("Nothing to show here :)"));
             revalidate();
             repaint();
@@ -217,7 +272,7 @@ public class SearchFrame extends JFrame {
     }
 
     /**
-     * Creates the north panel within the west panel and adds it to the west panel.
+     * Creates the panel with the combo boxes and search button and adds it to the west panel.
      */
     private void createWNorthPanel() {
         JPanel mwNorthPanel = new JPanel(new GridLayout(12, 1));
@@ -242,7 +297,7 @@ public class SearchFrame extends JFrame {
     }
 
     /**
-     * Creates the south panel within the west panel and adds it to the west panel.
+     * Creates the panel with the logo and adds it to the west panel.
      */
     private void createWCentralPanel() {
         JPanel mwCentralPanel = new JPanel(new GridLayout(1, 1));
@@ -258,7 +313,7 @@ public class SearchFrame extends JFrame {
     }
 
     /**
-     * Schedules "Shark of the day" so that it changes every day at midnight.
+     * Creates a panel to hold the "Shark of the day" feature, and adds it to the west panel.
      */
     private void createWSouthPanel() {
         JPanel mwSouthPanel = new JPanel(new GridLayout(3, 1));
@@ -268,87 +323,13 @@ public class SearchFrame extends JFrame {
         JTextField sharkOfTheDayVideo = new JTextField();
         sharkOfTheDayVideo.setEditable(false);
 
-        File f = new File("timestamp.txt");
+	    //get random shark
+	    RandomSharkRetriever randomSharkRetriever = new RandomSharkRetriever(jawsApi);
+	    randomSharkRetriever.showRandomShark();
 
-        //get current date
-        Calendar timeNow = Calendar.getInstance();
-        String currentDay = (new Integer(timeNow.get(Calendar.DAY_OF_MONTH))).toString();
-
-        RandomSharkRetriever randomSharkRetriever = new RandomSharkRetriever(jawsApi);
-
-        String[] infoToWrite = new String[3];
-        infoToWrite[0] = currentDay;
-
-        try {
-            //if file doesn't exist
-            if(f.createNewFile()) {
-                //for debugging purposes
-                System.out.println("File created!");
-                randomSharkRetriever.retrieveNewShark();
-
-                infoToWrite[1] = randomSharkRetriever.getSharkName();
-                infoToWrite[2] = randomSharkRetriever.getSharkVideo();
-
-                //write current day and new shark name/video to file
-                BufferedWriter writer = new BufferedWriter(new FileWriter(f, true));
-
-                for(int i = 0; i < 3; i++) {
-                    writer.write(infoToWrite[i]);
-                    writer.newLine();
-                }
-
-                writer.close();
-
-                sharkOfTheDayName.setText(infoToWrite[1]);
-                sharkOfTheDayVideo.setText(infoToWrite[2]);
-            }
-            //if file exists
-            else {
-                //for debugging purposes
-                System.out.println("File already exists!");
-
-                FileReader fr = new FileReader(f);
-                BufferedReader br = new BufferedReader(fr);
-
-                String dayLastLoaded = br.readLine();
-
-                String sharkName;
-                String sharkVideo;
-
-                //if the day has changed, retrieve new shark and write info to file
-                if(!dayLastLoaded.equals(currentDay)) {
-                    randomSharkRetriever.retrieveNewShark();
-                    sharkName = randomSharkRetriever.getSharkName();
-                    sharkVideo = randomSharkRetriever.getSharkVideo();
-
-                    infoToWrite[1] = sharkName;
-                    infoToWrite[2] = sharkVideo;
-
-                    //write current day and new shark name/video to file
-                    BufferedWriter writer = new BufferedWriter(new FileWriter(f, false));
-
-                    for(int i = 0; i < 3; i++) {
-                        writer.write(infoToWrite[i]);
-                        writer.newLine();
-                    }
-
-                    writer.close();
-                }
-                //if the day has not changed, just retrieve shark and video from text file
-                else {
-                    sharkName = br.readLine();
-                    sharkVideo = br.readLine();
-                }
-
-                br.close();
-
-                sharkOfTheDayName.setText(sharkName);
-                sharkOfTheDayVideo.setText(sharkVideo);
-            }
-        }
-        catch (IOException e) {
-            e.printStackTrace();
-        }
+	    //display name and video link
+	    sharkOfTheDayName.setText(randomSharkRetriever.getSharkName());
+	    sharkOfTheDayVideo.setText(randomSharkRetriever.getSharkVideo());
 
         //add labels to panel
         mwSouthPanel.add(sharkOfTheDayLabel);
@@ -360,7 +341,7 @@ public class SearchFrame extends JFrame {
     }
 
     /**
-     * Creates south panel with acknowledgement statement
+     * Creates panel holding acknowledgement statement.
      */
     private void createSouthPanel() {
         JPanel msPanel = new JPanel();
