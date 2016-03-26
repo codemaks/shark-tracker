@@ -180,7 +180,6 @@ public class UserController implements ActionListener, KeyListener {
                     menuFrame.addProfile(username);
                     accountCreation.dispose();
                 } else {
-//                    JOptionPane.showMessageDialog(null, "User already exists", JOptionPane.WARNING_MESSAGE);
                     ExistingUserAlert existingUser = new ExistingUserAlert();
                     existingUser.setVisible(true);
                 }
@@ -190,6 +189,12 @@ public class UserController implements ActionListener, KeyListener {
         }
     }
 
+    /**
+     * Creates a Scanner to read the specify path
+     * @param pathToFile    Path to the file to be read
+     * @return  Created Scanner
+     * @throws IOException  If the file was not found
+     */
     private Scanner createScanner(Path pathToFile) throws IOException {
         Scanner reader = new Scanner(pathToFile);
         reader.useDelimiter(DELIMITER);
