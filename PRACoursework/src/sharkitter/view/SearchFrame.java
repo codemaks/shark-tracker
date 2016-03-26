@@ -304,9 +304,11 @@ public class SearchFrame extends JFrame {
         JLabel sharkOfTheDayName = new JLabel();
         JLabel sharkOfTheDayVideo = new JLabel();
 
+	    //get random shark
 	    RandomSharkRetriever randomSharkRetriever = new RandomSharkRetriever(jawsApi);
 	    randomSharkRetriever.showRandomShark();
 
+	    //display name and video link
 	    sharkOfTheDayName.setText(randomSharkRetriever.getSharkName());
 	    sharkOfTheDayVideo.setText(randomSharkRetriever.getSharkVideo());
 
