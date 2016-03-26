@@ -5,7 +5,7 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-public class ExistingUserAlert extends JFrame implements ActionListener {
+public class ExistingUserAlert extends AlertFrame {
 
     /**
      * Constructor of ExistingUserAlert
@@ -13,11 +13,7 @@ public class ExistingUserAlert extends JFrame implements ActionListener {
     public ExistingUserAlert() {
         super("Existing username");
 
-        setLayout(new GridLayout(3,1));
-
         addWidgets();
-
-        setDefaultCloseOperation(DISPOSE_ON_CLOSE);
     }
 
     /**
@@ -27,21 +23,11 @@ public class ExistingUserAlert extends JFrame implements ActionListener {
         JLabel message1 = new JLabel("Sorry but your username already exists.");
         JLabel message2 = new JLabel("Please choose another username.");
 
-        JButton ok = new JButton("Ok");
-        ok.addActionListener(this);
-
         add(message1);
         add(message2);
-        add(ok);
+
+        addButton();
 
         pack();
-    }
-
-    @Override
-    /**
-     * Disposes the frame if "Ok" button is pressed
-     */
-    public void actionPerformed(ActionEvent e) {
-        dispose();
     }
 }
