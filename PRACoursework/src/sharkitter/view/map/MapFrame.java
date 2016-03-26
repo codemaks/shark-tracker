@@ -26,7 +26,7 @@ public class MapFrame extends JFrame {
 
 	public static final int SCALE_DOWN = 2; // How much to scale down the image
 
-	public MapFrame(List<InfoLocation> locations) // TODO: make a constructor that takes a list of map points to add.
+	public MapFrame(List<InfoLocation> locations)
 	{
 		final int IMG_HEIGHT = 1036; //specific to map "Equirectangular_projection_SW.jpg"
 		final int IMG_WIDTH = 2058; //specific to map "Equirectangular_projection_SW.jpg"

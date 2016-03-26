@@ -6,6 +6,7 @@ import sharkitter.model.FavouriteSharks;
 import sharkitter.model.Konami;
 import sharkitter.model.PingCollection;
 import sharkitter.view.*;
+import sharkitter.view.search.SearchFrame;
 import sun.audio.AudioPlayer;
 import sun.audio.AudioStream;
 

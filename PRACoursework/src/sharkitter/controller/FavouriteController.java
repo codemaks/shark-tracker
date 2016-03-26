@@ -1,12 +1,11 @@
 package sharkitter.controller;
 
 import sharkitter.model.FavouriteSharks;
-import sharkitter.view.SharkContainer;
+import sharkitter.view.search.SharkContainer;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 
 /**

@@ -1,4 +1,4 @@
-package sharkitter.view;
+package sharkitter.view.search;
 
 import sharkitter.controller.FavouriteController;
 import sharkitter.model.FavouriteSharks;

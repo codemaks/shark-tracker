@@ -4,7 +4,7 @@ import api.jaws.Jaws;
 import sharkitter.api.JawsApi;
 import sharkitter.model.PingCollection;
 import sharkitter.model.SharkData;
-import sharkitter.view.SearchFrame;
+import sharkitter.view.search.SearchFrame;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
