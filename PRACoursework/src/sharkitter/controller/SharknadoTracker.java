@@ -16,7 +16,7 @@ public class SharknadoTracker {
 
 	/**
 	 * Creates a new Sharknado tracker.
-	 * @param jawsApi the instance of the Jaws API to be used.
+	 * @param jawsApi the Jaws API to be used.
 	 */
 	public SharknadoTracker(Jaws jawsApi) {
 		this.jawsApi = jawsApi;

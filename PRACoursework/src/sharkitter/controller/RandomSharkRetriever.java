@@ -23,7 +23,7 @@ public class RandomSharkRetriever {
 
 	/**
 	 * Constructs a new random shark retriever.
-	 * @param jawsApi the Jaws API.
+	 * @param jawsApi the Jaws API to be used.
 	 */
 	public RandomSharkRetriever(Jaws jawsApi) {
 		this.jawsApi = jawsApi;
