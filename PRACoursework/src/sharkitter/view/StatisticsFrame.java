@@ -149,74 +149,54 @@ public class StatisticsFrame extends JFrame {
     private PieDataset createSharkDatasetByGender(List<SharkData> listOfSharks)
     {
         DefaultPieDataset dataset = new DefaultPieDataset();
+        SwingUtilities.invokeLater(new Runnable() {
+            public void run() {
 
-        //TODO This part (separate gender in different lists) should by done by the controller
-        List<SharkData> maleSharks = new ArrayList<>();
-        List<SharkData> femaleSharks = new ArrayList<>();
-
-        for(SharkData sharkdata: listOfSharks){
-            if(sharkdata.getGender().equals("Male")){
-                maleSharks.add(sharkdata);
-            }else{
-                femaleSharks.add(sharkdata);
-            }
-        }
-        dataset.setValue("Male", maleSharks.size());
-        dataset.setValue("Female", femaleSharks.size());
-
-        return dataset;
+                Map<String, List<SharkData>> mapofsharks = statisticsItemListener.separateSharkDataByGender(listOfSharks);
+                dataset.setValue("Male",mapofsharks.get("Male").size());
+                dataset.setValue("Female", mapofsharks.get("Female").size());
+                }
+    });
+          return dataset;
     }
 
     private PieDataset createSharkDatasetByStageOfLife(List<SharkData> listOfSharks)
     {
         DefaultPieDataset dataset = new DefaultPieDataset();
+            SwingUtilities.invokeLater(new Runnable() {
+                public void run() {
 
-        //TODO This part (separate stage of life in different lists) should by done by the controller
-        List<SharkData> matureSharks = new ArrayList<>();
-        List<SharkData> immatureSharks = new ArrayList<>();
-        List<SharkData> undeterminedSharks = new ArrayList<>();
 
-        for(SharkData sharkData:listOfSharks){
+                    Map<String, List<SharkData>> mapofsharks = statisticsItemListener.separateSharkDataByStageOfLife(listOfSharks);
+                    if(!mapofsharks.get("Mature").isEmpty()){
+                        dataset.setValue("Mature", mapofsharks.get("Mature").size());
+                    }
+                    if(!mapofsharks.get("Immature").isEmpty()){
+                        dataset.setValue("Immature", mapofsharks.get("Immature").size());
+                    }
+                    if(!mapofsharks.get("Undetermined").isEmpty()){
+                        dataset.setValue("Undetermined", mapofsharks.get("Undetermined").size());
+                    }
 
-            if(sharkData.getStageOfLife().equals("Mature")) {
-                matureSharks.add(sharkData);
+                }
 
-            } else if(sharkData.getStageOfLife().equals("Immature")) {
-                immatureSharks.add(sharkData);
-
-            } else {
-                undeterminedSharks.add(sharkData);
-            }
-        }
-        if(!matureSharks.isEmpty()){
-            dataset.setValue("Mature", matureSharks.size());
-        }
-        if(!immatureSharks.isEmpty()){
-            dataset.setValue("Immature", immatureSharks.size());
-        }
-        if(!undeterminedSharks.isEmpty()){
-           dataset.setValue("Undetermined", undeterminedSharks.size());
-        }
-
+            });
         return dataset;
     }
 
     private PieDataset createSharkDatasetByTagLocation(List<SharkData> listOfSharks)
     {
         DefaultPieDataset dataset = new DefaultPieDataset();
+        SwingUtilities.invokeLater(new Runnable() {
+            public void run() {
 
-        //TODO This part (whatever that is, with the map) should by done by the controller
-        Map<String,Integer> mapOfSharks = new HashMap<>();
+                Map<String, Integer> mapOfSharks = statisticsItemListener.separateSharkDataByTagLocation(listOfSharks);
 
-        for(SharkData sharkData: listOfSharks){
-            if(mapOfSharks.containsKey(sharkData.getTagLocation())){
-                mapOfSharks.put(sharkData.getTagLocation(),mapOfSharks.get(sharkData.getTagLocation()) + 1);
+                for (String key : mapOfSharks.keySet()) {
+                    dataset.setValue(key, mapOfSharks.get(key));
+                }
             }
-            mapOfSharks.putIfAbsent(sharkData.getTagLocation(), 1);
-        }
-        for(String key : mapOfSharks.keySet()){
-           dataset.setValue(key,mapOfSharks.get(key));
-        }
+        });
         return dataset;
     }
 
@@ -229,27 +209,30 @@ public class StatisticsFrame extends JFrame {
     }
 
     public void updateShark(List<SharkData> sharkData, JComboBox source){
-        if(source.equals(gender)) {
-            genderPanel.removeAll();
-            genderPanel.add(gender, BorderLayout.NORTH);
-            genderPanel.add(createGenderSubPanel(sharkData, "Gender:"));
-            revalidate();
-            repaint();
-        } else if(source.equals(tagLocation)) {
-            tagLocPanel.removeAll();
-            tagLocPanel.add(tagLocation, BorderLayout.NORTH);
-            tagLocPanel.add(createTagLocationSubPanel(sharkData, "Tag Location:"));
-            revalidate();
-            repaint();
-        } else if(source.equals(stageOfLife)) {
-            stageOfLifePanel.removeAll();
-            stageOfLifePanel.add(stageOfLife, BorderLayout.NORTH);
-            stageOfLifePanel.add(createStageOfLifeSubPanel(sharkData, "Stage of Life"));
-            revalidate();
-            repaint();
-        } else {
-            //TODO remove println
-            System.out.println("StatisticsFrameError 1: Could not find original combobox");
-        }
+        SwingUtilities.invokeLater(new Runnable() {
+            public void run() {
+                if (source.equals(gender)) {
+                    genderPanel.removeAll();
+                    genderPanel.add(gender, BorderLayout.NORTH);
+                    genderPanel.add(createGenderSubPanel(sharkData, "Gender:"));
+                    revalidate();
+                    repaint();
+                } else if (source.equals(tagLocation)) {
+                    tagLocPanel.removeAll();
+                    tagLocPanel.add(tagLocation, BorderLayout.NORTH);
+                    tagLocPanel.add(createTagLocationSubPanel(sharkData, "Tag Location:"));
+                    revalidate();
+                    repaint();
+                } else if (source.equals(stageOfLife)) {
+                    stageOfLifePanel.removeAll();
+                    stageOfLifePanel.add(stageOfLife, BorderLayout.NORTH);
+                    stageOfLifePanel.add(createStageOfLifeSubPanel(sharkData, "Stage of Life"));
+                    revalidate();
+                    repaint();
+                } else {
+                    throw new NullPointerException("StatisticsFrameError 1: Could not find original combobox");
+                }
+            }
+        });
     }
 }

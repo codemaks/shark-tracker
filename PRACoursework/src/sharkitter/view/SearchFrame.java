@@ -45,9 +45,6 @@ public class SearchFrame extends JFrame {
 
         jawsApi = JawsApi.getInstance();
 
-        //TODO remove println
-        System.out.println(jawsApi.getLastUpdated());
-
         //create borders for later use
         blackLineBorder = BorderFactory.createLineBorder(Color.BLACK);
 
@@ -55,7 +52,7 @@ public class SearchFrame extends JFrame {
         this.favouriteSharks = favouriteSharks;
         this.functionalityController = functionalityController;
         setLayout(new BorderLayout());
-        setPreferredSize(new Dimension(1200, 700));
+        setPreferredSize(new Dimension(1200, 750));
         createPanels();
         setLocationRelativeTo(null);
         setDefaultCloseOperation(EXIT_ON_CLOSE);
