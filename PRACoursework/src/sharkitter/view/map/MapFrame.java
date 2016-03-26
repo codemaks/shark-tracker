@@ -19,7 +19,7 @@ import api.jaws.Location;
 /**
  * 
  * @author Maks Gajowniczek
- *
+ * A Frame used to hold the interactive map, used in the Sharkitter application
  */
 @SuppressWarnings("serial")
 public class MapFrame extends JFrame {
@@ -63,7 +63,7 @@ public class MapFrame extends JFrame {
 		if (SCALE_DOWN > 1)setMinimumSize(new Dimension( width+20 , height +50 ));
 		else setMinimumSize(new Dimension( width/2, height/2));
 	
-		setTitle("Sharkitter Map (Test Version)");
+		setTitle("Sharkitter Map - Click on a red point to see name of shark");
 		setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 		pack();
 	}

@@ -41,20 +41,37 @@ public class MapPoint extends JComponent implements MouseListener{
 		setToolTipText("shark");
 		this.information = information;
 	}
-	
+
+	/**
+	 * Sets the 'properties' of the location of a mapPoint, so that when it's added to EarthMap it shows up in right place
+	 */
 	public void setLocation()
 	{
 		setBounds(x + MapPoint.OFFSET, y + MapPoint.OFFSET , MapPoint.SIZE, MapPoint.SIZE);
 	}
-	
+
+	/**
+	 * Makes sure the components is the right size
+	 * @return
+	 */
 	@Override 
 	public Dimension getPreferredSize(){
 		return new Dimension(SIZE, SIZE);
 	}
+
+	/**
+	 * Makes sure the components is the right size
+	 * @return
+	 */
 	@Override
 	public Dimension getMinimumSize(){
 		return new Dimension(SIZE, SIZE);
 	}
+
+	/**
+	 * Makes sure the components is the right size
+	 * @return
+     */
 	@Override
 	public Dimension getMaximumSize(){
 		return new Dimension(SIZE, SIZE);

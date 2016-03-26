@@ -2,7 +2,6 @@ package sharkitter.view.map;
 
 import java.awt.Graphics;
 import java.awt.Image;
-import java.awt.Point;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
@@ -23,6 +22,11 @@ public class EarthMap extends JPanel{
 	private EarthMapModel earthMapModel;
 	private JLabel infoLabel;
 
+	/**
+	 * Creates an earthMap using a model and populates itself with mapPoints
+	 * @param img The image using as a map
+	 * @param earthMapModel The model we are using
+     */
 	public EarthMap(Image img, EarthMapModel earthMapModel)
 	{
 		this.img = img; 
@@ -35,13 +39,21 @@ public class EarthMap extends JPanel{
 		addMouseMotionListener((MouseMotionListener)mp);
 		populateMapPoints(earthMapModel);
 	}
-	
+
+	/**
+	 * Sets the information label with some text
+	 * @param infoLabel
+     */
 	public void setInfoLabel(JLabel infoLabel)
 	{
 		this.infoLabel = infoLabel;
 	}
-	
-	public void populateMapPoints(EarthMapModel model)
+
+	/**
+	 * Populates the earthMap Panel with the list of mapPoints from the model.
+	 * @param model
+     */
+	private void populateMapPoints(EarthMapModel model)
 	{
 		List<MapPoint> points = model.getPoints();
 		for (MapPoint p : points)
@@ -51,6 +63,10 @@ public class EarthMap extends JPanel{
 		
 	}
 
+	/**
+	 * Adds a map point to the EarthMap Panel
+	 * @param p The mapPoint to be added
+     */
 	private void addMapPoint(MapPoint p)
 	{
 		p.setLocation();
@@ -58,20 +74,24 @@ public class EarthMap extends JPanel{
 		p.addMouseListener(p);
 	}
 
+	/**
+	 * Paints the Panel with the image of a map
+	 * @param g
+     */
 	@Override
 	public void paintComponent(Graphics g)
 	{
 		super.paintComponent(g);
 		g.drawImage(img, 0, 0, this); //Sets the background to the map image
 	}
-	
-	public class ClickHandler extends MouseAdapter implements
+
+	/**
+	 * A private class that listens to where the mouse is moved
+	 */
+	private class ClickHandler extends MouseAdapter implements
     MouseMotionListener {
 		@Override
-		public void mouseClicked(MouseEvent e) { // probably not needed for earth map
-			System.out.println(e.getX() + " ," + e.getY());
-			double[] longlat = earthMapModel.getLongLatCoord(e.getX(), e.getY());
-			System.out.printf("map clicked at long:%5.2f lat:%5.2f\n" , longlat[0], longlat[1] );
+		public void mouseClicked(MouseEvent e) {
 		}
 		@Override
 		public void mouseDragged(MouseEvent e) {}
