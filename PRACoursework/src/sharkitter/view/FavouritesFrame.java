@@ -29,14 +29,14 @@ public class FavouritesFrame extends JFrame {
 	private static final double KINGS_LONGITUDE = 51.510;
 	private static final double KINGS_LATITUDE = -0.117;
 
-	public FavouritesFrame(FavouriteSharks favs, Jaws jawsApi) {
+	public FavouritesFrame(FavouriteSharks favs) {
 		super();
 		setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 		setLayout(new BorderLayout());
 		setPreferredSize(new Dimension(300,300));
 		add(new JLabel("Your favourite sharks are this far away from you right now:") , BorderLayout.NORTH);
 
-		SharknadoTracker sharknadoTracker = new SharknadoTracker(jawsApi);
+		SharknadoTracker sharknadoTracker = new SharknadoTracker();
 		String distanceToKingsInfo = "";
 
 		Location kclLocation = new Location(KINGS_LONGITUDE, KINGS_LATITUDE);
@@ -51,7 +51,7 @@ public class FavouritesFrame extends JFrame {
 			//need to fix before map will work
 			System.out.println("**" + shark + "**");
 
-			Location l = jawsApi.getLastLocation(shark); //debugging location
+			Location l = JawsApi.getInstance().getLastLocation(shark); //debugging location
 			locations.add(l);
 			distanceToKingsInfo += " : " + findDistanceBetween(kclLocation, l);  // haven't tested yet
 

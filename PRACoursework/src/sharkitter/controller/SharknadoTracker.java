@@ -2,11 +2,11 @@ package sharkitter.controller;
 
 import api.jaws.Jaws;
 import api.jaws.Location;
-import api.jaws.Shark;
 import com.google.maps.ElevationApi;
 import com.google.maps.GeoApiContext;
 import com.google.maps.model.ElevationResult;
 import com.google.maps.model.LatLng;
+import sharkitter.api.JawsApi;
 
 public class SharknadoTracker {
 
@@ -17,10 +17,9 @@ public class SharknadoTracker {
 
 	/**
 	 * Creates a new Sharknado tracker.
-	 * @param jawsApi the instance of the Jaws API to be used.
 	 */
-	public SharknadoTracker(Jaws jawsApi) {
-		this.jawsApi = jawsApi;
+	public SharknadoTracker() {
+		jawsApi = JawsApi.getInstance();
 	}
 
 	/**

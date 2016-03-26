@@ -34,10 +34,6 @@ public class SearchFrame extends JFrame {
 
     private JButton search;
 
-	private int counter;
-
-    private SearchButtonListener sbl;
-
     private Border blackLineBorder;
 
     private FavouriteSharks favouriteSharks;
@@ -241,7 +237,7 @@ public class SearchFrame extends JFrame {
         shark = new ImageIcon(newImg);
 
         JLabel sharkIcon = new JLabel("", shark, SwingConstants.CENTER);
-        mwSouthPanel.add(sharkIcon);
+        mwCentralPanel.add(sharkIcon);
         mWestPanel.add(mwCentralPanel, BorderLayout.CENTER);
     }
 
