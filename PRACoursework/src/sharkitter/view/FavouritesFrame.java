@@ -57,7 +57,7 @@ public class FavouritesFrame extends JFrame {
 		for(String shark: favouriteNames)
 		{
 			distanceToKingsInfo += shark; //adds the shark name to list
-			System.out.println("**" + shark + "**");
+			//System.out.println("**" + shark + "**"); //For debugging purposes
 
 			//Uses the shark name with the 'Jaws' api to find a shark's last location
 			Location l = JawsApi.getInstance().getLastLocation(shark);
@@ -79,7 +79,7 @@ public class FavouritesFrame extends JFrame {
 		add(ta, BorderLayout.CENTER);
 		
 		JButton mapButton = new JButton("Map");
-		mapButton.addActionListener(new ActionListener() { //Makes the map button make a new map frame
+		mapButton.addActionListener(new ActionListener() { //Makes the map button make a new mapFrame
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
