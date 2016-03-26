@@ -26,7 +26,6 @@ public class FunctionalityController implements ActionListener, KeyListener, Win
     private MenuFrame menuFrame;
     private SearchFrame searchFrame;
     private StatisticsFrame statisticsFrame;
-    private FavouritesFrame favouritesFrame;
     private EasterEggFrame easterEggFrame;
 
     private Jaws jawsApi;
@@ -85,7 +84,7 @@ public class FunctionalityController implements ActionListener, KeyListener, Win
                     break;
 
                 case "Favourites":
-                    favouritesFrame = new FavouritesFrame(favouriteSharks);
+                    FavouritesFrame favouritesFrame = new FavouritesFrame(favouriteSharks);
                     favouritesFrame.setVisible(true);
                     break;
 

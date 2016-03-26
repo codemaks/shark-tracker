@@ -22,6 +22,11 @@ import java.nio.file.StandardOpenOption;
 import java.util.*;
 import java.util.regex.Pattern;
 
+/**
+ * Controller of user profiles:
+ * - Loads default profile
+ * - Creates and loads specific profiles
+ */
 public class UserController implements ActionListener, KeyListener {
 
     private ProfileCreationFrame accountCreation;

@@ -92,7 +92,7 @@ public class SearchFrame extends JFrame {
         setPreferredSize(new Dimension(1200, 700));
         createPanels();
         setLocationRelativeTo(null);
-        setDefaultCloseOperation(EXIT_ON_CLOSE);
+        setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
     }
 
 	/**
@@ -133,76 +133,77 @@ public class SearchFrame extends JFrame {
      * Creates the combo boxes.
      */
     private void createComboBoxes() {
-        stageOfLife = new JComboBox();
+        stageOfLife = new JComboBox<>();
         stageOfLife.addItem("All");
         stageOfLife.addItem("Mature");
         stageOfLife.addItem("Immature");
         stageOfLife.addItem("Undetermined");
 
-        trackingRange = new JComboBox();
+        trackingRange = new JComboBox<>();
         trackingRange.addItem("Last 24 Hours");
         trackingRange.addItem("Last Week");
         trackingRange.addItem("Last Month");
 
-        gender = new JComboBox();
+        gender = new JComboBox<>();
         gender.addItem("All");
         gender.addItem("Male");
         gender.addItem("Female");
 
-        tagLocation = new JComboBox();
+        tagLocation = new JComboBox<>();
         tagLocation.addItem("All");
-        for(String sharktaglocation : functionalityController.getListOfTagLocations()){
-            tagLocation.addItem(sharktaglocation);
+        for(String sharkTagLocation : functionalityController.getListOfTagLocations()){
+            tagLocation.addItem(sharkTagLocation);
         }
     }
 
-	public void updateTagLocation() {
-		if (pingCollection.update()) {
-			tagLocation = new JComboBox();
-			tagLocation.addItem("All");
-			for (String sharkname : functionalityController.getListOfTagLocations()) {
-				tagLocation.addItem(jawsApi.getShark(sharkname).getTagLocation());
-			}
-		}
-	}
+    public void updateTagLocation(){
+        if(pingCollection.update()){
+            tagLocation = new JComboBox<>();
+            tagLocation.addItem("All");
+            for (String sharkName : functionalityController.getListOfTagLocations()) {
+                tagLocation.addItem(jawsApi.getShark(sharkName).getTagLocation());
+            }
+        }
 
-	/**
-	 * Returns the "Stage of life" combo box.
-	 * @return the "Stage of life" combo box.
-	 */
-	public JComboBox<String> getStage_of_life(){
-		return stageOfLife;
-	}
+    }
 
-	/**
-	 * Returns the "Tracking range" combo box.
-	 * @return the "Tracking range" combo box.
-	 */
-	public JComboBox<String> getTracking_range(){
-		return trackingRange;
-	}
+    /**
+     * Returns the "Stage of life" combo box.
+     * @return the "Stage of life" combo box.
+     */
+    public JComboBox<String> getStageOfLife(){
+        return stageOfLife;
+    }
 
-	/**
-	 * Returns the "Gender" combo box.
-	 * @return the "Gender" combo box.
-	 */
-	public JComboBox<String> getGender(){
-		return gender;
-	}
+    /**
+     * Returns the "Tracking range" combo box.
+     * @return the "Tracking range" combo box.
+     */
+    public JComboBox<String> getTrackingRange(){
+        return trackingRange;
+    }
 
-	/**
-	 * Returns the "Tag location" combo box.
-	 * @return the "Tag location" combo box.
-	 */
-	public JComboBox<String> getTagLocation(){
-		return tagLocation;
-	}
+    /**
+     * Returns the "Gender" combo box.
+     * @return the "Gender" combo box.
+     */
+    public JComboBox<String> getGender(){
+        return gender;
+    }
 
-	/**
-	 * Creates search button.
-	 */
-	private void createSearchButton() {
-		search = new JButton("Search");
+    /**
+     * Returns the "Tag location" combo box.
+     * @return the "Tag location" combo box.
+     */
+    public JComboBox<String> getTagLocation(){
+        return tagLocation;
+    }
+
+    /**
+     * Creates search button.
+     */
+    private void createSearchButton() {
+        search = new JButton("Search");
 
         SearchButtonListener searchButtonListener = new SearchButtonListener(this, pingCollection);
         search.addActionListener(searchButtonListener);
