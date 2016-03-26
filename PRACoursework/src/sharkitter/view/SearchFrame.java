@@ -3,9 +3,6 @@ package sharkitter.view;
 import javax.swing.*;
 import javax.swing.border.Border;
 import java.awt.*;
-import java.awt.event.ActionListener;
-import java.io.*;
-import java.util.*;
 import java.util.List;
 
 import api.jaws.Jaws;
@@ -149,22 +146,21 @@ public class SearchFrame extends JFrame {
         }
     }
 
-    public void updateTagLocation(){
-        if(pingCollection.update()){
+    public void updateTagLocation() {
+        if(pingCollection.update()) {
             tagLocation = new JComboBox<>();
             tagLocation.addItem("All");
             for (String sharkName : functionalityController.getListOfTagLocations()) {
                 tagLocation.addItem(jawsApi.getShark(sharkName).getTagLocation());
             }
         }
-
     }
 
     /**
      * Returns the "Stage of life" combo box.
      * @return the "Stage of life" combo box.
      */
-    public JComboBox<String> getStageOfLife(){
+    public JComboBox<String> getStageOfLife() {
         return stageOfLife;
     }
 
@@ -172,7 +168,7 @@ public class SearchFrame extends JFrame {
      * Returns the "Tracking range" combo box.
      * @return the "Tracking range" combo box.
      */
-    public JComboBox<String> getTrackingRange(){
+    public JComboBox<String> getTrackingRange() {
         return trackingRange;
     }
 
@@ -180,7 +176,7 @@ public class SearchFrame extends JFrame {
      * Returns the "Gender" combo box.
      * @return the "Gender" combo box.
      */
-    public JComboBox<String> getGender(){
+    public JComboBox<String> getGender() {
         return gender;
     }
 
@@ -188,7 +184,7 @@ public class SearchFrame extends JFrame {
      * Returns the "Tag location" combo box.
      * @return the "Tag location" combo box.
      */
-    public JComboBox<String> getTagLocation(){
+    public JComboBox<String> getTagLocation() {
         return tagLocation;
     }
 
