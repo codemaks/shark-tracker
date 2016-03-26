@@ -7,7 +7,6 @@ import sharkitter.model.PingCollection;
 import sharkitter.view.MenuFrame;
 
 import java.io.IOException;
-import java.net.URISyntaxException;
 
 public class Main {
 

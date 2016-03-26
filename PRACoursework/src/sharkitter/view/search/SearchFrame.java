@@ -79,7 +79,7 @@ public class SearchFrame extends JFrame {
         this.favouriteSharks = favouriteSharks;
         this.functionalityController = functionalityController;
         setLayout(new BorderLayout());
-        setPreferredSize(new Dimension(1200, 700));
+        setPreferredSize(new Dimension(1200, 800));
         createPanels();
         setLocationRelativeTo(null);
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
@@ -287,7 +287,6 @@ public class SearchFrame extends JFrame {
         mwNorthPanel.add(new JLabel("Tag location:"));
         mwNorthPanel.add(tagLocation);
         mwNorthPanel.add(search);
-        mwNorthPanel.add(new JLabel(jawsApi.getLastUpdated()));
 
         mWestPanel.add(mwNorthPanel, BorderLayout.NORTH);
     }
