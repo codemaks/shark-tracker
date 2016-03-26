@@ -23,22 +23,20 @@ public class MapPoint extends JComponent implements MouseListener{
 	
 	private int x, y;
 	private String information;
-	
-	public MapPoint(int x, int y)
-	{
-		super();
-		this.x = x;
-		this.y = y;
-		enableInputMethods(true);
-		setToolTipText("undefined");
-		information = "No info";
-	}
-	
+	private String title;
+
+	/**
+	 * Creates a map point to be placed on a EarthMap Panel
+	 * @param x The x pixle coordinate of the map point
+	 * @param y The y pixle coordinate of the map point
+	 * @param information The information to be displayed when
+     */
 	public MapPoint(int x, int y, String information)
 	{
 		super();
 		this.x = x;
 		this.y = y;
+		title = "Favourite Shark:";
 		enableInputMethods(true);
 		setToolTipText("shark");
 		this.information = information;
@@ -61,7 +59,11 @@ public class MapPoint extends JComponent implements MouseListener{
 	public Dimension getMaximumSize(){
 		return new Dimension(SIZE, SIZE);
 	}
-	
+
+	/**
+	 * Draws a red square, the same size as the size of the MapPoint
+	 * @param g
+     */
 	@Override
 	public void paintComponent(Graphics g)
 	{
@@ -70,25 +72,45 @@ public class MapPoint extends JComponent implements MouseListener{
 		g.fillRect(0, 0, SIZE, SIZE);
 	}
 
+	/**
+	 * Creates a pop-up to display which shark information
+	 * @param e
+     */
 	@Override
 	public void mouseClicked(MouseEvent e) {
-		System.out.println(x + ", " + y); //not needed here
-
 		ImageIcon shark = new ImageIcon(getClass().getClassLoader().getResource("resources/SharkTracker.png"));
 		Image img = shark.getImage();
-		Image newImg = img.getScaledInstance(50, 50, Image.SCALE_SMOOTH);
+		Image newImg = img.getScaledInstance(90, 90, Image.SCALE_SMOOTH);
 		shark = new ImageIcon(newImg);
 		EarthMap parent = (EarthMap)getParent();
-		//parent.remove(this);
 		parent.revalidate();
-		parent.repaint(); //perhaps, notifiy observers here?
+		parent.repaint();
+		JOptionPane.showMessageDialog(this, information, title, 0, shark);
+
 	}
+
+	/**
+	 * Not used in this application
+	 * @param e
+     */
 	@Override
 	public void mouseEntered(MouseEvent e) {}
+	/**
+	 * Not used in this application
+	 * @param e
+	 */
 	@Override
 	public void mouseExited(MouseEvent e) {}
+	/**
+	 * Not used in this application
+	 * @param e
+	 */
 	@Override
 	public void mousePressed(MouseEvent e) {}
+	/**
+	 * Not used in this application
+	 * @param e
+	 */
 	@Override
 	public void mouseReleased(MouseEvent e) {}
 
