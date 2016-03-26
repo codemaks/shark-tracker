@@ -13,78 +13,81 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JTextArea;
 
-import api.jaws.Jaws;
 import api.jaws.Location;
-import api.jaws.Shark;
 import sharkitter.api.JawsApi;
 import sharkitter.controller.SharknadoTracker;
 import sharkitter.model.FavouriteSharks;
 import sharkitter.view.map.MapFrame;
 
+/**
+ * The favourites frame, that shows all the favourite sharks from the currently loaded user profile.
+ * Also provides access to the MapFrame
+ */
 public class FavouritesFrame extends JFrame {
-	
-	private List<Location> locations;
 
-	// Kings longitude, and latitude
+	// Kings College London's longitude, and latitude coordinates.
 	private static final double KINGS_LONGITUDE = 51.510;
 	private static final double KINGS_LATITUDE = -0.117;
 
+    /**
+     * Constructs the FavouritesFrame
+     * @param favs A list of sharkFavourites, from the currently loaded user profile
+     */
 	public FavouritesFrame(FavouriteSharks favs) {
 		super();
 		setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 		setLayout(new BorderLayout());
-		setPreferredSize(new Dimension(300,300));
+		setPreferredSize(new Dimension(400,300));
+
+        //An inital message, telling you what the information displayed in the frame is about
 		add(new JLabel("Your favourite sharks are this far away from you right now:") , BorderLayout.NORTH);
 
+		// Object that checks if a shark is over land
 		SharknadoTracker sharknadoTracker = new SharknadoTracker();
 		String distanceToKingsInfo = "";
 
+		// Uses the kclLocation to compare shark locations to KCL University location
 		Location kclLocation = new Location(KINGS_LONGITUDE, KINGS_LATITUDE);
-		locations = new ArrayList<Location>();
 
+        // A list to add all the shark locations from our favourites
+		List<Location> sharkLocations = new ArrayList<Location>();
+
+		// Loads up the favourite shark names from the model.
 		Set<String> favouriteNames = favs.getFavouriteSharks();
-		//System.out.println(favouriteNames); //for debugging purposes
-		for(/*Shark*/ String shark: favouriteNames)
+		for(String shark: favouriteNames)
 		{
-			distanceToKingsInfo += shark/*.getName()*/;
-
-			//need to fix before map will work
+			distanceToKingsInfo += shark; //adds the shark name to list
 			System.out.println("**" + shark + "**");
 
-			Location l = JawsApi.getInstance().getLastLocation(shark); //debugging location
-			locations.add(l);
-			distanceToKingsInfo += " : " + findDistanceBetween(kclLocation, l);  // haven't tested yet
+			//Uses the shark name with the 'Jaws' api to find a shark's last location
+			Location l = JawsApi.getInstance().getLastLocation(shark);
+            sharkLocations.add(l);
+			double distance = findDistanceBetween(kclLocation, l); // the distance from kings
+			distanceToKingsInfo += " : " + String.format("%5.2fkm ", distance);
 
 			//checks whether a Sharknado is occurring for this shark
 			if(sharknadoTracker.isOverLand(shark)) {
-				distanceToKingsInfo += "Sharknado - this shark is over land right now!";
+				distanceToKingsInfo += "[Sharknado - this shark is over land right now!]";
 			}
 
-			distanceToKingsInfo += "\n";
+			distanceToKingsInfo += "\n"; //so the next shark distance is on the next line
 		}
-		
-		
-		
+
+        // Adds a non-editable text area showing information about distances & Sharknando events
 		JTextArea ta = new JTextArea(distanceToKingsInfo);
 		ta.setEditable(false);
 		add(ta, BorderLayout.CENTER);
 		
-		JButton button = new JButton("Map");
-		button.addActionListener(new ActionListener() {
+		JButton mapButton = new JButton("Map");
+		mapButton.addActionListener(new ActionListener() { //Makes the map button make a new map frame
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				// call the map
-				System.out.println("test map button");
-				for(Location loc: locations)
-				{
-					System.out.println("long " + loc.getLongitude() + " lat " + loc.getLatitude());
-				}
-				JFrame mapFrame = new MapFrame(locations);
+				JFrame mapFrame = new MapFrame(sharkLocations);
 				mapFrame.setVisible(true);
 			}
 		});
-		add(button,BorderLayout.SOUTH);
+		add(mapButton,BorderLayout.SOUTH);
 		pack();
 		
 	}
@@ -110,6 +113,6 @@ public class FavouritesFrame extends JFrame {
 						Math.sin(longRadiansDifference/2) * Math.sin(longRadiansDifference/2);
 		double c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
 
-		return R * c;
+		return R * c; // Multiplied by R, which scales up unit sphere distance to kilometers on Earth
 	}
 }
