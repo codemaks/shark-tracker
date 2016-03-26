@@ -35,7 +35,7 @@ public class StatisticsFrame extends JFrame {
         this.functionalityController = functionalityController;
         this.statisticsItemListener = new StatisticsItemListener(this, pingCollection);
         setPreferredSize(new Dimension(400, 600));
-        setDefaultCloseOperation(EXIT_ON_CLOSE);
+        setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 
         createUI(this.functionalityController);
     }
@@ -178,14 +178,18 @@ public class StatisticsFrame extends JFrame {
 
         for(SharkData sharkData:listOfSharks){
 
-            if(sharkData.getStageOfLife().equals("Mature")) {
-                matureSharks.add(sharkData);
+            switch (sharkData.getStageOfLife()) {
+                case "Mature":
+                    matureSharks.add(sharkData);
 
-            } else if(sharkData.getStageOfLife().equals("Immature")) {
-                immatureSharks.add(sharkData);
+                    break;
+                case "Immature":
+                    immatureSharks.add(sharkData);
 
-            } else {
-                undeterminedSharks.add(sharkData);
+                    break;
+                default:
+                    undeterminedSharks.add(sharkData);
+                    break;
             }
         }
         if(!matureSharks.isEmpty()){
@@ -222,10 +226,9 @@ public class StatisticsFrame extends JFrame {
 
     private JFreeChart createChart(PieDataset dataset, String titleOfChart)
     {
-        JFreeChart chart = ChartFactory.createPieChart(
+        // chart title, then data then legend
+        return ChartFactory.createPieChart(
                 titleOfChart, dataset,true, true, false);
-            // chart title, then data then legend
-        return chart;
     }
 
     public void updateShark(List<SharkData> sharkData, JComboBox source){
