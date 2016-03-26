@@ -34,7 +34,6 @@ public class FunctionalityController implements ActionListener, KeyListener, Win
 
         searchFrame = new SearchFrame(this, favouriteSharks, pingCollection);
 
-        favouritesFrame = new FavouritesFrame(favouriteSharks);
         statisticsFrame = new StatisticsFrame(this, pingCollection);
 
         konami = new Konami();
@@ -57,6 +56,7 @@ public class FunctionalityController implements ActionListener, KeyListener, Win
                     break;
 
                 case "Favourites":
+                    favouritesFrame = new FavouritesFrame(favouriteSharks);
                     favouritesFrame.setVisible(true);
                     break;
 
