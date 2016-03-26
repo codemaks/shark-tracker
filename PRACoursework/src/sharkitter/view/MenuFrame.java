@@ -8,6 +8,7 @@ import java.awt.*;
 import java.awt.event.ActionListener;
 import java.io.IOException;
 
+import javax.management.JMException;
 import javax.swing.*;
 
 public class MenuFrame extends JFrame {
@@ -26,17 +27,10 @@ public class MenuFrame extends JFrame {
 	public MenuFrame() throws IOException {
 		super("Amnity Police");
 
-		centreWindow(this);
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
 
 		addWidgets();
-	}
-
-	private static void centreWindow(Window frame) {
-		Dimension dimension = Toolkit.getDefaultToolkit().getScreenSize();
-		int x = (int) ((dimension.getWidth() - frame.getWidth()) /3);
-		int y = (int) ((dimension.getHeight() - frame.getHeight())/4 );
-		frame.setLocation(x, y);
+		setLocationRelativeTo(null);
 	}
 
 	public void addWidgets() {
@@ -80,11 +74,15 @@ public class MenuFrame extends JFrame {
 	private JMenuBar createjMenuBar() {
 		JMenuBar menuBar = new JMenuBar();
 		JMenu profiles = new JMenu("Profiles");
-		JMenu tip = new JMenu("?");
+
+		JMenu knowMore = new JMenu("?");
+		JMenuItem tip = new JMenuItem("Special tip");
 		tip.setToolTipText("Try a Konami Code =p");
 
+		knowMore.add(tip);
+
 		menuBar.add(profiles);
-		menuBar.add(tip);
+		menuBar.add(knowMore);
 
 		loadProfiles = new JMenu("Load Profiles");
 		createProfile = new JMenuItem("Create Profile");

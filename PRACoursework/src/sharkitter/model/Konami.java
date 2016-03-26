@@ -6,7 +6,7 @@ import java.util.List;
 public class Konami {
 
     private List<Integer> enteredSequence;
-    private static final int[] KONAMICODE = {38, 38, 40, 40, 37, 39, 37, 39, 65, 66};
+    private static final int[] KONAMICODE = {38, 38, 40, 40, 37, 39, 37, 39, 66, 65};
 
     public Konami() {
         enteredSequence = new ArrayList<Integer>();
@@ -21,6 +21,7 @@ public class Konami {
         int counter = 0;
         for(int i = 0; i < enteredSequence.size(); ++i) {
             if(enteredSequence.get(i) != KONAMICODE[i]) {
+                reset();
                 return false;
             }
             ++counter;

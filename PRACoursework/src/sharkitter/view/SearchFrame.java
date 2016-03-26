@@ -3,6 +3,7 @@ package sharkitter.view;
 import javax.swing.*;
 import javax.swing.border.Border;
 import java.awt.*;
+import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.*;
 import java.util.*;
@@ -12,6 +13,7 @@ import sharkitter.controller.SearchButtonListener;
 import sharkitter.model.FavouriteSharks;
 import sharkitter.model.PingCollection;
 import sharkitter.model.SharkData;
+
 
 public class SearchFrame extends JFrame {
 
@@ -23,18 +25,18 @@ public class SearchFrame extends JFrame {
 	private JComboBox<String> tag_location;
 
 	private JPanel centralPanel;
-	private JPanel mWestPanel;
-	private JScrollPane centralPane;
-	private JPanel superCentralPanel;
+    private JPanel mWestPanel;
+    private JScrollPane centralPane;
+    private JPanel superCentralPanel;
 
-	private JButton search;
+    private JButton search;
 
 	private int counter;
 
-	private SearchButtonListener sbl;
+    private SearchButtonListener sbl;
 
-	//black line border
-	private Border blackLineBorder;
+    //black line border
+    private Border blackLineBorder;
 
     private FavouriteSharks favouriteSharks;
     private ActionListener functionalityController;
@@ -42,11 +44,12 @@ public class SearchFrame extends JFrame {
 
     public SearchFrame(ActionListener functionalityController, FavouriteSharks favouriteSharks, PingCollection pingCollection) {
         super("Search");
+
         jawsApi = new Jaws("EkZ8ZqX11ozMamO9", "E7gdkwWePBYT75KE", true);
         System.out.println(jawsApi.getLastUpdated());
 
-		//create borders for later use
-		blackLineBorder = BorderFactory.createLineBorder(Color.BLACK);
+        //create borders for later use
+        blackLineBorder = BorderFactory.createLineBorder(Color.BLACK);
 
         this.pingCollection = pingCollection;
         this.favouriteSharks = favouriteSharks;
@@ -55,6 +58,7 @@ public class SearchFrame extends JFrame {
         setPreferredSize(new Dimension(1200, 700));
         centreWindow(this);
         createPanels();
+        setLocationRelativeTo(null);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     }
 
@@ -68,8 +72,8 @@ public class SearchFrame extends JFrame {
 		createWCentralPanel();
 		createSouthPanel();
 
-		createSearchButton();
-		createComboBoxes();
+        createSearchButton();
+        createComboBoxes();
 
         createWNorthPanel();
         createWSouthPanel();
@@ -77,71 +81,69 @@ public class SearchFrame extends JFrame {
 		pack();
 	}
 
-	private void createNorthPanel() {
-		JMenuBar menuBar = new JMenuBar();
+    private void createNorthPanel() {
+        JMenuBar menuBar = new JMenuBar();
 
-		JMenu view = new JMenu("View");
+        JMenu view = new JMenu("View");
 
-		JMenuItem menu = new JMenuItem("Menu");
-		menu.addActionListener(functionalityController);
-		menu.setToolTipText("Go back to the main menu");
+        JMenuItem menu = new JMenuItem("Menu");
         menu.setName("SearchFrame");
         menu.addActionListener(functionalityController);
         menu.setToolTipText("Go back to the main menu");
 
-		view.add(menu);
-		menuBar.add(view);
-		add(menuBar, BorderLayout.NORTH);
-	}
+        view.add(menu);
+        menuBar.add(view);
+        add(menuBar, BorderLayout.NORTH);
+    }
 
-	/**
-	 * Creates the combo boxes.
-	 */
-	private void createComboBoxes() {
-		stage_of_life = new JComboBox();
-		stage_of_life.addItem("All");
-		stage_of_life.addItem("Mature");
-		stage_of_life.addItem("Immature");
-		stage_of_life.addItem("Undetermined");
+    /**
+     * Creates the combo boxes.
+     */
+    private void createComboBoxes() {
+        stage_of_life = new JComboBox();
+        stage_of_life.addItem("All");
+        stage_of_life.addItem("Mature");
+        stage_of_life.addItem("Immature");
+        stage_of_life.addItem("Undetermined");
 
-		tracking_range = new JComboBox();
-		tracking_range.addItem("Last 24 Hours");
-		tracking_range.addItem("Last Week");
-		tracking_range.addItem("Last Month");
+        tracking_range = new JComboBox();
+        tracking_range.addItem("Last 24 Hours");
+        tracking_range.addItem("Last Week");
+        tracking_range.addItem("Last Month");
 
-		gender = new JComboBox();
-		gender.addItem("All");
-		gender.addItem("Male");
-		gender.addItem("Female");
+        gender = new JComboBox();
+        gender.addItem("All");
+        gender.addItem("Male");
+        gender.addItem("Female");
 
-		tag_location = new JComboBox();
-		tag_location.addItem("All");
-		for(String tagLoc: jawsApi.getTagLocations()){
-			tag_location.addItem(tagLoc);
-		}
-	}
+        tag_location = new JComboBox();
+        tag_location.addItem("All");
+        for(String tagLoc: jawsApi.getTagLocations()){
+            tag_location.addItem(tagLoc);
+        }
+    }
 
-	public JComboBox<String> getStage_of_life(){
-		return stage_of_life;
-	}
+    public JComboBox<String> getStage_of_life(){
+        return stage_of_life;
+    }
 
-	public JComboBox<String> getTracking_range(){
-		return tracking_range;
-	}
+    public JComboBox<String> getTracking_range(){
+        return tracking_range;
+    }
 
-	public JComboBox<String> getGender(){
-		return gender;
-	}
+    public JComboBox<String> getGender(){
+        return gender;
+    }
 
-	public JComboBox<String> getTag_location(){
-		return tag_location;
-	}
+    public JComboBox<String> getTag_location(){
+        return tag_location;
+    }
 
-	/**
-	 * Creates search button.
-	 */
-	private void createSearchButton() {
-		search = new JButton("Search");
+    /**
+     * Creates search button.
+     */
+    private void createSearchButton() {
+        search = new JButton("Search");
 
         sbl = new SearchButtonListener(this,pingCollection);
         search.addActionListener(sbl);
@@ -149,20 +151,20 @@ public class SearchFrame extends JFrame {
 
 	/**
 	 * Create and display the central element of the SearchFrame i.e. the search results.
-	 */
-	private void createCentralPanel() {
-		centralPanel = new JPanel();
-		centralPanel.setLayout(new BorderLayout());;
+     */
+    private void createCentralPanel() {
+        centralPanel = new JPanel();
+        centralPanel.setLayout(new BorderLayout());;
 
-		Border emptyBorder = BorderFactory.createEmptyBorder(5, 0, 5, 5);
-		centralPanel.setBorder(BorderFactory.createCompoundBorder(emptyBorder, blackLineBorder));
-		superCentralPanel =new JPanel();
-		superCentralPanel.setLayout(new GridLayout(0,1));
-		centralPane = new JScrollPane(superCentralPanel);
-		centralPanel.add(centralPane);
+        Border emptyBorder = BorderFactory.createEmptyBorder(5, 0, 5, 5);
+        centralPanel.setBorder(BorderFactory.createCompoundBorder(emptyBorder, blackLineBorder));
+        superCentralPanel =new JPanel();
+        superCentralPanel.setLayout(new GridLayout(0,1));
+        centralPane = new JScrollPane(superCentralPanel);
+        centralPanel.add(centralPane);
 
-		add(centralPanel, BorderLayout.CENTER);
-	}
+        add(centralPanel, BorderLayout.CENTER);
+    }
 
     private static void centreWindow(Window frame) {
         Dimension dimension = Toolkit.getDefaultToolkit().getScreenSize();
@@ -173,40 +175,39 @@ public class SearchFrame extends JFrame {
 
     public JPanel addSharkContainerToView(SharkContainer sharkcontainer){
 
-        centralPanel.setLayout(new BorderLayout());
-        superCentralPanel.add(sharkcontainer);
-        superCentralPanel.add(new JSeparator(SwingConstants.HORIZONTAL));
-        superCentralPanel.paintComponents(superCentralPanel.getGraphics());
+        centralpanel.setLayout(new BorderLayout());
+        supercentralpanel.add(sharkcontainer);
+        supercentralpanel.add(new JSeparator(SwingConstants.HORIZONTAL));
+        supercentralpanel.paintComponents(supercentralpanel.getGraphics());
 
-        centralPanel.remove(centralPane);
-        centralPane.setViewportView(superCentralPanel);
-        centralPanel.add(centralPane);
+        centralpanel.remove(centralPane);
+        centralPane.setViewportView(supercentralpanel);
+        centralpanel.add(centralPane);
 
         revalidate();
         repaint();
         pack();
 
-		return centralPanel;
-	}
+        return centralpanel;
+    }
 
     public JPanel addSeveralSharkContainersToView (ArrayList<SharkData> listofsharks) {
         int counter = listofsharks.size();
 
-	    superCentralPanel.removeAll();
+        superCentralPanel.removeAll();
 
         if (!listofsharks.isEmpty()) {
             for (SharkData sharkdata : listofsharks) {
 
                 superCentralPanel.setLayout(new GridLayout(counter,1));
                 superCentralPanel.add(new SharkContainer(sharkdata,favouriteSharks));
-               // supercentralpanel.add(new JSeparator(SwingConstants.HORIZONTAL));
                 centralPane.setViewportView(superCentralPanel);
                 superCentralPanel.paintComponents(superCentralPanel.getGraphics());
 
-				revalidate();
-				repaint();
-				pack();
-			}
+                revalidate();
+                repaint();
+                pack();
+            }
 
 		} else {
 			centralPanel.add(new JLabel("Nothing to show here :)"));

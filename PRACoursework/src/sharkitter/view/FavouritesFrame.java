@@ -5,6 +5,8 @@ import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
+import java.util.List;
+import java.util.Set;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -18,10 +20,10 @@ import sharkitter.controller.SharknadoTracker;
 import sharkitter.model.FavouriteSharks;
 import sharkitter.view.map.MapFrame;
 
-@SuppressWarnings("serial")
 public class FavouritesFrame extends JFrame{
 	
-	private ArrayList<Location> locations;
+	private List<Location> locations;
+
 	// Kings longitude, and latitude
 	private static final double KINGS_LONGITUDE = 51.510;
 	private static final double KINGS_LATITUDE = -0.117;
@@ -38,12 +40,17 @@ public class FavouritesFrame extends JFrame{
 
 		Location kclLocation = new Location(KINGS_LONGITUDE, KINGS_LATITUDE);
 		locations = new ArrayList<Location>();
-		for(/*Shark*/ String shark: favs.getFavouriteSharks()) {
+
+		Set<String> favouriteNames = favs.getFavouriteSharks();
+		//System.out.println(favouriteNames); //for debugging purposes
+		for(/*Shark*/ String shark: favouriteNames)
+		{
 			distanceToKingsInfo += shark/*.getName()*/;
 
 			//need to fix before map will work
+			System.out.println("**" + shark + "**");
 
-			/*Location l = jawsApi.getLastLocation(shark/*.getName()/);
+			Location l = jawsApi.getLastLocation(shark); //debugging location
 			locations.add(l);
 			distanceToKingsInfo += " : " + findDistanceBetween(kclLocation, l); */ // haven't tested yet
 
@@ -87,6 +94,7 @@ public class FavouritesFrame extends JFrame{
 	 * @param loc2 Second location in longitude and latitude
      * @return The distance between locations in kilometers
      */
+	//TODO move out of frame?
 	private static double findDistanceBetween(Location loc1, Location loc2)
 	{
 		double R = 6371; // kilometers

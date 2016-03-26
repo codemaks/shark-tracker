@@ -9,12 +9,11 @@ import sharkitter.view.SearchFrame;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.List;
 
 public class SearchButtonListener implements ActionListener{
     private SearchFrame searchframe;
-    private ArrayList<SharkData> listOfSharks;
+    private List<SharkData> listOfSharks;
     private String tracking_range;
     private String gender;
     private String tag_location;
@@ -27,7 +26,7 @@ public class SearchButtonListener implements ActionListener{
         this.searchframe = searchframe;
         this.pingCollection = pingCollection;
         listOfSharks = new ArrayList<>();
-        }
+    }
 
     public void actionPerformed(ActionEvent e){
         pingCollection.update();
@@ -35,7 +34,7 @@ public class SearchButtonListener implements ActionListener{
         searchframe.addSeveralSharkContainersToView(listOfSharks);
     }
 
-    private ArrayList<SharkData> updatefromTrackingRange(){
+    private List<SharkData> updatefromTrackingRange(){
         //1. read selected constraint from combo box
 
         tracking_range = (String)searchframe.getTracking_range().getSelectedItem();
@@ -60,12 +59,13 @@ public class SearchButtonListener implements ActionListener{
             }
 
         } else {
+            //TODO removed Println
             System.out.println("SearchButtonListener Error 1 : Invalid ComboBox input");
         }
         return listOfSharks;
     }
 
-    private ArrayList<SharkData> updatefromStageOfLife(ArrayList<SharkData> listofsharks){
+    private List<SharkData> updatefromStageOfLife(List<SharkData> listofsharks){
         stage_of_life = (String)searchframe.getStage_of_life().getSelectedItem();
 
         if (stage_of_life!="All"){
@@ -74,21 +74,24 @@ public class SearchButtonListener implements ActionListener{
         return(listofsharks);
     }
 
-    private ArrayList<SharkData> selectSharksByStageofLife(ArrayList<SharkData> listOfSD, String selectionElement){
+    private List<SharkData> selectSharksByStageofLife(List<SharkData> listOfSD, String selectionElement){
+        //TODO remove println
         System.out.println("selectionElement: "+selectionElement);
-        ArrayList<SharkData> newlistofSD = new ArrayList<SharkData> ();
+        List<SharkData> newlistofSD = new ArrayList<SharkData> ();
         for (SharkData sharkData: listOfSD){
            if( jawsApi.getShark(sharkData.getName()).getStageOfLife().equals(selectionElement)){
+               //TODO remove println
                System.out.println("got there! selectionelement: " + selectionElement + " :");
                newlistofSD.add(sharkData);
            }
         }
+        //TODO remove println
         System.out.println("stageoflife_newlistofPings: "+newlistofSD);
         return newlistofSD;
     }
 
 
-    private ArrayList<SharkData> updatefromGender(ArrayList<SharkData> listOfSD){
+    private List<SharkData> updatefromGender(List<SharkData> listOfSD){
         gender = (String)searchframe.getGender().getSelectedItem();
 
         if (gender!="All"){
@@ -97,40 +100,47 @@ public class SearchButtonListener implements ActionListener{
         return listOfSD;
     }
 
-    private ArrayList<SharkData>  selectSharksByGender(ArrayList<SharkData>  listOfSD, String selectionElement){
+    private List<SharkData> selectSharksByGender(List<SharkData> listOfSD, String selectionElement){
+        //TODO remove println
         System.out.println("gender: " +selectionElement);
-        ArrayList<SharkData> newlistOfSD = new ArrayList<SharkData> ();
+        List<SharkData> newlistOfSD = new ArrayList<SharkData> ();
         for (SharkData SharkData: listOfSD){
             if( jawsApi.getShark(SharkData.getName()).getGender().equals(selectionElement)){
+                //TODO remove println
                 System.out.println("got there! selectionelement: " + selectionElement + " :");
                 newlistOfSD.add(SharkData);
             }
         }
+        //TODO remove println
         System.out.println("gender_newlistofPings: "+newlistOfSD);
         return newlistOfSD;
     }
 
 
-    private ArrayList<SharkData>  updatefromTagLocation(ArrayList<SharkData>  listOfSD){
+    private List<SharkData> updatefromTagLocation(List<SharkData> listOfSD){
         tag_location = (String)searchframe.getTag_location().getSelectedItem();
 
         if (tag_location!="All"){
             listOfSD=selectSharksByTagLocation(listOfSD,tag_location);
         }
+        //TODO remove println
         System.out.println(listOfSD);
         return listOfSD;
 
     }
 
-    private ArrayList<SharkData>  selectSharksByTagLocation(ArrayList<SharkData>  listOfPings, String selectionElement){
+    private List<SharkData>  selectSharksByTagLocation(List<SharkData>  listOfPings, String selectionElement){
+        //TODO remove println
         System.out.println("tag location: "+ selectionElement);
-        ArrayList<SharkData>  newlistofPings = new ArrayList<SharkData> ();
+        List<SharkData>  newlistofPings = new ArrayList<SharkData> ();
         for (SharkData SharkData: listOfPings){
             if( jawsApi.getShark(SharkData.getName()).getTagLocation().equals(selectionElement)){
+                //TODO remove println
                 System.out.println("got there! selectionelement: " + selectionElement + " :");
                 newlistofPings.add(SharkData);
             }
         }
+        //TODO remove println
         System.out.println("tagloc_newlistofPings: "+newlistofPings);
         return newlistofPings;
     }

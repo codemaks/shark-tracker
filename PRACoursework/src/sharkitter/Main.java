@@ -8,16 +8,21 @@ import sharkitter.model.PingCollection;
 import sharkitter.view.MenuFrame;
 
 import java.io.IOException;
+import java.net.URISyntaxException;
+import java.net.URL;
 
 public class Main {
 
-    public static void main(String[] args) throws IOException {
+    public static void main(String[] args) throws IOException, URISyntaxException {
 
         PingCollection pingCollection = new PingCollection();
 
         FavouriteSharks favouriteSharks = new FavouriteSharks();
 
         MenuFrame frame = new MenuFrame();
+        FunctionalityController functionalityController = new FunctionalityController(frame, favouriteSharks ,pingCollection);
+        frame.addFunctionalityController(functionalityController);
+        frame.setFocusable(true);
         frame.setVisible(true);
 
         Jaws api = new Jaws("EkZ8ZqX11ozMamO9", "E7gdkwWePBYT75KE", true);
@@ -25,10 +30,5 @@ public class Main {
         frame.setJaws(api);
 
         UserController controller = new UserController(frame, favouriteSharks, api);
-
-        FunctionalityController functionalityController = new FunctionalityController(frame, favouriteSharks ,pingCollection);
-        frame.addFunctionalityController(functionalityController);
-        frame.setFocusable(true);
-        frame.setVisible(true);
     }
 }

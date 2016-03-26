@@ -33,7 +33,7 @@ public class UserController implements ActionListener, KeyListener {
     private String username;
 
     private static final Path PATH_TO_PROFILES = Paths.get("data/list_of_profiles.txt");
-    private static final Pattern delimeterPattern = Pattern.compile("\\r\\n|\\n");
+    private static final Pattern DELIMITER = Pattern.compile("\\r\\n|\\n");
 
     /**
      * Constructor of UserController
@@ -84,8 +84,7 @@ public class UserController implements ActionListener, KeyListener {
      * @throws IOException
      */
     private void readProfiles() throws IOException {
-        Scanner reader = new Scanner(PATH_TO_PROFILES);
-        reader.useDelimiter("\n");
+        Scanner reader = createScanner(PATH_TO_PROFILES);
 
         while (reader.hasNext()) {
             String profileName = reader.next();
@@ -102,9 +101,7 @@ public class UserController implements ActionListener, KeyListener {
             favouriteSharks.clearData();
 
             Path pathToFile = Paths.get("data/default.txt");
-            Scanner reader = new Scanner(pathToFile);
-            //Pattern delimeterPattern = Pattern.compile("\\r\\n|\\n");
-            reader.useDelimiter(delimeterPattern);
+            Scanner reader = createScanner(pathToFile);
 
             if(!reader.hasNext()) {
                 menuFrame.toggleFavourites(false);
@@ -138,8 +135,7 @@ public class UserController implements ActionListener, KeyListener {
                 favouriteSharks.setUser(user);
 
                 Path pathToFile = Paths.get("data/" + user + ".txt");
-                Scanner reader = new Scanner(pathToFile);
-                reader.useDelimiter("\n");
+                Scanner reader = createScanner(pathToFile);
 
                 if(!reader.hasNext()) {
                     menuFrame.toggleFavourites(false);
@@ -178,6 +174,7 @@ public class UserController implements ActionListener, KeyListener {
                     menuFrame.addProfile(username);
                     accountCreation.dispose();
                 } else {
+//                    JOptionPane.showMessageDialog(null, "User already exists", JOptionPane.WARNING_MESSAGE);
                     ExistingUserAlert existingUser = new ExistingUserAlert();
                     existingUser.setVisible(true);
                 }
@@ -187,9 +184,10 @@ public class UserController implements ActionListener, KeyListener {
         }
     }
 
-    @Override
-    public void keyTyped(KeyEvent e) {
-
+    private Scanner createScanner(Path pathToFile) throws IOException {
+        Scanner reader = new Scanner(pathToFile);
+        reader.useDelimiter(DELIMITER);
+        return reader;
     }
 
     /**
@@ -200,6 +198,11 @@ public class UserController implements ActionListener, KeyListener {
     public void keyPressed(KeyEvent e) {
         if(e.getKeyCode() == 10)
             registerUser();
+    }
+
+    @Override
+    public void keyTyped(KeyEvent e) {
+
     }
 
     @Override
