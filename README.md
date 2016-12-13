@@ -54,5 +54,5 @@ level and relate to application domain user needs;
 
 * **Eve Gazay** - [Egzy](https://github.com/Egzy)
 * **Maksymilian Gajowniczek** - [codemaks](https://github.com/codemaks)
-* **Nina Hasebe**
+* **Nina Hasebe** - [nhasebe](https://github.com/nhasebe)
 * **Amandine Jala** - [dine-j](https://github.com/dine-j)
